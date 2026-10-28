@@ -3,7 +3,7 @@
    ============================================================= */
 import { G, $, $$, el, tap, sleep, esc, fontPx, avatarUrl, story } from "./core.js";
 
-let msg, txt, plate, frame, hit, dim, choicesBox, toolbar, toastEl, cover;
+let msg, txt, plate, frame, hit, dim, choicesBox, toolbar, toastEl;
 export const handlers = {};                        // 由 player.js 填入：advance、toggleHide、openLog、toolbar 動作……
 
 export function initUI(root) {
@@ -175,11 +175,6 @@ export function confirm(o) {
   });
 }
 
-export function coverOn() { cover?.remove(); cover = el("div#vn_cover"); G.root.append(cover); setTimeout(coverOff, 8000); }
-export function coverOff() {
-  const c = cover; if (!c) return; cover = null;
-  c.classList.add("out"); setTimeout(() => c.remove(), 600);
-}
 
 /* =============================================================
    紀錄

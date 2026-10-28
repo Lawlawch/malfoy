@@ -4,7 +4,7 @@
 import { G, $, el, tap, sf, saveSf, db, cfg, fontPx, story, chapterById, chapterLabel, NUM_CN, DEBUG } from "./core.js";
 import * as ui from "./ui.js";
 import * as audio from "./audio.js";
-import { P, hooks, startChapter, hasContinue, doContinue, makeSave, loadSnap, saveStatus, quitToTitle, setAuto, setSkip, toggleHide, stopAutoSkip, syncTools } from "./player.js";
+import { P, hooks, preloadChapter, startChapter, hasContinue, doContinue, makeSave, loadSnap, saveStatus, quitToTitle, setAuto, setSkip, toggleHide, stopAutoSkip, syncTools } from "./player.js";
 
 /* =============================================================
    首頁
@@ -28,6 +28,8 @@ export function showHome(panelName) {
       el("div.ttl", {}, el("div.t1", { text: "鉑金色的馬份" }), el("div.orn", {}, el("span"), el("i"), el("span")), el("div.t2", { text: "蛇與獅之歌" })),
       menu));
   G.root.append(h);
+  preloadChapter(story.chapters[0].id);
+  if (sf.cont) preloadChapter(sf.cont);
   if (panelName) openPanel(panelName);
 }
 export function hideHome() { $("#vn_home")?.remove(); }
@@ -149,7 +151,8 @@ function openChapters() {
    ============================================================= */
 function openGallery() {
   const S = ui.panel("圖鑑");
-  const cats = [{ name: "一般 CG", list: story.cgs.normal, flag: "cgsSeen" }, { name: "結局 CG", list: story.cgs.ending, flag: "endings" }];
+  S.root.classList.add("vn_gallery");
+  const cats = [{ name: "一般 CG", list: story.cgs.normal, flag: "cgsSeen", base: 0 }, { name: "結局 CG", list: story.cgs.ending, flag: "endings", base: 500 }];   // 結局 CG 編號從 #501 起算
   let cat = 0, page = 0;
   function render() {
     tabs(S, cats.map((c) => c.name), cat, (i) => { cat = i; page = 0; render(); });
@@ -157,7 +160,7 @@ function openGallery() {
     page = Math.min(page, pages - 1);
     const grid = el("div.vn_cg_grid");
     C.list.slice(page * 6, page * 6 + 6).forEach((it, ix) => {
-      const no = page * 6 + ix + 1, got = !!(sf[C.flag] && sf[C.flag][it.id]);
+      const no = C.base + page * 6 + ix + 1, got = !!(sf[C.flag] && sf[C.flag][it.id]);
       const th = el("div.thumb");
       if (got) { const ph = el("span.ph", { text: it.name }); th.append(ph); tryImg(it.id, (u) => { th.style.backgroundImage = `url(${u})`; ph.remove(); }); }
       else th.append(el("span.q", { text: "？" }));
@@ -169,7 +172,9 @@ function openGallery() {
       tap(el("span.vn_pg_btn" + (page === 0 ? ".off" : ""), { text: "‹" }), () => { if (page > 0) { page--; render(); } }),
       el("span.vn_pg_no", { text: `${page + 1} / ${pages}` }),
       tap(el("span.vn_pg_btn" + (page >= pages - 1 ? ".off" : ""), { text: "›" }), () => { if (page < pages - 1) { page++; render(); } }));
-    S.body.innerHTML = ""; S.body.append(grid, pager);
+    S.body.innerHTML = ""; S.body.append(grid);
+    S.foot.querySelector(".vn_pager")?.remove();
+    S.foot.append(pager);                          // 頁碼與翻頁鈕固定在面板最下方
     if (DEBUG) {
       const d = el("div.vn_debug", { text: "測試用：" });
       d.append(tap(el("span", { text: "全部解鎖" }), () => { debugUnlock(true); render(); }), "　", tap(el("span", { text: "全部重置" }), () => { debugUnlock(false); render(); }));
@@ -220,14 +225,14 @@ function openConfig() {
     const nav = el("div.vn_cfg_nav"), main = el("div.vn_cfg_main");
     ["文字", "音效"].forEach((nm, i) => nav.append(tap(el("div.vn_cfg_navitem" + (i === cat ? ".on" : ""), { text: nm }), () => { cat = i; render(); })));
     if (cat === 0) {
-      seg(main, "文字顯示速度", "text", ["慢", "普通", "快", "極快"]);
-      seg(main, "自動播放速度", "auto", ["慢", "普通", "快", "極快"]);
+      seg(main, "文字顯示速度", "text", ["慢", "普通", "快"]);
+      seg(main, "自動播放速度", "auto", ["慢", "普通", "快"]);
       seg(main, "字體大小", "font", ["小", "中", "大"], () => { G.root.style.setProperty("--fs", fontPx() + "px"); G.onResize.forEach((fn) => fn()); });
       const box = el("span.ctl.vn_seg");
       [["開", 1], ["關", 0]].forEach(([nm, v]) => box.append(tap(el("span" + (c.skipRead === v ? ".on" : ""), { text: nm }), () => {
         c.skipRead = v; [...box.children].forEach((x) => x.classList.toggle("on", x.textContent === nm)); saveSf();
       })));
-      main.append(el("div.vn_cfg_row", {}, el("span.lb", { text: "只略過已讀的句子" }), box), el("div.vn_cfg_note", { text: "關閉時，「略過」連尚未讀過的句子也會跳過。" }));
+      main.append(el("div.vn_cfg_row", {}, el("span.lb", { text: "只略過已讀的句子" }), box), el("div.vn_cfg_note", { text: "關閉時，會略過尚未閱讀的句子" }));
     } else {
       slider(main, "背景音樂", "bgm"); slider(main, "語音", "voice"); slider(main, "效果音", "se");
     }

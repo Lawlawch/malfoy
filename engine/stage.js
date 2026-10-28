@@ -2,13 +2,13 @@
    stage.js  舞台：背景、立繪（自動排位、說話者高亮）、存檔縮圖
    畫面狀態全部記在 state（{bg, charas:[{id, face}]}），可以隨時從狀態重建。
    ============================================================= */
-import { G, $, el, sleep } from "./core.js";
+import { G, LAYOUT, el, sleep } from "./core.js";
 
 let bgA, bgB, layer;                               // 兩層背景輪流淡入；立繪層
 const charaEls = {};                               // id → <img>
 
 export function initStage(root) {
-  bgA = el("div.bg"); bgB = el("div.bg");
+  bgA = el("div.stage_bg"); bgB = el("div.stage_bg");
   layer = el("div#charas");
   root.append(bgA, bgB, layer);
   G.onResize.push(() => relayout(currentState, 0));
@@ -41,8 +41,8 @@ export async function setBg(state, name, fade) {
 }
 
 /* ---------- 立繪位置 ---------- */
-export function charaPos(list, id) {
-  const L = G.L, n = Math.min(list.length, 3), i = list.findIndex((c) => c.id === id);
+export function charaPos(list, id, L = G.L) {
+  const n = Math.min(list.length, 3), i = list.findIndex((c) => c.id === id);
   if (i < 0) return null;
   const xs = L.chara_x[n - 1], k = L.chara_k[n - 1];
   const w = Math.round(L.chara_w * k);
@@ -123,9 +123,10 @@ export async function rebuild(state) {
   await Promise.all(jobs);
 }
 
-/* ---------- 存檔縮圖：直接用狀態（背景＋在場立繪）畫在畫布上 ---------- */
+/* ---------- 存檔縮圖：直接用狀態（背景＋在場立繪）畫在畫布上 ----------
+   不論目前是直向或橫向，一律用橫向版面畫成 16:9，存檔格裡的縮圖才會一致 */
 export async function thumbnail(state) {
-  const L = G.L, sc = 384 / Math.max(L.w, L.h);
+  const L = LAYOUT.land, sc = 384 / Math.max(L.w, L.h);
   const cv = document.createElement("canvas");
   cv.width = Math.round(L.w * sc); cv.height = Math.round(L.h * sc);
   const ctx = cv.getContext("2d");
@@ -138,7 +139,7 @@ export async function thumbnail(state) {
     }
   }
   for (const c of state.charas) {
-    const im = await preload(charaUrl(c.id, c.face)), p = charaPos(state.charas, c.id);
+    const im = await preload(charaUrl(c.id, c.face)), p = charaPos(state.charas, c.id, L);
     if (im && p) ctx.drawImage(im, p.left * sc, p.top * sc, p.width * sc, p.width * im.height / im.width * sc);
   }
   try { return { url: cv.toDataURL("image/jpeg", 0.7), w: cv.width, h: cv.height }; } catch (e) { return null; }

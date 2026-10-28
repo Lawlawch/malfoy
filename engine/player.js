@@ -41,6 +41,16 @@ export async function loadScript(id) {
   return r;
 }
 
+// 預先下載一章的劇本與第一張背景（停在首頁時呼叫，按下開始後就不用等網路）
+export async function preloadChapter(id) {
+  try {
+    const c = chapterById(id); if (!c || !c.ready) return;
+    const s = await loadScript(id);
+    const b = s.cmds.find((x) => x.op === "bg");
+    if (b) new Image().src = stage.bgUrl(b.name);
+  } catch (e) {}
+}
+
 /* ---------- 數值 ---------- */
 function applyFx(fx) {
   const f = P.state.f;
@@ -112,7 +122,6 @@ async function exec(c, token) {
       if (!read && P.skip && cfg().skipRead) setSkip(false);            // 遇到未讀的句子：停止略過
       ui.pushLog(c.speaker, c.text);
       stage.focus(st, c.speaker && c.speaker.id);
-      ui.coverOff();
       await ui.showLine(c.speaker, c.text, P.skip ? 0 : TEXT_SPEED[cfg().text]);
       if (token !== P.token) return "stop";
       const nx = P.script.cmds[idx + 1];
@@ -201,7 +210,6 @@ export async function startChapter(id, opt = {}) {
   leaveGame();
   ui.closeOverlays();
   hooks.leaveHome && hooks.leaveHome();
-  ui.coverOn();
   const token = P.token;
   const script = await loadScript(id);
   if (token !== P.token) return;

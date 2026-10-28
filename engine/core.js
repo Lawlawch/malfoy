@@ -137,14 +137,15 @@ export const db = (() => {
 })();
 
 /* ---------- 設定 ---------- */
-export const TEXT_SPEED = [60, 35, 15, 3];        // 每個字的毫秒數
-export const AUTO_SPEED = [2600, 1300, 700, 300]; // 自動播放：每句停留的基本毫秒數（另加每字 30 毫秒）
+export const TEXT_SPEED = [60, 35, 15];           // 每個字的毫秒數：慢、普通、快
+export const AUTO_SPEED = [2600, 1300, 700];      // 自動播放：每句停留的基本毫秒數（另加每字 30 毫秒）
 export const FONT_SCALE = [0.9, 1, 1.2];
 const CFG_DEF = { text: 1, auto: 1, font: 1, skipRead: 1, bgm: 80, voice: 100, se: 80 };
 export function cfg() {
   sf.cfg = sf.cfg || {};
   for (const k in CFG_DEF) if (sf.cfg[k] === undefined) sf.cfg[k] = CFG_DEF[k];
   if (!(sf.cfg.font >= 0 && sf.cfg.font < FONT_SCALE.length)) sf.cfg.font = 1;
+  for (const k of ["text", "auto"]) if (!(sf.cfg[k] >= 0 && sf.cfg[k] < TEXT_SPEED.length)) sf.cfg[k] = TEXT_SPEED.length - 1;   // 舊設定的「極快」改為「快」
   return sf.cfg;
 }
 export function fontPx() { return Math.round(G.L.font * FONT_SCALE[cfg().font]); }

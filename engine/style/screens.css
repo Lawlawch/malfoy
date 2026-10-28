@@ -160,7 +160,10 @@
 .vn_cg_item.locked:hover .thumb { box-shadow: none; }
 .vn_cg_item .q { font-size: 56px; color: rgba(138, 106, 31, 0.6); }
 .vn_cg_item.locked .nm { color: rgba(59, 42, 26, 0.45); }
-.vn_pager { margin-top: 18px; display: flex; justify-content: center; align-items: center; gap: 26px; }
+/* 圖鑑：頁碼與翻頁鈕放在底欄，位置固定 */
+.vn_gallery .vn_scr_msg { display: none; }
+.vn_gallery .vn_scr_foot { padding: 8px 10px; }
+.vn_pager { margin-top: 0; display: flex; justify-content: center; align-items: center; gap: 26px; }
 .vn_pg_btn {
   cursor: pointer; width: 64px; text-align: center; font-size: 30px; padding: 2px 0; border-radius: 8px; color: var(--vn-parch-1);
   background: linear-gradient(180deg, var(--vn-gold), var(--vn-gold-dark));

@@ -52,7 +52,7 @@ html, body {
 #game button, #game input { font-family: inherit; }
 
 /* ---------- 舞台：背景（等比例裁切填滿、置中；重要內容放在中央正方形安全區）與立繪 ---------- */
-#game .bg { position: absolute; inset: 0; opacity: 0; background: center / cover no-repeat; }
+#game .stage_bg { position: absolute; inset: 0; opacity: 0; background: center / cover no-repeat; }
 #charas { position: absolute; inset: 0; z-index: 5; pointer-events: none; }
 #charas .chara { position: absolute; height: auto; pointer-events: none; }
 #hit { position: absolute; inset: 0; z-index: 20; display: none; cursor: pointer; }
@@ -220,10 +220,6 @@ html, body {
 }
 #vn_confirm .vn_cf_yes { color: var(--vn-parch-1); border-color: var(--vn-gold-light); background: linear-gradient(180deg, #a03342, var(--vn-wine)); }
 #vn_confirm .vn_cf_btn:hover { filter: brightness(1.1); }
-
-/* ---------- 進入章節的黑幕（第一句出現才淡出）---------- */
-#vn_cover { position: absolute; inset: 0; z-index: 85; background: #000; transition: opacity 0.5s ease; }
-#vn_cover.out { opacity: 0; pointer-events: none; }
 
 /* ---------- 系統視窗（紀錄、存檔、讀檔、設定……）共用 ---------- */
 .vn_sys {
