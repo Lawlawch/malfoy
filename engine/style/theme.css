@@ -1,0 +1,265 @@
+/* =============================================================
+   theme.css  遊戲畫面：舞台、對話框、名牌、選項、工具列、視窗
+   魔法古典主題（羊皮紙 + 金色），全部 CSS 繪製。
+   尺寸是遊戲內邏輯像素：橫向 1280×720（.land）、直向 720×1280（.port），整個畫面再等比例縮放。
+   ============================================================= */
+
+:root {
+  --vn-ink: #3b2a1a;
+  --vn-gold: #c9a24a;
+  --vn-gold-dark: #8a6a1f;
+  --vn-gold-light: #f1d98a;
+  --vn-parch-1: #f9edd0;
+  --vn-parch-2: #ead7a6;
+  --vn-parch-3: #dcc07f;
+  --vn-wine: #7a1f2b;
+  --vn-serif: 'VN Serif', 'Noto Serif TC', 'Source Han Serif TC', 'Songti TC', 'STSong', 'PMingLiU', 'MingLiU', 'Times New Roman', serif;
+
+  /* 羊皮紙質感：不均勻泛黃暈染 + 邊緣燒焦暗角 + 細紙纖維 */
+  --vn-fiber: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='360' height='360'><filter id='f' x='0' y='0' width='100%' height='100%'><feTurbulence type='fractalNoise' baseFrequency='0.01 0.35' numOctaves='3' seed='7' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.42  0 0 0 0 0.27  0 0 0 0 0.1  0.9 0 0 0 -0.36'/></filter><rect width='100%' height='100%' filter='url(%23f)'/></svg>");
+  --vn-grain: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='g' x='0' y='0' width='100%' height='100%'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' seed='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.36  0 0 0 0 0.22  0 0 0 0 0.08  0.8 0 0 0 -0.3'/></filter><rect width='100%' height='100%' filter='url(%23g)'/></svg>");
+  --vn-paper:
+    var(--vn-fiber), var(--vn-grain),
+    radial-gradient(ellipse 38% 55% at 14% 24%, rgba(196, 140, 52, 0.34), rgba(196, 140, 52, 0) 100%),
+    radial-gradient(ellipse 42% 60% at 86% 72%, rgba(176, 120, 44, 0.30), rgba(176, 120, 44, 0) 100%),
+    radial-gradient(ellipse 30% 40% at 52% 92%, rgba(210, 160, 70, 0.28), rgba(210, 160, 70, 0) 100%),
+    radial-gradient(ellipse 26% 34% at 60% 8%, rgba(255, 250, 225, 0.55), rgba(255, 250, 225, 0) 100%),
+    linear-gradient(172deg, #f6e8c4 0%, #ecd7a2 52%, #e2c88d 100%);
+  --vn-paper-old:
+    var(--vn-fiber), var(--vn-grain),
+    radial-gradient(ellipse 40% 60% at 80% 30%, rgba(150, 96, 36, 0.38), rgba(150, 96, 36, 0) 100%),
+    radial-gradient(ellipse 36% 50% at 12% 78%, rgba(140, 86, 30, 0.34), rgba(140, 86, 30, 0) 100%),
+    linear-gradient(172deg, #e7d19b 0%, #d9bd82 55%, #cdae6f 100%);
+  --vn-paper-tag:
+    var(--vn-grain),
+    radial-gradient(ellipse 60% 90% at 30% 30%, rgba(255, 248, 220, 0.6), rgba(255, 248, 220, 0) 100%),
+    linear-gradient(180deg, #f3e2b4, #dcc184);
+  --vn-burn: inset 0 0 22px 4px rgba(96, 52, 14, 0.55), inset 0 0 64px 6px rgba(140, 86, 28, 0.38);
+}
+
+/* ---------- 頁面與遊戲畫面 ---------- */
+html, body {
+  margin: 0; height: 100%; overflow: hidden; background: #000;
+  overscroll-behavior: none; -webkit-tap-highlight-color: transparent; -webkit-text-size-adjust: 100%;
+}
+#game {
+  position: absolute; left: 0; top: 0; transform-origin: 0 0; overflow: hidden;
+  background: #000; color: var(--vn-ink);
+  font-family: var(--vn-serif);
+  user-select: none; -webkit-user-select: none; -webkit-touch-callout: none;
+  touch-action: manipulation;
+}
+#game button, #game input { font-family: inherit; }
+
+/* ---------- 舞台：背景（等比例裁切填滿、置中；重要內容放在中央正方形安全區）與立繪 ---------- */
+#game .bg { position: absolute; inset: 0; opacity: 0; background: center / cover no-repeat; }
+#charas { position: absolute; inset: 0; z-index: 5; pointer-events: none; }
+#charas .chara { position: absolute; height: auto; pointer-events: none; }
+#hit { position: absolute; inset: 0; z-index: 20; display: none; cursor: pointer; }
+#hit.on { display: block; }
+
+/* ---------- 對話框 ---------- */
+#msg { position: absolute; z-index: 10; display: none; pointer-events: none; }
+#msg.on { display: block; }
+#msg.hid { display: none !important; }
+.land #msg { left: 160px; top: 470px; width: 1000px; height: 230px; }
+.port #msg { left: 40px; top: 770px; width: 640px; height: 470px; }
+#msg .box {
+  position: absolute; inset: 0; opacity: 0.94;
+  background: var(--vn-paper);
+  background-blend-mode: multiply, multiply, normal, normal, normal, normal, normal;
+  border: 3px solid var(--vn-gold-dark); border-radius: 8px;
+  box-shadow: var(--vn-burn), 0 8px 22px rgba(0, 0, 0, 0.5);
+}
+#msg .txt {
+  position: absolute; inset: 0; box-sizing: border-box; overflow: hidden;
+  font-size: var(--fs); line-height: 1.6; letter-spacing: 0.04em; color: var(--vn-ink);
+  word-break: normal; overflow-wrap: anywhere;
+}
+.land #msg .txt { padding: 30px 70px 24px 50px; }
+.port #msg .txt { padding: 44px 60px 28px 50px; }
+#msg .txt.probe { visibility: hidden; bottom: auto; height: auto; }
+#msg .txt span.h { visibility: hidden; }
+
+/* 旁白框（沒有說話者）：卷軸（上下木軸＋金頭），紙色較舊、沒有四邊框線 */
+#msg.nar .box {
+  background: var(--vn-paper-old); border: 0; border-radius: 0;
+  box-shadow: inset 0 14px 18px -8px rgba(60, 30, 6, 0.55), inset 0 -14px 18px -8px rgba(60, 30, 6, 0.55), 0 8px 22px rgba(0, 0, 0, 0.55);
+}
+#msg.nar .txt { line-height: 1.65; letter-spacing: 0.07em; color: #3a2614; }
+
+/* 對話框的裝飾框（雙層金框＋四角菱形）；旁白時變成上下兩根卷軸木桿 */
+#frame { position: absolute; inset: 0; pointer-events: none; }
+#frame .f1 { position: absolute; inset: 6px; border: 2px solid var(--vn-gold); border-radius: 4px; box-shadow: 0 0 0 1px rgba(90, 58, 16, 0.55); }
+#frame .f2 { position: absolute; inset: 13px; border: 1px solid rgba(201, 162, 74, 0.85); border-radius: 2px; }
+#frame i { position: absolute; width: 13px; height: 13px; background: linear-gradient(135deg, #fff0b0, #c9a24a); border: 1px solid #5a3a10; transform: rotate(45deg); box-shadow: 0 0 6px rgba(241, 217, 138, 0.7); }
+#frame i.tl { left: 0; top: 0; } #frame i.tr { right: 0; top: 0; }
+#frame i.bl { left: 0; bottom: 0; } #frame i.br { right: 0; bottom: 0; }
+#msg.nar #frame .f1, #msg.nar #frame .f2 {
+  inset: auto; left: -18px; right: -18px; height: 24px; border: 1px solid #2e1a08; border-radius: 12px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  background: linear-gradient(180deg, #4a2c14 0%, #9a6a38 28%, #e0b97c 50%, #8a5a2c 74%, #3a2210 100%);
+}
+#msg.nar #frame .f1 { top: -13px; }
+#msg.nar #frame .f2 { bottom: -13px; }
+#msg.nar #frame .f1::before, #msg.nar #frame .f1::after, #msg.nar #frame .f2::before, #msg.nar #frame .f2::after {
+  content: ""; position: absolute; top: -3px; width: 28px; height: 28px; border-radius: 50%; border: 1px solid #5a3a10;
+  background: radial-gradient(circle at 35% 30%, #fff3bd, #c9a24a 55%, #7a5a14);
+}
+#msg.nar #frame .f1::before, #msg.nar #frame .f2::before { left: -10px; }
+#msg.nar #frame .f1::after, #msg.nar #frame .f2::after { right: -10px; }
+#msg.nar #frame i { display: none; }
+
+/* 角色名牌：疊在對話框左上角 */
+#plate {
+  position: absolute; left: 30px; top: 0; z-index: 2; display: none;
+  transform: translateY(-55%);
+  padding: 0.16em 1.3em 0.2em;
+  font-size: calc(var(--fs) * 0.92); font-weight: 700; letter-spacing: 0.16em; white-space: nowrap;
+  color: var(--vn-wine);
+  background: var(--vn-paper-tag);
+  border: 2px solid var(--vn-gold-dark); border-radius: 3px;
+  box-shadow: inset 0 0 0 2px rgba(249, 237, 208, 0.85), inset 0 0 0 3px var(--vn-gold), inset 0 0 12px rgba(110, 62, 18, 0.45), 0 4px 10px rgba(0, 0, 0, 0.55);
+  text-shadow: 0 1px 0 rgba(255, 245, 215, 0.8);
+}
+#plate::before, #plate::after {
+  content: ""; position: absolute; top: 50%; width: 9px; height: 9px; margin-top: -5px;
+  background: var(--vn-gold); border: 1px solid #5a3a10; transform: rotate(45deg);
+}
+#plate::before { left: -6px; } #plate::after { right: -6px; }
+#plate.on { display: block; }
+
+/* 等待點擊的小羽毛筆（不占行高，出現時文字不會被推動） */
+.quill { width: 40px; height: 40px; vertical-align: middle; margin: -14px 0 -14px 6px; animation: vnQuill 1.3s ease-in-out infinite; transform-origin: 20% 90%; }
+@keyframes vnQuill { 0%, 100% { transform: translateY(0) rotate(-6deg); } 50% { transform: translateY(-5px) rotate(4deg); } }
+
+/* ---------- 選項 ---------- */
+#dim { position: absolute; inset: 0; z-index: 25; display: none; background: rgba(10, 6, 3, 0.58); pointer-events: none; }
+#dim.on { display: block; }
+#choices { position: absolute; left: 0; right: 0; z-index: 26; display: none; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; }
+#choices.on { display: flex; }
+.land #choices { top: 80px; height: 560px; gap: 22px; }
+.port #choices { top: 150px; height: 810px; gap: 32px; }
+.vn_opt {
+  position: relative; flex: 0 0 auto; box-sizing: border-box; cursor: pointer;
+  width: 700px; padding: 0.55em 1.4em;
+  color: var(--vn-ink); font-weight: 700; letter-spacing: 0.08em; line-height: 1.25; text-align: center;
+  background: var(--vn-paper);
+  border: 2px solid var(--vn-gold-dark); border-radius: 5px;
+  box-shadow: inset 0 0 0 3px rgba(249, 237, 208, 0.75), inset 0 0 0 4px var(--vn-gold), inset 0 0 14px 2px rgba(96, 52, 14, 0.45), 0 5px 12px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 1px 0 rgba(255, 245, 215, 0.8);
+  transition: filter 0.15s, transform 0.1s;
+}
+.port .vn_opt { width: 620px; }
+.vn_opt::before, .vn_opt::after {
+  content: ""; position: absolute; top: 50%; width: 9px; height: 9px; margin-top: -5px;
+  background: linear-gradient(135deg, #fff0b0, #c9a24a); border: 1px solid #5a3a10; transform: rotate(45deg);
+}
+.vn_opt::before { left: -6px; } .vn_opt::after { right: -6px; }
+.vn_opt:hover {
+  filter: brightness(1.08); color: var(--vn-wine);
+  box-shadow: inset 0 0 0 3px rgba(249, 237, 208, 0.85), inset 0 0 0 4px var(--vn-gold), inset 0 0 14px 2px rgba(96, 52, 14, 0.35), 0 0 16px 3px rgba(241, 217, 138, 0.9), 0 5px 12px rgba(0, 0, 0, 0.5);
+}
+.vn_opt:active { transform: translateY(2px); }
+
+/* ---------- 遊戲內工具列：羊皮紙長條（橫向靠右、直向置中）---------- */
+#vn_toolbar { position: absolute; top: 10px; left: 0; right: 0; z-index: 30; display: none; justify-content: center; pointer-events: none; }
+#vn_toolbar.on { display: flex; }
+.land #vn_toolbar { justify-content: flex-end; padding-right: 16px; box-sizing: border-box; }
+#vn_toolbar .vn_strip {
+  position: relative; pointer-events: auto;
+  display: flex; align-items: center;
+  padding: 7px 18px;
+  background: var(--vn-paper);
+  border: 2px solid var(--vn-gold-dark); border-radius: 6px;
+  box-shadow: inset 0 0 0 3px rgba(249, 237, 208, 0.7), inset 0 0 0 4px var(--vn-gold), inset 0 0 14px 2px rgba(96, 52, 14, 0.5), 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+#vn_toolbar .vn_strip i { position: absolute; width: 10px; height: 10px; background: linear-gradient(135deg, #fff0b0, #c9a24a); border: 1px solid #5a3a10; transform: rotate(45deg); }
+#vn_toolbar .vn_strip i.tl { left: -6px; top: -6px; } #vn_toolbar .vn_strip i.tr { right: -6px; top: -6px; }
+#vn_toolbar .vn_strip i.bl { left: -6px; bottom: -6px; } #vn_toolbar .vn_strip i.br { right: -6px; bottom: -6px; }
+#vn_toolbar .vn_strip s { width: 6px; height: 6px; margin: 0 2px; background: var(--vn-gold); border: 1px solid #5a3a10; transform: rotate(45deg); flex: 0 0 auto; }
+#vn_toolbar button {
+  cursor: pointer; font-size: 20px; font-weight: 700; letter-spacing: 0.06em;
+  color: var(--vn-ink); padding: 4px 9px;
+  background: none; border: 0; border-radius: 4px;
+  text-shadow: 0 1px 0 rgba(255, 245, 215, 0.8);
+  touch-action: manipulation;
+}
+#vn_toolbar button:hover { color: var(--vn-wine); text-shadow: 0 0 8px rgba(241, 217, 138, 0.95), 0 1px 0 rgba(255, 245, 215, 0.8); }
+#vn_toolbar button.active { color: var(--vn-parch-1); background: linear-gradient(180deg, #a03342, var(--vn-wine)); text-shadow: none; }
+
+/* ---------- 提示 ---------- */
+#vn_toast {
+  position: absolute; left: 50%; top: 76px; z-index: 90; transform: translateX(-50%);
+  max-width: 86%; pointer-events: none; opacity: 0; transition: opacity 0.4s;
+  font-size: 24px; font-weight: 700; letter-spacing: 0.08em; text-align: center;
+  color: var(--vn-parch-1); padding: 10px 26px; border-radius: 999px;
+  border: 2px solid var(--vn-gold); background: rgba(40, 24, 12, 0.88);
+  box-shadow: 0 0 16px rgba(241, 217, 138, 0.55);
+}
+#vn_toast.show { opacity: 1; }
+
+/* ---------- 確認視窗 ---------- */
+#vn_confirm {
+  position: absolute; inset: 0; z-index: 80;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(10, 6, 3, 0.6);
+}
+#vn_confirm .vn_cf_box {
+  width: 78%; max-width: 640px; box-sizing: border-box; padding: 34px 30px 26px; text-align: center;
+  color: var(--vn-ink); border-radius: 16px; border: 4px double var(--vn-gold-dark);
+  background: var(--vn-paper); box-shadow: var(--vn-burn), 0 10px 40px rgba(0, 0, 0, 0.65);
+}
+#vn_confirm .vn_cf_title { font-size: 34px; font-weight: 700; letter-spacing: 0.18em; color: var(--vn-wine); }
+#vn_confirm .vn_cf_sub { white-space: pre-line; margin-top: 16px; font-size: 22px; line-height: 1.6; }
+#vn_confirm .vn_cf_btns { margin-top: 28px; display: flex; gap: 18px; justify-content: center; }
+#vn_confirm .vn_cf_btn {
+  flex: 1 1 0; max-width: 220px; padding: 10px 0; cursor: pointer;
+  font-size: 26px; font-weight: 700; letter-spacing: 0.2em;
+  border-radius: 8px; border: 2px solid var(--vn-gold-dark); color: var(--vn-ink);
+  background: linear-gradient(180deg, var(--vn-parch-1), var(--vn-parch-3));
+}
+#vn_confirm .vn_cf_yes { color: var(--vn-parch-1); border-color: var(--vn-gold-light); background: linear-gradient(180deg, #a03342, var(--vn-wine)); }
+#vn_confirm .vn_cf_btn:hover { filter: brightness(1.1); }
+
+/* ---------- 進入章節的黑幕（第一句出現才淡出）---------- */
+#vn_cover { position: absolute; inset: 0; z-index: 85; background: #000; transition: opacity 0.5s ease; }
+#vn_cover.out { opacity: 0; pointer-events: none; }
+
+/* ---------- 系統視窗（紀錄、存檔、讀檔、設定……）共用 ---------- */
+.vn_sys {
+  position: absolute; inset: 0; z-index: 50;
+  background: radial-gradient(ellipse at center, rgba(40, 24, 12, 0.72), rgba(10, 6, 3, 0.9));
+  color: var(--vn-ink); text-align: left;
+}
+.vn_sys_panel {
+  position: absolute; left: 4%; right: 4%; top: 84px; bottom: 24px;
+  display: flex; flex-direction: column; overflow: hidden;
+  border-radius: 18px; border: 4px double var(--vn-gold-dark);
+  background: var(--vn-paper); box-shadow: var(--vn-burn), 0 10px 40px rgba(0, 0, 0, 0.6);
+}
+.port .vn_sys_panel { top: 96px; bottom: 3%; }
+.vn_sys_head {
+  flex: 0 0 auto; display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 22px; border-bottom: 3px double var(--vn-gold-dark);
+  background: linear-gradient(180deg, rgba(201, 162, 74, 0.35), rgba(201, 162, 74, 0.05));
+}
+.vn_sys_title { font-size: 34px; font-weight: 700; letter-spacing: 0.08em; color: var(--vn-wine); text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6); }
+.vn_close_btn {
+  flex: 0 0 auto; display: flex; align-items: center; justify-content: center;
+  width: 68px; height: 56px; cursor: pointer;
+  font-size: 44px; line-height: 1; color: var(--vn-parch-1);
+  border-radius: 10px; border: 2px solid var(--vn-gold-light);
+  background: linear-gradient(180deg, #a03342, var(--vn-wine));
+  touch-action: manipulation;
+}
+.vn_close_btn:hover { filter: brightness(1.12); }
+.vn_empty { font-size: 20px; color: rgba(59, 42, 26, 0.5); letter-spacing: 0.2em; padding: 20px 0; }
+
+/* 紀錄 */
+.vn_sys .log_body { flex: 1 1 auto; overflow-y: auto; -webkit-overflow-scrolling: touch; touch-action: pan-y; overscroll-behavior: contain; padding: 6px 26px 20px; font-size: 24px; line-height: 1.7; user-select: text; -webkit-user-select: text; }
+.vn_log_row { display: flex; gap: 16px; align-items: flex-start; padding: 14px 0; border-bottom: 1px solid rgba(138, 106, 31, 0.28); }
+.vn_log_av { flex: 0 0 72px; width: 72px; height: 72px; }
+.vn_log_av img { width: 72px; height: 72px; border-radius: 50%; display: block; }
+.vn_log_main { flex: 1 1 auto; min-width: 0; }
+.vn_log_name { font-size: 22px; font-weight: 700; letter-spacing: 0.14em; color: var(--vn-wine); margin-bottom: 2px; }
+.vn_log_text { color: var(--vn-ink); word-break: break-all; }
