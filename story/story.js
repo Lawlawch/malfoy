@@ -44,13 +44,33 @@ export const cgs = {
     { id: "cg_mirror",   name: "厄里斯魔鏡" },
     { id: "cg_xmas",     name: "聖誕夜的禮物" },
     { id: "cg_forest",   name: "禁林深處" },
-    { id: "cg_stone",    name: "魔法石的守護" }
+    { id: "cg_stone",    name: "魔法石的守護" },
+    // 以下暫定（名稱與圖之後再定）
+    { id: "cg_09",       name: "（待定）" },
+    { id: "cg_10",       name: "（待定）" },
+    { id: "cg_11",       name: "（待定）" },
+    { id: "cg_12",       name: "（待定）" },
+    { id: "cg_13",       name: "（待定）" },
+    { id: "cg_14",       name: "（待定）" },
+    { id: "cg_15",       name: "（待定）" },
+    { id: "cg_16",       name: "（待定）" },
+    { id: "cg_17",       name: "（待定）" },
+    { id: "cg_18",       name: "（待定）" },
+    { id: "cg_19",       name: "（待定）" },
+    { id: "cg_20",       name: "（待定）" },
+    { id: "cg_21",       name: "（待定）" },
+    { id: "cg_22",       name: "（待定）" },
+    { id: "cg_23",       name: "（待定）" },
+    { id: "cg_24",       name: "（待定）" }
   ],
   ending: [
     { id: "y1_A", name: "結局：並肩的光" },
     { id: "y1_B", name: "結局：各自的路" },
     { id: "y1_C", name: "結局：陰影之下" },
-    { id: "y1_D", name: "結局：被遺忘的約定" }
+    { id: "y1_D", name: "結局：被遺忘的約定" },
+    // 以下暫定
+    { id: "y1_E", name: "結局：（待定）" },
+    { id: "y1_F", name: "結局：（待定）" }
   ]
 };
 
