@@ -265,3 +265,113 @@
 
 
 .vn_slot .old { margin-top: 4px; font-size: 16px; font-weight: 700; color: #a03342; }
+
+/* =============================================================
+   v0.1.8 新介面：面板（變數在 theme.css 結尾）
+   ============================================================= */
+/* ================= 面板：深色多層羊皮紙、方角、破紙邊 ================= */
+.vn_sys_panel, #vn_confirm .vn_cf_box {
+  border: 0; border-radius: 0; background: var(--p-paper);
+  background-blend-mode: multiply, multiply, multiply, normal, normal, normal, normal, normal, normal;
+  box-shadow: var(--p-burn); clip-path: var(--torn); color: var(--p-ink);
+}
+#vn_confirm .vn_cf_box { position: relative; }
+/* 燒焦邊：只在部分邊段加深色焦痕（跟撕紙邊的燒焦波浪段對齊） */
+.vn_sys_panel::after, #vn_confirm .vn_cf_box::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 5;
+  background:
+    radial-gradient(ellipse 8.2% 6.0% at 66.2% 0.0%, rgba(22,10,2,0.95) 0%, rgba(60,28,6,0.7) 35%, rgba(110,60,16,0.25) 65%, rgba(110,60,16,0) 100%),
+    radial-gradient(ellipse 7.0% 13.0% at 100.0% 15.3%, rgba(22,10,2,0.95) 0%, rgba(60,28,6,0.7) 35%, rgba(110,60,16,0.25) 65%, rgba(110,60,16,0) 100%),
+    radial-gradient(ellipse 7.0% 13.0% at 100.0% 39.5%, rgba(22,10,2,0.95) 0%, rgba(60,28,6,0.7) 35%, rgba(110,60,16,0.25) 65%, rgba(110,60,16,0) 100%),
+    radial-gradient(ellipse 7.0% 8.4% at 100.0% 70.6%, rgba(22,10,2,0.95) 0%, rgba(60,28,6,0.7) 35%, rgba(110,60,16,0.25) 65%, rgba(110,60,16,0) 100%),
+    radial-gradient(ellipse 7.0% 11.2% at 100.0% 92.3%, rgba(22,10,2,0.95) 0%, rgba(60,28,6,0.7) 35%, rgba(110,60,16,0.25) 65%, rgba(110,60,16,0) 100%),
+    radial-gradient(ellipse 7.0% 1.4% at 100.0% 99.2%, rgba(22,10,2,0.95) 0%, rgba(60,28,6,0.7) 35%, rgba(110,60,16,0.25) 65%, rgba(110,60,16,0) 100%),
+    radial-gradient(ellipse 10.1% 6.0% at 93.3% 100.0%, rgba(22,10,2,0.95) 0%, rgba(60,28,6,0.7) 35%, rgba(110,60,16,0.25) 65%, rgba(110,60,16,0) 100%),
+    radial-gradient(ellipse 9.5% 6.0% at 80.2% 100.0%, rgba(22,10,2,0.95) 0%, rgba(60,28,6,0.7) 35%, rgba(110,60,16,0.25) 65%, rgba(110,60,16,0) 100%),
+    radial-gradient(ellipse 11.8% 6.0% at 43.4% 100.0%, rgba(22,10,2,0.95) 0%, rgba(60,28,6,0.7) 35%, rgba(110,60,16,0.25) 65%, rgba(110,60,16,0) 100%),
+    radial-gradient(ellipse 11.0% 6.0% at 28.2% 100.0%, rgba(22,10,2,0.95) 0%, rgba(60,28,6,0.7) 35%, rgba(110,60,16,0.25) 65%, rgba(110,60,16,0) 100%),
+    radial-gradient(ellipse 7.0% 7.3% at 0.0% 88.2%, rgba(22,10,2,0.95) 0%, rgba(60,28,6,0.7) 35%, rgba(110,60,16,0.25) 65%, rgba(110,60,16,0) 100%),
+    radial-gradient(ellipse 7.0% 6.4% at 0.0% 41.3%, rgba(22,10,2,0.95) 0%, rgba(60,28,6,0.7) 35%, rgba(110,60,16,0.25) 65%, rgba(110,60,16,0) 100%),
+    radial-gradient(ellipse 7.0% 13.1% at 0.0% 15.9%, rgba(22,10,2,0.95) 0%, rgba(60,28,6,0.7) 35%, rgba(110,60,16,0.25) 65%, rgba(110,60,16,0) 100%);
+}
+.vn_sys_head { border-bottom: 1px solid var(--p-line); background: linear-gradient(180deg, rgba(90, 50, 16, 0.18), rgba(90, 50, 16, 0)); }
+.vn_sys_title, #vn_confirm .vn_cf_title { font-style: italic; color: var(--p-ink-title); text-shadow: 0 1px 0 rgba(255, 240, 200, 0.35); }
+.vn_scr_foot { border-top: 1px solid var(--p-line); }
+.vn_tabs { border-bottom: 1px solid var(--p-line); }
+.vn_scr_msg { color: var(--p-ink-title); }
+/* 面板內的「選中／重要」按鈕改用墨綠＋金字，跟對話框呼應 */
+.vn_close_btn, #vn_confirm .vn_cf_yes, .vn_tab.on, .vn_cfg_navitem.on, .vn_seg span.on, .vn_pg_btn, .vn_ch_row .done {
+  border-radius: 0 !important; color: #f0d9a8 !important; border-color: #2a1408 !important;
+  background: var(--btn-paper) !important; background-blend-mode: multiply, multiply, normal, normal !important;
+  box-shadow: inset 0 0 8px 1px rgba(40, 20, 6, 0.55), 0 1px 3px rgba(40, 20, 6, 0.4) !important;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.7);
+}
+.vn_pg_btn.off { opacity: 0.35; }
+/* 其餘按鈕與格子：方角、淡紙色、深棕字 */
+.vn_tab, .vn_cfg_navitem, .vn_seg span, .vn_slot, .vn_slot .thumb, .vn_slot .del, .vn_ch_row, .vn_cg_item .thumb, #vn_confirm .vn_cf_btn, .vn_end_btn {
+  border-radius: 0 !important;
+}
+.vn_tab, .vn_cfg_navitem, .vn_seg span, #vn_confirm .vn_cf_no { color: var(--p-ink); border-color: rgba(78, 46, 18, 0.6); background: rgba(250, 236, 200, 0.42); }
+.vn_slot { border: 1px solid rgba(78, 46, 18, 0.55); background: rgba(250, 236, 200, 0.40); box-shadow: inset 0 0 12px rgba(90, 50, 16, 0.18); }
+.vn_slot:hover { background: rgba(255, 244, 214, 0.62); box-shadow: inset 0 0 0 1px var(--g-gold-dark), 0 0 10px rgba(120, 80, 20, 0.35); }
+.vn_slot .hd, .vn_slot .no { color: #6b4520; }
+.vn_slot .ch { color: var(--p-ink-title); }
+.vn_slot .ln, .vn_ch_row .nm, .vn_cfg_row .lb, .vn_cfg_row .val, .vn_pg_no, .vn_log_text, .vn_cg_item .nm { color: var(--p-ink); }
+.vn_slot .del { color: var(--p-ink-title); border-color: rgba(78, 46, 18, 0.5); background: rgba(250, 236, 200, 0.6); }
+.vn_slot .del:hover { background: var(--p-ink-title); color: #f6e7c6; }
+.vn_ch_row { border: 1px solid rgba(78, 46, 18, 0.55); background: rgba(250, 236, 200, 0.42); }
+.vn_ch_row .no { color: #6b4520; }
+.vn_ch_row.locked { background: rgba(80, 48, 16, 0.14); border-color: rgba(78, 46, 18, 0.35); }
+.vn_cg_item .thumb { border: 1px solid rgba(78, 46, 18, 0.65); box-shadow: inset 0 0 0 3px rgba(250, 236, 200, 0.35); }
+.vn_cfg_row { border-bottom: 1px solid rgba(78, 46, 18, 0.22); }
+.vn_cfg_note { color: #4a2e16; font-weight: 600; }
+
+
+.vn_log_name { color: var(--p-ink-title); }
+.vn_log_av img { box-shadow: 0 0 0 2px rgba(78, 46, 18, 0.55), 0 2px 4px rgba(40, 20, 6, 0.35); }
+.vn_year_name, .vn_year_arrow { color: var(--p-ink-title); }
+.vn_empty, .vn_slot_empty { color: rgba(58, 36, 20, 0.45); }
+#vn_confirm .vn_cf_box { padding: 40px 34px 30px; }
+#vn_confirm .vn_cf_sub { color: var(--p-ink); }
+/* 橫向存檔格：三排完整放進面板，不用捲動 */
+.land .vn_scr_body:has(.vn_slots) { padding: 12px 24px; }
+.land .vn_slots { gap: 12px 16px; }
+.land .vn_slot { padding: 9px 12px; min-height: 122px; }
+.land .vn_slot .thumb { flex-basis: 186px; height: 104px; }
+
+/* 拉條：深色羊皮紙軌道＋黃銅鈕 */
+.vn_cfg_row input[type=range] { -webkit-appearance: none; appearance: none; background: transparent; }
+.vn_cfg_row input[type=range]::-webkit-slider-runnable-track {
+  height: 10px; border: 1px solid #2a1408; background: var(--btn-paper); background-blend-mode: multiply, multiply, normal, normal;
+  box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.55), 0 1px 0 rgba(255, 236, 200, 0.4);
+}
+.vn_cfg_row input[type=range]::-moz-range-track { height: 10px; border: 1px solid #2a1408; background: var(--btn-paper); }
+.vn_cfg_row input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 18px; height: 30px; margin-top: -11px; border: 1px solid #4a3008;
+  background: linear-gradient(90deg, #8a6420, #f0d48a 45%, #b8892e 70%, #6e4c14);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.55);
+}
+.vn_cfg_row input[type=range]::-moz-range-thumb { width: 18px; height: 30px; border: 1px solid #4a3008; border-radius: 0; background: linear-gradient(90deg, #8a6420, #f0d48a 45%, #b8892e 70%, #6e4c14); }
+/* 紀錄：每句之間一條兩端淡出的墨線，中央一顆小菱形 */
+.vn_log_row { position: relative; border-bottom: 0 !important; padding-bottom: 18px; }
+.vn_log_row + .vn_log_row::before {
+  content: ""; position: absolute; left: 6%; right: 6%; top: -6px; height: 12px; pointer-events: none;
+  background:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12'><path d='M6 1l5 5-5 5-5-5z' fill='%236b4520' opacity='.75'/></svg>") center / 12px 12px no-repeat,
+    linear-gradient(90deg, rgba(78, 46, 18, 0), rgba(78, 46, 18, 0.55) 18%, rgba(78, 46, 18, 0.55) 46%, rgba(78, 46, 18, 0) 48.5%, rgba(78, 46, 18, 0) 51.5%, rgba(78, 46, 18, 0.55) 54%, rgba(78, 46, 18, 0.55) 82%, rgba(78, 46, 18, 0)) center / 100% 1px no-repeat;
+}
+.vn_log_text { color: var(--p-ink); font-weight: 500; }
+/* 未開始章節、未開啟 CG：壓暗底色、清楚的框 */
+.vn_ch_row.locked {
+  background: rgba(54, 30, 10, 0.30) !important; border: 1px solid rgba(60, 34, 12, 0.75) !important; border-style: solid !important;
+  box-shadow: inset 0 0 0 3px rgba(240, 220, 180, 0.18), inset 0 0 14px rgba(30, 14, 4, 0.35);
+}
+.vn_ch_row .lock, .vn_ch_row .lock::before { background-color: rgba(60, 34, 12, 0.75); border-color: rgba(60, 34, 12, 0.75); }
+.vn_ch_row .lock::before { background: none; }
+.vn_cg_item.locked .thumb {
+  background: rgba(54, 30, 10, 0.32) !important; border: 1px solid rgba(60, 34, 12, 0.8) !important;
+  box-shadow: inset 0 0 0 3px rgba(240, 220, 180, 0.18), inset 0 0 18px rgba(30, 14, 4, 0.4) !important;
+}
+.vn_cg_item .q { color: rgba(60, 34, 12, 0.7); }
+.vn_cg_item.locked .nm { color: rgba(46, 27, 12, 0.75); }
+

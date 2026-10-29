@@ -89,7 +89,7 @@ export function clearLine() { finishTyping(); shown = null; txt.innerHTML = ""; 
 export function currentLine() { return shown; }
 
 let quill = null;
-function showQuill() { hideQuill(); quill = el("img.quill", { src: "./assets/ui/quill.png", alt: "" }); txt.append(quill); }
+function showQuill() { hideQuill(); quill = el("img.quill", { src: "./assets/ui/quill.png?v=2", alt: "" }); txt.append(quill); }
 function hideQuill() { if (quill) { quill.remove(); quill = null; } }
 function placeQuill() {}
 export function quillOff() { hideQuill(); }
