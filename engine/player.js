@@ -186,7 +186,7 @@ async function exec(c, token) {
       stopAutoSkip();
       commitAutosave();                                                  // 進入選項：寫入自動存檔
       saveSf();
-      const i = await ui.showChoices(c.opts);
+      const i = await ui.showChoices(c.opts, c.title);
       if (token !== P.token) return "stop";
       const o = c.opts[i];
       applyFx(o.fx);

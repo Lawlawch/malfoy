@@ -261,9 +261,12 @@ export function parseScript(src, ctx = {}) {
           top.endJumps.forEach((j) => (cmds[j].to = cmds.length));
           break;
         }
-        case "choice":
-          pendingChoice = push({ op: "choice", opts: [], line: ln });
+        case "choice": {                                 // @choice 題目（題目可省略）
+          const title = rest.trim();
+          if (title && textLen(title) > 20) warnings.push({ line: ln, msg: `選項題目有 ${textLen(title)} 字，直向畫面一行放不下（建議 20 字以內）` });
+          pendingChoice = push({ op: "choice", opts: [], title, line: ln });
           break;
+        }
         case "showcg":
           if (!pos[0]) { err(errors, ln, "@showcg 缺少 CG id"); break; }
           if (ctx.cgIds && !ctx.cgIds.includes(pos[0])) warnings.push({ line: ln, msg: `圖鑑清單裡沒有「${pos[0]}」` });

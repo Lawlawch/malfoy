@@ -70,7 +70,7 @@ html, body {
 #msg.on { display: block; }
 #msg.hid { display: none !important; }
 .land #msg { left: 160px; top: 470px; width: 1000px; height: 230px; }
-.port #msg { left: 40px; top: 770px; width: 640px; height: 470px; }
+.port #msg { left: 40px; top: 860px; width: 640px; height: 380px; }
 #msg .box {
   position: absolute; inset: 0; opacity: 0.94;
   background: var(--vn-paper);
@@ -83,8 +83,8 @@ html, body {
   font-size: var(--fs); line-height: 1.6; letter-spacing: 0.04em; color: var(--vn-ink);
   word-break: normal; overflow-wrap: anywhere;
 }
-.land #msg .txt { padding: 30px 70px 24px 50px; }
-.port #msg .txt { padding: 44px 60px 28px 50px; }
+.land #msg .txt { padding: 30px 70px 64px 50px; }          /* 底部留給工具列 */
+.port #msg .txt { padding: 44px 60px 80px 50px; }
 #msg .txt.probe { visibility: hidden; bottom: auto; height: auto; }
 #msg .txt span.h { visibility: hidden; }
 
@@ -157,6 +157,15 @@ html, body {
   transition: filter 0.15s, transform 0.1s;
 }
 .port .vn_opt { width: 620px; }
+/* 選項題目：淺羊皮紙色的字，下方金色細線＋中間小菱形 */
+#choices .vn_q {
+  position: relative; flex: 0 0 auto; box-sizing: border-box; width: 700px; padding: 0 1em 0.55em; margin-bottom: -2px;
+  text-align: center; color: var(--vn-parch-1); font-size: 0.86em; font-weight: 700; letter-spacing: 0.08em; line-height: 1.4;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.9);
+}
+.port #choices .vn_q { width: 620px; }
+#choices .vn_q::after { content: ""; position: absolute; left: 8%; right: 8%; bottom: 0; height: 1px; background: linear-gradient(90deg, rgba(241, 217, 138, 0), var(--vn-gold-light) 20%, var(--vn-gold-light) 80%, rgba(241, 217, 138, 0)); }
+#choices .vn_q::before { content: ""; position: absolute; left: 50%; bottom: -5px; width: 9px; height: 9px; margin-left: -5px; transform: rotate(45deg); background: var(--vn-gold-light); box-shadow: 0 0 6px rgba(241, 217, 138, 0.8); }
 .vn_opt::before, .vn_opt::after {
   content: ""; position: absolute; top: 50%; width: 9px; height: 9px; margin-top: -5px;
   background: linear-gradient(135deg, #fff0b0, #c9a24a); border: 1px solid #5a3a10; transform: rotate(45deg);
@@ -168,31 +177,26 @@ html, body {
 }
 .vn_opt:active { transform: translateY(2px); }
 
-/* ---------- 遊戲內工具列：羊皮紙長條（橫向靠右、直向置中）---------- */
-#vn_toolbar { position: absolute; top: 10px; left: 0; right: 0; z-index: 30; display: none; justify-content: center; pointer-events: none; }
+/* ---------- 遊戲內工具列：對話框內側底部、靠右的一排圖示 ---------- */
+#vn_toolbar { position: absolute; z-index: 30; display: none; justify-content: flex-end; box-sizing: border-box; pointer-events: none; }
 #vn_toolbar.on { display: flex; }
-.land #vn_toolbar { justify-content: flex-end; padding-right: 16px; box-sizing: border-box; }
-#vn_toolbar .vn_strip {
-  position: relative; pointer-events: auto;
-  display: flex; align-items: center;
-  padding: 7px 18px;
-  background: var(--vn-paper);
-  border: 2px solid var(--vn-gold-dark); border-radius: 6px;
-  box-shadow: inset 0 0 0 3px rgba(249, 237, 208, 0.7), inset 0 0 0 4px var(--vn-gold), inset 0 0 14px 2px rgba(96, 52, 14, 0.5), 0 4px 12px rgba(0, 0, 0, 0.5);
-}
-#vn_toolbar .vn_strip i { position: absolute; width: 10px; height: 10px; background: linear-gradient(135deg, #fff0b0, #c9a24a); border: 1px solid #5a3a10; transform: rotate(45deg); }
-#vn_toolbar .vn_strip i.tl { left: -6px; top: -6px; } #vn_toolbar .vn_strip i.tr { right: -6px; top: -6px; }
-#vn_toolbar .vn_strip i.bl { left: -6px; bottom: -6px; } #vn_toolbar .vn_strip i.br { right: -6px; bottom: -6px; }
-#vn_toolbar .vn_strip s { width: 6px; height: 6px; margin: 0 2px; background: var(--vn-gold); border: 1px solid #5a3a10; transform: rotate(45deg); flex: 0 0 auto; }
+#vn_toolbar.hid { display: none !important; }
+.land #vn_toolbar { left: 160px; width: 1000px; top: 642px; padding-right: 40px; }
+.port #vn_toolbar { left: 40px; width: 640px; top: 1166px; padding-right: 26px; }
+#vn_toolbar .vn_strip { display: flex; align-items: center; gap: 2px; pointer-events: auto; }
 #vn_toolbar button {
-  cursor: pointer; font-size: 20px; font-weight: 700; letter-spacing: 0.06em;
-  color: var(--vn-ink); padding: 4px 9px;
-  background: none; border: 0; border-radius: 4px;
-  text-shadow: 0 1px 0 rgba(255, 245, 215, 0.8);
-  touch-action: manipulation;
+  display: flex; align-items: center; justify-content: center; cursor: pointer;
+  width: 58px; height: 46px; padding: 0; border: 0; border-radius: 8px; background: none;
+  color: #5a3d22; opacity: 0.82; touch-action: manipulation;
 }
-#vn_toolbar button:hover { color: var(--vn-wine); text-shadow: 0 0 8px rgba(241, 217, 138, 0.95), 0 1px 0 rgba(255, 245, 215, 0.8); }
-#vn_toolbar button.active { color: var(--vn-parch-1); background: linear-gradient(180deg, #a03342, var(--vn-wine)); text-shadow: none; }
+.port #vn_toolbar button { width: 72px; height: 60px; }
+#vn_toolbar button svg { width: 31px; height: 31px; fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
+.port #vn_toolbar button svg { width: 40px; height: 40px; }
+#vn_toolbar button:hover { opacity: 1; color: var(--vn-wine); background: rgba(201, 162, 74, 0.22); }
+#vn_toolbar button.active { opacity: 1; color: var(--vn-parch-1); background: linear-gradient(180deg, #a03342, var(--vn-wine)); }
+/* 選項時刻：對話框變暗，圖示改成淺羊皮紙色才看得清楚（仍然可以按） */
+#game.choosing #vn_toolbar button { color: var(--vn-parch-1); opacity: 0.9; filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.8)); }
+#game.choosing #vn_toolbar button:hover { color: var(--vn-gold-light); background: rgba(241, 217, 138, 0.15); }
 
 /* ---------- 提示 ---------- */
 #vn_toast {
@@ -235,12 +239,12 @@ html, body {
   color: var(--vn-ink); text-align: left;
 }
 .vn_sys_panel {
-  position: absolute; left: 4%; right: 4%; top: 84px; bottom: 24px;
+  position: absolute; left: 4%; right: 4%; top: 24px; bottom: 24px;
   display: flex; flex-direction: column; overflow: hidden;
   border-radius: 18px; border: 4px double var(--vn-gold-dark);
   background: var(--vn-paper); box-shadow: var(--vn-burn), 0 10px 40px rgba(0, 0, 0, 0.6);
 }
-.port .vn_sys_panel { top: 96px; bottom: 3%; }
+.port .vn_sys_panel { top: 3%; bottom: 3%; }
 .vn_sys_head {
   flex: 0 0 auto; display: flex; align-items: center; justify-content: space-between;
   padding: 14px 22px; border-bottom: 3px double var(--vn-gold-dark);

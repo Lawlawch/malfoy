@@ -29,18 +29,18 @@ export function initUI(root) {
 let shown = null;                                   // 目前顯示的這句 {speaker, text}
 let typing = null;                                  // 逐字顯示中的控制物件
 
-export function msgVisible(on) { msg.classList.toggle("on", !!on); if (!on) hideQuill(); }
+export function msgVisible(on) { msg.classList.toggle("on", !!on); if (!on) hideQuill(); syncToolbar(); }
 export function isHidden() { return msg.classList.contains("hid"); }
-export function setHidden(on) { msg.classList.toggle("hid", !!on); }
+export function setHidden(on) { msg.classList.toggle("hid", !!on); syncToolbar(); }
 
 function speakerInfo(sp) {
   if (!sp) return null;
   return { name: sp.name, avatar: sp.id || sp.name };
 }
 
-// 量出這句在對話框裡要用多大的字（太長就縮小，最小 72%）
+// 量出這句在對話框裡要用多大的字（太長就縮小，最小 62%）
 function fitSize(text, narr) {
-  const base = fontPx(), min = Math.round(base * 0.72);
+  const base = fontPx(), min = Math.round(base * 0.62);   // 最多縮到 62%（只有很長的句子加大字體時才會用到）
   const probe = el("div.txt.probe");            // 同樣的寬度與內距，但高度隨內容（量完就移除）
   probe.textContent = text;
   msg.append(probe);
@@ -97,9 +97,11 @@ export function quillOff() { hideQuill(); }
 /* =============================================================
    選項
    ============================================================= */
-export function showChoices(opts) {
+// title：選項題目（可省略），顯示在選項上方，下面一條金色飾線
+export function showChoices(opts, title) {
   return new Promise((resolve) => {
     choicesBox.innerHTML = "";
+    if (title) choicesBox.append(el("div.vn_q", { text: title }));
     const shownAt = Date.now();
     opts.forEach((o, i) => {
       const b = el("div.vn_opt", { text: o.text });
@@ -112,10 +114,11 @@ export function showChoices(opts) {
     });
     dim.classList.add("on");
     choicesBox.classList.add("on");
+    G.root.classList.add("choosing");              // 選項時刻：工具列圖示改成淺色（底下的對話框變暗了）
     layoutChoices();
   });
 }
-export function hideChoices() { choicesBox.classList.remove("on"); choicesBox.innerHTML = ""; dim.classList.remove("on"); }
+export function hideChoices() { choicesBox.classList.remove("on"); choicesBox.innerHTML = ""; dim.classList.remove("on"); G.root.classList.remove("choosing"); }
 // 選項太多、太長時縮小字體，直到放得下
 function layoutChoices() {
   if (!choicesBox.classList.contains("on")) return;
@@ -131,17 +134,31 @@ export function choicesOpen() { return choicesBox.classList.contains("on"); }
 /* =============================================================
    工具列
    ============================================================= */
+/* 工具列：放在對話框內側底部、靠右的一排圖示（SVG 線條圖示，墨褐色）。滑鼠移過去會顯示名稱。
+   跟著對話框一起顯示、隱藏（右鍵或「隱藏」把對話框收起時，工具列也收起）。 */
 const TOOLS = [["auto", "自動"], ["skip", "略過"], ["log", "紀錄"], ["hide", "隱藏"], ["save", "存檔"], ["load", "讀檔"], ["config", "設定"], ["title", "標題"]];
+const ICONS = {
+ "auto": "<path d=\"M8 5.5v13l10.5-6.5z\" fill=\"currentColor\" stroke=\"none\"/>",
+ "skip": "<path d=\"M4 6v12l8-6zM12 6v12l8-6z\" fill=\"currentColor\" stroke=\"none\"/>",
+ "log": "<path d=\"M8 4h9a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H8\"/><path d=\"M8 4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2 2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z\"/><path d=\"M12.5 9h4M12.5 12.5h4M12.5 16h2.5\"/>",
+ "hide": "<path d=\"M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6z\"/><circle cx=\"12\" cy=\"12\" r=\"2.6\"/><path d=\"M4 20 20 4\"/>",
+ "save": "<path d=\"M4 20h10M4 6h6M4 9.5h4.5M4 13h3.5\"/><path d=\"M21 3c-4.5.5-8.5 4.2-10.5 9.2L9.5 16l3.6-1.1C18 13 20.6 8.2 21 3z\"/><path d=\"M9.5 16l4.2-4.4\"/>",
+ "load": "<path d=\"M12 7C10 5.5 7 5 3.5 5.5v13c3.5-.5 6.5 0 8.5 1.5 2-1.5 5-2 8.5-1.5v-13C17 5 14 5.5 12 7z\"/><path d=\"M12 7v13\"/>",
+ "config": "<path d=\"M21.09 10.56 L21.09 13.44 L18.68 13.72 L17.97 15.47 L19.44 17.41 L17.41 19.44 L15.51 17.94 L13.77 18.67 L13.44 21.09 L10.56 21.09 L10.28 18.68 L8.53 17.97 L6.59 19.44 L4.56 17.41 L6.06 15.51 L5.33 13.77 L2.91 13.44 L2.91 10.56 L5.32 10.28 L6.03 8.53 L4.56 6.59 L6.59 4.56 L8.49 6.06 L10.23 5.33 L10.56 2.91 L13.44 2.91 L13.72 5.32 L15.47 6.03 L17.41 4.56 L19.44 6.59 L17.94 8.49 L18.67 10.23 Z\"/><circle cx=\"12\" cy=\"12\" r=\"2.8\"/>",
+ "title": "<path d=\"M4 20V9h3v2h2.5V9h5v2H17V9h3v11z\"/><path d=\"M10 20v-3.5a2 2 0 0 1 4 0V20\"/>"
+};
 function buildToolbar() {
-  const strip = el("div.vn_strip", {}, el("i.tl"), el("i.tr"), el("i.bl"), el("i.br"));
-  TOOLS.forEach(([act, label], i) => {
-    if (i) strip.append(el("s"));
-    strip.append(tap(el("button", { type: "button", "data-act": act, text: label }), () => handlers.tool && handlers.tool(act)));
+  const strip = el("div.vn_strip");
+  TOOLS.forEach(([act, label]) => {
+    const b = el("button", { type: "button", "data-act": act, title: label, "aria-label": label });
+    b.innerHTML = `<svg viewBox="0 0 24 24" aria-hidden="true">${ICONS[act]}</svg>`;
+    strip.append(tap(b, () => handlers.tool && handlers.tool(act)));
   });
   toolbar = el("div#vn_toolbar", {}, strip);
   return toolbar;
 }
-export function toolbarOn(on) { toolbar.classList.toggle("on", !!on); }
+function syncToolbar() { if (toolbar && msg) toolbar.classList.toggle("hid", !msg.classList.contains("on") || msg.classList.contains("hid")); }
+export function toolbarOn(on) { toolbar.classList.toggle("on", !!on); syncToolbar(); }
 export function toolbarState(s) {
   for (const k in s) { const b = $(`[data-act="${k}"]`, toolbar); if (b) b.classList.toggle("active", !!s[k]); }
 }
