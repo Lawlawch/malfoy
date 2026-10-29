@@ -36,6 +36,7 @@
 | `@bg 名稱 [fade=800]` | 換背景（淡入毫秒） |
 | `@show 角色 [表情] [left] [fade=300]` | 角色登場（1 人置中、2 人左右、3 人左中右；`left` 排到最左） |
 | `@face 角色 表情` | 換表情 |
+| `@outfit 角色 服裝` | 換裝（例：`@outfit draconia school`）。之後的 `@show`／`@face` 都用這套，跨場景、跨章節沿用到下一次 `@outfit`。角色在台上時立刻換圖，保留表情與位置。只有 `story.js` 有 `outfits` 的角色能用 |
 | `@hide 角色 [fade=300]`、`@hideall` | 退場 |
 | `@wait 毫秒` | 停頓 |
 | `@bgm 名稱 [fade=1000]`、`@bgm stop` | 背景音樂（assets/bgm/名稱.mp3） |

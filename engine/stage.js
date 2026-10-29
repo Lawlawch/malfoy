@@ -17,7 +17,13 @@ export function initStage(root) {
 
 let currentState = { bg: "", charas: [] };
 export const bgUrl = (name) => `./assets/bg/${name}.jpg`;
-export const charaUrl = (id, face) => `./assets/chara/${id}/${face}.png`;
+// 立繪路徑：有服裝的角色是 assets/chara/<角色>/<服裝>/<表情>.png，沒有的是 assets/chara/<角色>/<表情>.png
+export function charaUrl(id, face, outfit) {
+  const ch = story.characters[id];
+  if (ch && ch.outfits) return `./assets/chara/${id}/${ch.outfits.includes(outfit) ? outfit : (ch.outfit || ch.outfits[0])}/${face}.png`;
+  return `./assets/chara/${id}/${face}.png`;
+}
+const urlOf = (c) => charaUrl(c.id, c.face, c.outfit);
 export const cgUrl = (id) => `./assets/cg/${id}.jpg`;
 
 function preload(url) {
@@ -63,13 +69,15 @@ export function relayout(state, ms) {
   state.charas.forEach((c) => { const img = charaEls[c.id]; if (img) place(img, charaPos(state.charas, c.id), ms); });
 }
 
-export async function show(state, id, face, slot, fade) {
+export async function show(state, id, face, slot, fade, outfit) {
   currentState = state;
   const existing = state.charas.find((c) => c.id === id);
-  if (existing) { existing.face = face; setFace(state, id, face); relayout(state, fade); return; }
-  if (slot === "left") state.charas.unshift({ id, face }); else state.charas.push({ id, face });
-  await preload(charaUrl(id, face));
-  const img = el("img.chara", { alt: "", src: charaUrl(id, face), draggable: "false" });
+  if (existing) { existing.outfit = outfit || existing.outfit; setFace(state, id, face); relayout(state, fade); return; }
+  const entry = { id, face };
+  if (outfit) entry.outfit = outfit;
+  if (slot === "left") state.charas.unshift(entry); else state.charas.push(entry);
+  await preload(urlOf(entry));
+  const img = el("img.chara", { alt: "", src: urlOf(entry), draggable: "false" });
   img.style.opacity = "0";
   charaEls[id] = img;
   layer.append(img);
@@ -85,7 +93,15 @@ export function setFace(state, id, face) {
   if (!c) return;
   c.face = face;
   const img = charaEls[id];
-  if (img) img.src = charaUrl(id, face);
+  if (img) img.src = urlOf(c);
+}
+// 換裝：角色在台上就直接換圖，保留表情與位置
+export function setOutfit(state, id, outfit) {
+  const c = state.charas.find((x) => x.id === id);
+  if (!c) return;
+  c.outfit = outfit;
+  const img = charaEls[id];
+  if (img) img.src = urlOf(c);
 }
 
 export async function hide(state, id, fade) {
@@ -144,8 +160,8 @@ export async function rebuild(state) {
     bgA.style.backgroundImage = `url("${bgUrl(state.bg)}")`; bgA.style.opacity = "1"; bgA.classList.add("on");
   }
   state.charas.forEach((c) => {
-    jobs.push(preload(charaUrl(c.id, c.face)));
-    const img = el("img.chara", { alt: "", src: charaUrl(c.id, c.face), draggable: "false" });
+    jobs.push(preload(urlOf(c)));
+    const img = el("img.chara", { alt: "", src: urlOf(c), draggable: "false" });
     charaEls[c.id] = img; layer.append(img);
   });
   relayout(state, 0);
@@ -171,7 +187,7 @@ export async function thumbnail(state) {
     }
   }
   for (const c of state.charas) {
-    const im = await preload(charaUrl(c.id, c.face)), p = charaPos(state.charas, c.id, L);
+    const im = await preload(urlOf(c)), p = charaPos(state.charas, c.id, L);
     if (im && p) { const w = p.height * im.width / im.height; ctx.drawImage(im, (p.cx - w / 2) * sc, p.top * sc, w * sc, p.height * sc); }
   }
   if (state.cg) {                                  // 劇情 CG 顯示中：縮圖用 CG（沒有圖時用佔位色）

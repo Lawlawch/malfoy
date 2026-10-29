@@ -57,8 +57,11 @@ def face_marks(d, face, ink):
         for s in (-1, 1): d.ellipse([CX + s * ex - er, ey - er, CX + s * ex + er, ey + er], fill=ink)
         d.line([CX - 40, HY + 100, CX + 40, HY + 100], fill=ink, width=9)
 
-def chara(cid, name, face, color):
-    p = os.path.join(ROOT, "chara", cid, face + ".png")
+OUTFIT_LABEL = {"noble": "貴族服", "school": "校服"}
+OUTFIT_COLOR = {"school": (38, 38, 46)}            # 校服：霍格華茲黑袍
+def chara(cid, name, face, color, outfit=None):
+    p = os.path.join(ROOT, "chara", cid, *( [outfit] if outfit else [] ), face + ".png")
+    if outfit in OUTFIT_COLOR: color = OUTFIT_COLOR[outfit]
     if os.path.exists(p) and not REDO: return False
     os.makedirs(os.path.dirname(p), exist_ok=True)
     im = Image.new("RGBA", (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(im)
@@ -71,8 +74,8 @@ def chara(cid, name, face, color):
     d.ellipse([CX - HEAD_R, HEAD_TOP, CX + HEAD_R, HEAD_TOP + 2 * HEAD_R], fill=(240, 236, 228, 255), outline=edge, width=8)
     face_marks(d, face, (60, 50, 50, 255))
     # 文字
-    center(d, W, 820, name, font(120, True), (255, 255, 255, 255))
-    center(d, W, 980, cid.upper() + " · " + face, font(64), (255, 255, 255, 235))
+    center(d, W, 820, name + ("．" + OUTFIT_LABEL.get(outfit, outfit) if outfit else ""), font(120, True), (255, 255, 255, 255))
+    center(d, W, 980, cid.upper() + (" · " + outfit if outfit else "") + " · " + face, font(64), (255, 255, 255, 235))
     center(d, W, 1490, "PLACEHOLDER 1200x1600 (half body)", font(30), (255, 255, 255, 200))
     im.save(p, optimize=True)
     return True
@@ -82,14 +85,18 @@ def load_characters():
     block = src[src.index("export const characters"):]
     block = block[:block.index("};")]
     out = []
-    for m in re.finditer(r'(\w+):\s*\{\s*name:\s*"([^"]+)",\s*faces:\s*\[([^\]]*)\]', block):
-        out.append((m.group(1), m.group(2), re.findall(r'"(\w+)"', m.group(3))))
+    for m in re.finditer(r'(\w+):\s*\{([^}]*)\}', block):
+        body = m.group(2)
+        nm = re.search(r'name:\s*"([^"]+)"', body); fc = re.search(r'faces:\s*\[([^\]]*)\]', body); oc = re.search(r'outfits:\s*\[([^\]]*)\]', body)
+        if not nm or not fc: continue
+        out.append((m.group(1), nm.group(1), re.findall(r'"(\w+)"', fc.group(1)), re.findall(r'"(\w+)"', oc.group(1)) if oc else []))
     return out
 
 made = 0
-for cid, name, faces in load_characters():
-    for face in faces:
-        made += chara(cid, name, face, COLORS.get(cid, (120, 120, 120)))
+for cid, name, faces, outfits in load_characters():
+    for outfit in (outfits or [None]):
+        for face in faces:
+            made += chara(cid, name, face, COLORS.get(cid, (120, 120, 120)), outfit)
 
 # ---------- 背景 ----------
 def bg(name, label, c1, c2):

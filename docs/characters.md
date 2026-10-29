@@ -15,7 +15,7 @@
 
 | 角色 | 引擎代號 | 表情 |
 |---|---|---|
-| 馬份 | draconia | normal、happy、sad、angry、shy、surprised、smug |
+| 馬份 | draconia | normal、happy、sad、angry、shy、surprised、smug（貴族服、校服各一套，共 14 張） |
 | 榮恩 | ron | normal、happy、sad、angry、surprised |
 | 妙麗 | hermione | normal、happy、sad、angry、shy、surprised |
 | 海格 | hagrid | normal、happy、sad |
@@ -44,7 +44,11 @@
 - **稱呼**：自稱全名只在正式介紹時用。平時大家叫她「馬份」，家人叫她「妮亞」。
 - **身份**：一年級新生，純血馬份家獨生女。父親魯休斯，母親水仙。學院【待定，原著為史萊哲林】。
 - **外觀**：鉑金色（淺金）長直髮；灰色眼睛，形容為「像冬天結冰的湖面」；膚色白皙；臉型尖細；身材纖細；常抬著下巴；手指細長，指甲修得整齊。
-  - 生圖描述（英文）：*11-year-old girl, long straight platinum-blonde hair, cold grey eyes, pale skin, sharp delicate face, slender, proud posture with chin raised, Hogwarts black robes, anime visual novel style*【服裝細節、髮飾待定】
+  - 生圖描述（英文）：*11-year-old girl, long straight platinum-blonde hair, cold grey eyes, pale skin, sharp delicate face, slender, proud posture with chin raised, anime visual novel style*【髮飾待定】
+- **服裝**（立繪分兩套，每套都有 7 個表情）：
+  - **貴族服**（noble）：入學前的便服。第一章斜角巷全程穿這套。款式【待定】。生圖時在描述後加：*elegant aristocratic dress, dark green and silver*【顏色待定】
+  - **校服**（school）：霍格華茲黑袍。第一章列車開始穿這套。生圖時加：*Hogwarts black school robes*（分院前沒有學院徽章；分院後是否換成史萊哲林配色【待定】）
+  - 圖檔路徑：`assets/chara/draconia/noble/<表情>.png`、`assets/chara/draconia/school/<表情>.png`；劇本用 `@outfit draconia noble`／`@outfit draconia school` 切換
 - **性格**：以原著跩哥為底，調整成傲嬌。高傲、看不起「低等」的人，嘴上刻薄，心裡在意。被說中心事或被救時會結巴（「你、你……」「誰、誰要你……」），死不道謝。一年級定位是「口是心非的對手」，隨劇情逐漸軟化。
 - **說話習慣**：叫哈利「波特」；常用「哼」；叫榮恩「衛斯理」或帶貶意的稱呼。
 - **隨從**：克拉、高爾。

@@ -6,7 +6,7 @@
    所以任何時候存檔（打字中、換場中）讀回來都會從這一句重新顯示。
    自動存檔：每句寫入一次（略過期間暫停，略過停下時補寫）。
    ============================================================= */
-import { G, sf, saveSf, db, clone, cfg, readMark, chapterById, TEXT_SPEED, AUTO_SPEED, SAVE_FORMAT, DEBUG, story, sleep } from "./core.js";
+import { G, sf, saveSf, db, clone, cfg, readMark, chapterById, outfitOf, TEXT_SPEED, AUTO_SPEED, SAVE_FORMAT, DEBUG, story, sleep } from "./core.js";
 import { parseScript, evalCond } from "./parser.js";
 import * as stage from "./stage.js";
 import * as audio from "./audio.js";
@@ -203,7 +203,8 @@ async function exec(c, token) {
       ui.quillOff(); await stage.showCg(st, c.id, dur(c.fade)); return;
     case "hidecg": await stage.hideCg(st, dur(c.fade)); return;
     case "bg": ui.quillOff(); await stage.setBg(st, c.name, dur(c.fade)); return;
-    case "show": await stage.show(st, c.id, c.face, c.slot, dur(c.fade)); return;
+    case "show": await stage.show(st, c.id, c.face, c.slot, dur(c.fade), outfitOf(s.f, c.id)); return;
+    case "outfit": s.f["outfit_" + c.id] = c.outfit; stage.setOutfit(st, c.id, c.outfit); return;   // 換裝：之後一直沿用（跨場景、跨章節）
     case "face": stage.setFace(st, c.id, c.face); return;
     case "hide": await stage.hide(st, c.id, dur(c.fade)); return;
     case "hideall": await stage.hideAll(st, dur(c.fade)); return;

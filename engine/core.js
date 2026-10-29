@@ -154,6 +154,14 @@ export function fontPx() { return Math.round(G.L.font * FONT_SCALE[cfg().font]);
 
 /* ---------- 章節與角色 ---------- */
 export const chapterById = (id) => story.chapters.find((c) => c.id === id) || null;
+// 角色目前的服裝：記在數值 f.outfit_<角色>（跟著存檔、場景起點、章節起點一起保存）；沒設過就用 story.js 的預設。
+// 沒有 outfits 的角色回傳 null（立繪直接放在 assets/chara/<角色>/<表情>.png）
+export function outfitOf(f, id) {
+  const ch = story.characters[id];
+  if (!ch || !ch.outfits) return null;
+  const o = f && f["outfit_" + id];
+  return ch.outfits.includes(o) ? o : (ch.outfit || ch.outfits[0]);
+}
 export const NUM_CN = ["", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十"];
 export function chapterLabel(c) { return `${story.years[c.year - 1] || ""}．第${NUM_CN[c.n] || c.n}章`; }
 export function avatarUrl(key) {

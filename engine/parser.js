@@ -199,6 +199,15 @@ export function parseScript(src, ctx = {}) {
           push({ op: "face", id, face: pos[1], line: ln });
           break;
         }
+        case "outfit": {
+          const id = pos[0]; if (!needChar(id)) break;
+          const ch = chars[id];
+          if (!ch.outfits) { err(errors, ln, `${id} 沒有設定服裝（story.js 的 outfits）`); break; }
+          if (!pos[1]) { err(errors, ln, "@outfit 缺少服裝名稱"); break; }
+          if (!ch.outfits.includes(pos[1])) { err(errors, ln, `${id} 沒有服裝「${pos[1]}」（有：${ch.outfits.join("、")}）`); break; }
+          push({ op: "outfit", id, outfit: pos[1], line: ln });
+          break;
+        }
         case "hide": {
           const id = pos[0]; if (!needChar(id)) break;
           push({ op: "hide", id, fade: intOpt(kv, "fade", ln, errors) ?? 300, line: ln });

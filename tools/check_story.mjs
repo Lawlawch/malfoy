@@ -17,7 +17,11 @@ for (const ch of story.chapters.filter((c) => c.ready)) {
   const warn = [...r.warnings];
   for (const c of r.cmds) {
     if (c.op === "bg" && !fs.existsSync(path.join(root, "assets/bg", c.name + ".jpg"))) warn.push({ line: c.line, msg: `背景圖不存在：assets/bg/${c.name}.jpg` });
-    if ((c.op === "show" || c.op === "face") && !fs.existsSync(path.join(root, "assets/chara", c.id, c.face + ".png"))) warn.push({ line: c.line, msg: `立繪不存在：assets/chara/${c.id}/${c.face}.png` });
+    if (c.op === "show" || c.op === "face") {
+      // 有服裝的角色：每一套服裝都要有這個表情（劇本裡換裝可能發生在別的分支，所以全部檢查）
+      const ch = story.characters[c.id], dirs = ch && ch.outfits ? ch.outfits.map((o) => c.id + "/" + o) : [c.id];
+      for (const d of dirs) if (!fs.existsSync(path.join(root, "assets/chara", d, c.face + ".png"))) warn.push({ line: c.line, msg: `立繪不存在：assets/chara/${d}/${c.face}.png` });
+    }
   }
   const texts = r.cmds.filter((c) => c.op === "text").length, choices = r.cmds.filter((c) => c.op === "choice").length;
   console.log(`${r.errors.length ? "✗" : "✓"} ${ch.id}：${texts} 句、${choices} 個選擇、${Object.keys(r.scenes).length} 個場景（簽章 ${r.sig}）`);
