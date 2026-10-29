@@ -255,6 +255,14 @@ export function parseScript(src, ctx = {}) {
         case "choice":
           pendingChoice = push({ op: "choice", opts: [], line: ln });
           break;
+        case "showcg":
+          if (!pos[0]) { err(errors, ln, "@showcg 缺少 CG id"); break; }
+          if (ctx.cgIds && !ctx.cgIds.includes(pos[0])) warnings.push({ line: ln, msg: `圖鑑清單裡沒有「${pos[0]}」` });
+          push({ op: "showcg", id: pos[0], fade: intOpt(kv, "fade", ln, errors) ?? 600, line: ln });
+          break;
+        case "hidecg":
+          push({ op: "hidecg", fade: intOpt(kv, "fade", ln, errors) ?? 600, line: ln });
+          break;
         case "cg": case "ending":
           if (!pos[0]) { err(errors, ln, `@${op} 缺少 id`); break; }
           if (ctx.cgIds && !ctx.cgIds.includes(pos[0])) warnings.push({ line: ln, msg: `圖鑑清單裡沒有「${pos[0]}」` });

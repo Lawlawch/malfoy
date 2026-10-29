@@ -195,8 +195,13 @@ async function exec(c, token) {
     }
     case "scene":
       s.scene = c.id; s.sceneF = clone(s.f);
+      await stage.hideCg(st, 0);
       await stage.hideAll(st, 0);
       return;
+    case "showcg":                                                       // 劇情中顯示 CG，同時解鎖圖鑑
+      sf.cgsSeen = sf.cgsSeen || {}; sf.cgsSeen[c.id] = 1; saveSf();
+      ui.quillOff(); await stage.showCg(st, c.id, dur(c.fade)); return;
+    case "hidecg": await stage.hideCg(st, dur(c.fade)); return;
     case "bg": ui.quillOff(); await stage.setBg(st, c.name, dur(c.fade)); return;
     case "show": await stage.show(st, c.id, c.face, c.slot, dur(c.fade)); return;
     case "face": stage.setFace(st, c.id, c.face); return;

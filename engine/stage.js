@@ -2,21 +2,23 @@
    stage.js  舞台：背景、立繪（自動排位、說話者高亮）、存檔縮圖
    畫面狀態全部記在 state（{bg, charas:[{id, face}]}），可以隨時從狀態重建。
    ============================================================= */
-import { G, LAYOUT, el, sleep } from "./core.js";
+import { G, LAYOUT, el, sleep, story } from "./core.js";
 
-let bgA, bgB, layer;                               // 兩層背景輪流淡入；立繪層
+let bgA, bgB, layer, cgLayer;                      // 兩層背景輪流淡入；立繪層；劇情 CG 層
 const charaEls = {};                               // id → <img>
 
 export function initStage(root) {
   bgA = el("div.stage_bg"); bgB = el("div.stage_bg");
   layer = el("div#charas");
-  root.append(bgA, bgB, layer);
+  cgLayer = el("div#cgl", {}, el("span.ph"));
+  root.append(bgA, bgB, layer, cgLayer);
   G.onResize.push(() => relayout(currentState, 0));
 }
 
 let currentState = { bg: "", charas: [] };
 export const bgUrl = (name) => `./assets/bg/${name}.jpg`;
 export const charaUrl = (id, face) => `./assets/chara/${id}/${face}.png`;
+export const cgUrl = (id) => `./assets/cg/${id}.jpg`;
 
 function preload(url) {
   return new Promise((res) => { const im = new Image(); im.onload = () => res(im); im.onerror = () => res(null); im.src = url; });
@@ -98,6 +100,30 @@ export async function hideAll(state, fade) {
   await Promise.all(ids.map((id) => hide(state, id, fade)));
 }
 
+/* ---------- 劇情 CG：蓋住背景與立繪，對話框在上面。沒有圖檔時顯示佔位畫面與 CG 名稱 ---------- */
+function cgName(id) { const c = [...story.cgs.normal, ...story.cgs.ending].find((x) => x.id === id); return c ? c.name : id; }
+function paintCg(id, im) {
+  cgLayer.style.backgroundImage = im ? `url("${cgUrl(id)}")` : "";
+  cgLayer.classList.toggle("noimg", !im);
+  cgLayer.querySelector(".ph").textContent = im ? "" : cgName(id);
+}
+export async function showCg(state, id, fade) {
+  state.cg = id;
+  const im = await preload(cgUrl(id));
+  paintCg(id, im);
+  cgLayer.style.transition = "none"; cgLayer.style.opacity = "0"; cgLayer.classList.add("on");
+  cgLayer.offsetWidth;
+  cgLayer.style.transition = `opacity ${fade}ms ease`; cgLayer.style.opacity = "1";
+  if (fade > 0) await sleep(fade);
+}
+export async function hideCg(state, fade) {
+  if (!state.cg) return;
+  state.cg = "";
+  cgLayer.style.transition = `opacity ${fade}ms ease`; cgLayer.style.opacity = "0";
+  if (fade > 0) await sleep(fade);
+  if (!state.cg) cgLayer.classList.remove("on");
+}
+
 // 說話者高亮：兩人以上在場、而且說話者在場時，其他人稍微變暗
 export function focus(state, speakerId) {
   const dim = state.charas.length >= 2 && state.charas.some((c) => c.id === speakerId);
@@ -120,6 +146,9 @@ export async function rebuild(state) {
     charaEls[c.id] = img; layer.append(img);
   });
   relayout(state, 0);
+  cgLayer.style.transition = "none";
+  if (state.cg) { const im = await preload(cgUrl(state.cg)); paintCg(state.cg, im); cgLayer.style.opacity = "1"; cgLayer.classList.add("on"); }
+  else { cgLayer.style.opacity = "0"; cgLayer.classList.remove("on"); }
   await Promise.all(jobs);
 }
 
@@ -141,6 +170,11 @@ export async function thumbnail(state) {
   for (const c of state.charas) {
     const im = await preload(charaUrl(c.id, c.face)), p = charaPos(state.charas, c.id, L);
     if (im && p) ctx.drawImage(im, p.left * sc, p.top * sc, p.width * sc, p.width * im.height / im.width * sc);
+  }
+  if (state.cg) {                                  // 劇情 CG 顯示中：縮圖用 CG（沒有圖時用佔位色）
+    const im = await preload(cgUrl(state.cg));
+    if (im) { const s = Math.max(L.w / im.width, L.h / im.height), sw = L.w / s, sh = L.h / s; ctx.drawImage(im, (im.width - sw) / 2, (im.height - sh) / 2, sw, sh, 0, 0, cv.width, cv.height); }
+    else { const g = ctx.createLinearGradient(0, 0, cv.width, cv.height); g.addColorStop(0, "#6c5a3a"); g.addColorStop(1, "#3b2a1a"); ctx.fillStyle = g; ctx.fillRect(0, 0, cv.width, cv.height); }
   }
   try { return { url: cv.toDataURL("image/jpeg", 0.7), w: cv.width, h: cv.height }; } catch (e) { return null; }
 }

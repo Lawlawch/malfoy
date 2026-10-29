@@ -44,7 +44,9 @@
 | `@jump *標籤` | 跳到標籤 |
 | `*標籤` | 標籤（英數與底線） |
 | `@if 條件` / `@elif 條件` / `@else` / `@endif` | 分支。條件：`c1_hagrid == 1`、`bond >= 60 and c2_hand == 1`、`not c1_open` |
-| `@cg cg_malkin`、`@ending y1_A` | 解鎖圖鑑 |
+| `@showcg cg_wandshop [fade=600]` | 劇情中顯示 CG（蓋住背景與立繪，對話框在上面），同時解鎖圖鑑。圖檔 `assets/cg/<id>.jpg`，沒有圖時顯示佔位畫面 |
+| `@hidecg [fade=600]` | 收起 CG（進入新場景時也會自動收起） |
+| `@cg cg_wandshop`、`@ending y1_A` | 只解鎖圖鑑，不顯示 |
 | `@hint 文字` | 小提示（隱藏數值的暗示，特殊時刻才用） |
 | `@end` | 提早結束這一章（檔案結尾也會自動結束） |
 

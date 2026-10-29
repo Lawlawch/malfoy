@@ -14,7 +14,7 @@ def base(c1, c2):
 def ring(im):
     d = ImageDraw.Draw(im); d.ellipse([4,4,S*2-5,S*2-5], outline=(201,162,74,255), width=10)
 def save(im, name): im.resize((S,S), Image.LANCZOS).save(os.path.join(OUT, name+".png"))
-for name, ch, c1, c2 in (("draconia","D",(188,196,214),(96,106,138)), ("hagrid","海",(150,110,70),(80,52,30)), ("malkin","摩",(168,120,150),(96,60,90)), ("ron","榮",(214,128,84),(128,56,36)), ("molly","衛",(206,150,110),(130,84,60))):
+for name, ch, c1, c2 in (("draconia","D",(188,196,214),(96,106,138)), ("hagrid","海",(150,110,70),(80,52,30)), ("malkin","摩",(168,120,150),(96,60,90)), ("ron","榮",(214,128,84),(128,56,36)), ("molly","衛",(206,150,110),(130,84,60)), ("hermione","妙",(176,128,92),(100,64,40)), ("ollivander","奧",(150,150,160),(70,70,84)), ("crabbe","克",(130,150,130),(60,78,60)), ("goyle","高",(150,130,112),(80,64,52))):
     if os.path.exists(os.path.join(OUT, name + ".png")): continue      # 已有的頭像（含你換上的正式圖）不覆蓋
     im = base(c1, c2); d = ImageDraw.Draw(im)
     f = ImageFont.truetype(FONT, 300, index=3); b = d.textbbox((0,0), ch, font=f)

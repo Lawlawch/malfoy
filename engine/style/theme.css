@@ -55,6 +55,13 @@ html, body {
 #game .stage_bg { position: absolute; inset: 0; opacity: 0; background: center / cover no-repeat; }
 #charas { position: absolute; inset: 0; z-index: 5; pointer-events: none; }
 #charas .chara { position: absolute; height: auto; pointer-events: none; }
+/* 劇情 CG：蓋住背景與立繪（對話框在上面）；沒有圖檔時顯示佔位畫面與 CG 名稱 */
+#cgl { position: absolute; inset: 0; z-index: 7; display: none; opacity: 0; pointer-events: none; background: center / cover no-repeat #000; }
+#cgl.on { display: block; }
+#cgl.noimg { background: radial-gradient(ellipse at 50% 40%, rgba(201, 162, 74, 0.28), rgba(0, 0, 0, 0) 60%), linear-gradient(135deg, #6c5a3a, #2a1c12); }
+#cgl .ph { position: absolute; left: 0; right: 0; top: 30%; text-align: center; color: var(--vn-parch-1); font-size: 40px; font-weight: 700; letter-spacing: 0.2em; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8); }
+#cgl .ph:not(:empty)::before { content: "CG"; display: block; margin-bottom: 14px; font-size: 22px; letter-spacing: 0.4em; color: var(--vn-gold-light); opacity: 0.8; }
+.port #cgl .ph { top: 24%; }
 #hit { position: absolute; inset: 0; z-index: 20; display: none; cursor: pointer; }
 #hit.on { display: block; }
 

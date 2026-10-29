@@ -4,8 +4,8 @@
 
 // 章節。ready = 已經做好（劇本檔 story/<id>.txt 存在）。
 export const chapters = [
-  { id: "ch1_01", year: 1, n: 1,  title: "長袍店的金髮少女", ready: true },
-  { id: "ch1_02", year: 1, n: 2,  title: "九又四分之三月台", ready: true },
+  { id: "ch1_01", year: 1, n: 1,  title: "長袍店裡的陌生人", ready: true },
+  { id: "ch1_02", year: 1, n: 2,  title: "九又四分之三月台" },
   { id: "ch1_03", year: 1, n: 3,  title: "分院儀式" },
   { id: "ch1_04", year: 1, n: 4,  title: "地窖與禁止的走廊" },
   { id: "ch1_05", year: 1, n: 5,  title: "飛行課與午夜決鬥" },
@@ -24,7 +24,7 @@ export const characters = {
   ron:      { name: "榮恩",     faces: ["normal", "happy", "sad", "angry", "surprised"] },
   hermione: { name: "妙麗",     faces: ["normal", "happy", "sad", "angry", "shy", "surprised"] },
   hagrid:   { name: "海格",     faces: ["normal", "happy", "sad"] },
-  molly:    { name: "衛斯理夫人", faces: ["normal", "happy"] },
+  molly:    { name: "衛斯理太太", faces: ["normal"] },
   ollivander: { name: "奧利凡德", faces: ["normal"] },
   malkin:   { name: "摩金夫人", faces: ["normal"] },
   crabbe:   { name: "克拉",     faces: ["normal"] },
@@ -37,7 +37,7 @@ export const speakers = { "哈利": "harry", "？？？": "unknown", "德思禮�
 // 圖鑑（圖檔放 assets/cg/<id>.jpg，沒有圖時顯示佔位）
 export const cgs = {
   normal: [
-    { id: "cg_malkin",   name: "長袍店的相遇" },
+    { id: "cg_wandshop", name: "魔杖店．落下的盒子" },
     { id: "cg_platform", name: "九又四分之三月台" },
     { id: "cg_hat",      name: "分院帽之下" },
     { id: "cg_duel",     name: "午夜的月光" },
