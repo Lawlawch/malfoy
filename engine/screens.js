@@ -207,7 +207,6 @@ function debugUnlock(on) {
 function openConfig() {
   const S = ui.panel("設定");
   const c = cfg();
-  let cat = 0;
   function seg(T, label, key, names, onChange) {
     const box = el("span.ctl.vn_seg");
     names.forEach((nm, i) => box.append(tap(el("span" + (c[key] === i ? ".on" : ""), { text: nm }), () => {
@@ -218,27 +217,23 @@ function openConfig() {
   }
   function slider(T, label, key) {
     const val = el("span.val", { text: c[key] });
-    const input = el("input", { type: "range", min: 0, max: 100, step: 5, value: c[key] });
+    const input = el("input", { type: "range", min: 0, max: 100, step: 1, value: c[key] });
     input.addEventListener("input", () => { c[key] = Number(input.value); val.textContent = c[key]; audio.applyVolumes(); });
     input.addEventListener("change", saveSf);
     T.append(el("div.vn_cfg_row", {}, el("span.lb", { text: label }), el("span.ctl", {}, input, val)));
   }
   function render() {
-    const nav = el("div.vn_cfg_nav"), main = el("div.vn_cfg_main");
-    ["文字", "音效"].forEach((nm, i) => nav.append(tap(el("div.vn_cfg_navitem" + (i === cat ? ".on" : ""), { text: nm }), () => { cat = i; render(); })));
-    if (cat === 0) {
-      seg(main, "文字顯示速度", "text", ["慢", "普通", "快"]);
-      seg(main, "自動播放速度", "auto", ["慢", "普通", "快"]);
-      seg(main, "字體大小", "font", ["小", "中", "大"], () => { G.root.style.setProperty("--fs", fontPx() + "px"); G.onResize.forEach((fn) => fn()); });
-      const box = el("span.ctl.vn_seg");
-      [["開", 1], ["關", 0]].forEach(([nm, v]) => box.append(tap(el("span" + (c.skipRead === v ? ".on" : ""), { text: nm }), () => {
-        c.skipRead = v; [...box.children].forEach((x) => x.classList.toggle("on", x.textContent === nm)); saveSf();
-      })));
-      main.append(el("div.vn_cfg_row", {}, el("span.lb", { text: "只略過已讀的句子" }), box), el("div.vn_cfg_note", { text: "關閉時，會略過尚未閱讀的句子" }));
-    } else {
-      slider(main, "背景音樂", "bgm"); slider(main, "語音", "voice"); slider(main, "效果音", "se");
-    }
-    S.body.innerHTML = ""; S.body.append(el("div.vn_cfg_wrap", {}, nav, main));
+    // 文字與音效放在同一頁
+    const main = el("div.vn_cfg_main");
+    seg(main, "文字顯示速度", "text", ["慢", "普通", "快"]);
+    seg(main, "自動播放速度", "auto", ["慢", "普通", "快"]);
+    const box = el("span.ctl.vn_seg");
+    [["開", 1], ["關", 0]].forEach(([nm, v]) => box.append(tap(el("span" + (c.skipRead === v ? ".on" : ""), { text: nm }), () => {
+      c.skipRead = v; [...box.children].forEach((x) => x.classList.toggle("on", x.textContent === nm)); saveSf();
+    })));
+    main.append(el("div.vn_cfg_row", {}, el("span.lb", { text: "只略過已讀的句子" }), box), el("div.vn_cfg_note", { text: "關閉時，會略過尚未閱讀的句子" }));
+    slider(main, "背景音樂", "bgm"); slider(main, "語音", "voice"); slider(main, "效果音", "se");
+    S.body.innerHTML = ""; S.body.append(el("div.vn_cfg_wrap", {}, main));
   }
   render();
 }

@@ -146,7 +146,7 @@ const CFG_DEF = { text: 1, auto: 1, font: 1, skipRead: 1, bgm: 80, voice: 100, s
 export function cfg() {
   sf.cfg = sf.cfg || {};
   for (const k in CFG_DEF) if (sf.cfg[k] === undefined) sf.cfg[k] = CFG_DEF[k];
-  if (!(sf.cfg.font >= 0 && sf.cfg.font < FONT_SCALE.length)) sf.cfg.font = 1;
+  sf.cfg.font = 1;                                  // 字體大小設定已移除：一律標準大小
   for (const k of ["text", "auto"]) if (!(sf.cfg[k] >= 0 && sf.cfg[k] < TEXT_SPEED.length)) sf.cfg[k] = TEXT_SPEED.length - 1;   // 舊設定的「極快」改為「快」
   return sf.cfg;
 }
