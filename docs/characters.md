@@ -19,7 +19,7 @@
 | 榮恩 | ron | normal、happy、sad、angry、surprised |
 | 妙麗 | hermione | normal、happy、sad、angry、shy、surprised |
 | 海格 | hagrid | normal、happy、sad |
-| 衛斯理太太 | molly | normal、happy |
+| 衛斯理太太 | molly | normal |
 | 奧利凡德 | ollivander | normal |
 | 摩金夫人 | malkin | normal |
 | 克拉 | crabbe | normal |
@@ -80,10 +80,10 @@
 
 ---
 
-## 三、配角（除註明外只有 normal）
+## 三、配角（只有 normal）
 
 ### 衛斯理太太（molly）
-- 名牌用「衛斯理太太」（皇冠譯名，不用「衛斯理夫人」）。表情 normal、happy（例外保留 happy）。
+- 名牌用「衛斯理太太」（皇冠譯名，不用「衛斯理夫人」）。表情只有 normal。
 - 外觀：矮胖、紅髮、慈祥。在國王十字車站教哈利穿過柱子。
 
 ### 奧利凡德（ollivander）
