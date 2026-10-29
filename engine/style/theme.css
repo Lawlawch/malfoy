@@ -163,7 +163,9 @@ html, body {
   text-align: center; color: var(--vn-parch-1); font-size: 0.86em; font-weight: 700; letter-spacing: 0.08em; line-height: 1.4;
   text-shadow: 0 2px 6px rgba(0, 0, 0, 0.9);
 }
-.port #choices .vn_q { width: 620px; }
+/* 直向：題目區比選項寬，字距與左右留白收小，20 字放得下一行；萬一換行，兩行平均分（較新的瀏覽器支援） */
+.port #choices .vn_q { width: 680px; padding: 0 0.2em 0.55em; letter-spacing: 0.02em; }
+#choices .vn_q { text-wrap: balance; }
 #choices .vn_q::after { content: ""; position: absolute; left: 8%; right: 8%; bottom: 0; height: 1px; background: linear-gradient(90deg, rgba(241, 217, 138, 0), var(--vn-gold-light) 20%, var(--vn-gold-light) 80%, rgba(241, 217, 138, 0)); }
 #choices .vn_q::before { content: ""; position: absolute; left: 50%; bottom: -5px; width: 9px; height: 9px; margin-left: -5px; transform: rotate(45deg); background: var(--vn-gold-light); box-shadow: 0 0 6px rgba(241, 217, 138, 0.8); }
 .vn_opt::before, .vn_opt::after {
