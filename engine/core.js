@@ -9,8 +9,10 @@ export { story };
 
 /* ---------- 版面：橫向 1280×720、直向 720×1280（遊戲內邏輯像素）---------- */
 export const LAYOUT = {
-  land: { w: 1280, h: 720, font: 28, chara_w: 300, chara_top: 62, chara_k: [1, 1, 0.92], chara_x: [[0.5], [0.33, 0.67], [0.22, 0.5, 0.78]], sel: 28 },
-  port: { w: 720, h: 1280, font: 36, chara_w: 470, chara_top: 90, chara_k: [1, 0.72, 0.55], chara_x: [[0.5], [0.3, 0.7], [0.2, 0.5, 0.8]], sel: 36 }
+  // 立繪（半身）：chara_h = 1 倍時的高度，chara_bottom = 立繪底邊的位置（腰部切邊藏在對話框後面）
+  //   chara_k = 1／2／3 人同框時的縮小比例，chara_x = 各人的中心位置（畫面寬度的比例）
+  land: { w: 1280, h: 720, font: 28, chara_h: 620, chara_bottom: 720, chara_k: [1, 1, 0.9], chara_x: [[0.5], [0.33, 0.67], [0.22, 0.5, 0.78]], sel: 28 },
+  port: { w: 720, h: 1280, font: 36, chara_h: 860, chara_bottom: 1000, chara_k: [1, 0.72, 0.55], chara_x: [[0.5], [0.3, 0.7], [0.2, 0.5, 0.8]], sel: 36 }
 };
 export const G = {
   land: true,

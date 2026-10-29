@@ -54,7 +54,7 @@ html, body {
 /* ---------- 舞台：背景（等比例裁切填滿、置中；重要內容放在中央正方形安全區）與立繪 ---------- */
 #game .stage_bg { position: absolute; inset: 0; opacity: 0; background: center / cover no-repeat; }
 #charas { position: absolute; inset: 0; z-index: 5; pointer-events: none; }
-#charas .chara { position: absolute; height: auto; pointer-events: none; }
+#charas .chara { position: absolute; width: auto; max-width: none; transform: translateX(-50%); pointer-events: none; }
 /* 劇情 CG：蓋住背景與立繪（對話框在上面）；沒有圖檔時顯示佔位畫面與 CG 名稱 */
 #cgl { position: absolute; inset: 0; z-index: 7; display: none; opacity: 0; pointer-events: none; background: center / cover no-repeat #000; }
 #cgl.on { display: block; }

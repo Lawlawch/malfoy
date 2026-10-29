@@ -18,12 +18,12 @@ export const chapters = [
 
 export const years = ["一年級", "二年級", "三年級", "四年級"];
 
-// 角色。id = 立繪資料夾名（assets/chara/<id>/<表情>.png）與頭像檔名（assets/avatar/<id>.png）
+// 角色。id = 立繪資料夾名（assets/chara/<id>/<表情>.png，規格見 docs/sprite_spec.md）與頭像檔名（assets/avatar/<id>.png）
 export const characters = {
   draconia: { name: "馬份",     faces: ["normal", "happy", "sad", "angry", "shy", "surprised", "smug"] },
   ron:      { name: "榮恩",     faces: ["normal", "happy", "sad", "angry", "surprised"] },
   hermione: { name: "妙麗",     faces: ["normal", "happy", "sad", "angry", "shy", "surprised"] },
-  hagrid:   { name: "海格",     faces: ["normal", "happy", "sad"] },
+  hagrid:   { name: "海格",     faces: ["normal", "happy", "sad"], scale: 1.15 },   // scale：立繪縮放倍率（預設 1），高大的角色往上長
   molly:    { name: "衛斯理太太", faces: ["normal"] },
   ollivander: { name: "奧利凡德", faces: ["normal"] },
   malkin:   { name: "摩金夫人", faces: ["normal"] },

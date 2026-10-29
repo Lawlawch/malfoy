@@ -42,18 +42,21 @@ export async function setBg(state, name, fade) {
   back.style.backgroundImage = "none";
 }
 
-/* ---------- 立繪位置 ---------- */
+/* ---------- 立繪位置：底部對齊（半身立繪的腰部切邊藏在對話框後面）----------
+   高度 = 版面的 chara_h × 同框人數的縮小比例 × 角色自己的 scale（story.js，例如海格 1.15）。
+   比較高大的角色往上長，頭的位置比別人高。寬度依圖檔比例自動決定，水平置中在 cx。 */
 export function charaPos(list, id, L = G.L) {
   const n = Math.min(list.length, 3), i = list.findIndex((c) => c.id === id);
   if (i < 0) return null;
   const xs = L.chara_x[n - 1], k = L.chara_k[n - 1];
-  const w = Math.round(L.chara_w * k);
+  const scale = (story.characters[id] && story.characters[id].scale) || 1;
+  const height = Math.round(L.chara_h * k * scale);
   const cx = Math.round(L.w * (xs[i] ?? 0.5));
-  return { left: cx - Math.round(w / 2), top: L.chara_top, width: w };
+  return { cx, top: L.chara_bottom - height, height };
 }
 function place(img, p, ms) {
-  img.style.transition = ms ? `opacity ${ms}ms ease, left ${ms}ms ease, width ${ms}ms ease, filter .25s` : "none";
-  Object.assign(img.style, { left: p.left + "px", top: p.top + "px", width: p.width + "px" });
+  img.style.transition = ms ? `opacity ${ms}ms ease, left ${ms}ms ease, top ${ms}ms ease, height ${ms}ms ease, filter .25s` : "none";
+  Object.assign(img.style, { left: p.cx + "px", top: p.top + "px", height: p.height + "px" });
 }
 export function relayout(state, ms) {
   currentState = state;
@@ -169,7 +172,7 @@ export async function thumbnail(state) {
   }
   for (const c of state.charas) {
     const im = await preload(charaUrl(c.id, c.face)), p = charaPos(state.charas, c.id, L);
-    if (im && p) ctx.drawImage(im, p.left * sc, p.top * sc, p.width * sc, p.width * im.height / im.width * sc);
+    if (im && p) { const w = p.height * im.width / im.height; ctx.drawImage(im, (p.cx - w / 2) * sc, p.top * sc, w * sc, p.height * sc); }
   }
   if (state.cg) {                                  // 劇情 CG 顯示中：縮圖用 CG（沒有圖時用佔位色）
     const im = await preload(cgUrl(state.cg));
