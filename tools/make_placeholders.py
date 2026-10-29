@@ -24,7 +24,8 @@ HEAD_TOP, HEAD_R = 150, 190            # 頭頂距畫布上緣 150（約 9%）�
 CX = W // 2
 HY = HEAD_TOP + HEAD_R                 # 頭的圓心
 COLORS = {"draconia": (120, 140, 190), "ron": (200, 110, 70), "hermione": (150, 100, 70), "hagrid": (120, 90, 60),
-          "molly": (190, 130, 100), "ollivander": (110, 110, 120), "malkin": (160, 110, 140), "crabbe": (90, 110, 90), "goyle": (110, 95, 80)}
+          "molly": (190, 130, 100), "ollivander": (110, 110, 120), "malkin": (160, 110, 140), "crabbe": (90, 110, 90), "goyle": (110, 95, 80),
+          "mcgonagall": (60, 110, 80), "sorting_hat": (110, 90, 60), "neville": (150, 120, 90), "fred": (200, 100, 60), "george": (190, 95, 65), "dumbledore": (140, 120, 170), "percy": (180, 105, 70)}
 
 def face_marks(d, face, ink):
     # 用簡單的眉、眼、嘴區分表情（佔位用，方便測試換表情）
@@ -113,4 +114,7 @@ bg("hogsmeade_station.jpg", "HOGSMEADE STATION", (24, 32, 62), (90, 100, 128))
 bg("ollivanders.jpg", "OLLIVANDERS", (52, 40, 34), (130, 104, 80))
 bg("eeylops.jpg", "EEYLOPS OWL EMPORIUM", (40, 36, 30), (110, 96, 70))
 bg("leaky_cauldron.jpg", "LEAKY CAULDRON", (46, 30, 22), (126, 86, 54))
+bg("entrance_hall.jpg", "ENTRANCE HALL", (50, 46, 52), (128, 116, 104))
+bg("great_hall.jpg", "GREAT HALL", (20, 22, 48), (120, 92, 60))
+bg("gryffindor_dorm.jpg", "GRYFFINDOR DORM", (70, 22, 24), (150, 92, 60))
 print("立繪佔位圖：產生", made, "張")
