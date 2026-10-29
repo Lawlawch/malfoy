@@ -358,7 +358,7 @@ html, body {
 
 /* ================= 選項：較淺的墨綠長方形＋金框 ================= */
 .vn_opt {
-  color: var(--g-plat); font-weight: 700; border: 1px solid var(--g-gold); border-radius: 0;
+  color: var(--g-plat); font-weight: 400; letter-spacing: 0.08em; border: 1px solid var(--g-gold); border-radius: 0;
   background: linear-gradient(180deg, var(--g-mid-1), var(--g-mid-2));
   box-shadow: inset 0 0 0 4px rgba(4, 12, 9, 0.85), inset 0 0 0 5px var(--g-gold-soft), 0 6px 14px rgba(0, 0, 0, 0.55);
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);

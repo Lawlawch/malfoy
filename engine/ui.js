@@ -211,7 +211,7 @@ export function panel(title, id) {
   closeOverlays();
   const r = el("div.vn_scr.vn_sys.vn_overlay" + (id ? "#" + id : ""), {},
     el("div.vn_sys_panel", {},
-      el("div.vn_sys_head", {}, el("span.vn_sys_title", { text: title }), el("span.vn_close_btn", { text: "×" })),
+      el("div.vn_sys_head", {}, el("span.vn_sys_title", { text: title }), el("span.vn_close_btn", { "aria-label": "關閉", html: '<svg viewBox="0 0 24 24"><path d="M5 5L19 19M19 5L5 19" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" fill="none"/></svg>' })),
       el("div.vn_tabs"), el("div.vn_scr_body"), el("div.vn_scr_foot", {}, el("span.vn_scr_msg"))));
   const S = { root: r, tabs: $(".vn_tabs", r), body: $(".vn_scr_body", r), foot: $(".vn_scr_foot", r), close: () => { r.remove(); $("#vn_cgview")?.remove(); } };
   tap($(".vn_close_btn", r), S.close);

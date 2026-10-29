@@ -198,45 +198,6 @@
 .vn_cfg_row .val { min-width: 52px; text-align: right; font-size: 24px; font-weight: 700; color: var(--vn-ink); }
 .vn_cfg_note { padding: 6px 6px 0; font-size: 18px; color: rgba(59, 42, 26, 0.6); }
 
-/* ---------- 章節完結：羊皮紙書頁翻到章末 ---------- */
-#vn_end {
-  position: absolute; left: 0; top: 0; width: 100%; height: 100%; z-index: 45;
-  display: flex; align-items: center; justify-content: center;
-  background: radial-gradient(ellipse at center, rgba(40, 24, 12, 0.88), rgba(8, 5, 3, 0.97));
-  font-family: var(--vn-serif); perspective: 2400px;
-}
-#vn_end .vn_book { position: relative; width: 78%; height: 80%; transform-origin: left center; animation: vn_flip 1s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
-@keyframes vn_flip { from { transform: rotateY(-78deg); opacity: 0; } to { transform: rotateY(0); opacity: 1; } }
-#vn_end .vn_page {
-  position: relative; width: 100%; height: 100%; box-sizing: border-box;
-  display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
-  padding: 40px 50px;
-  border-radius: 6px 14px 14px 6px;
-  background:
-    radial-gradient(ellipse at 100% 100%, rgba(138, 106, 31, 0.28), transparent 55%),
-    radial-gradient(ellipse at 0% 50%, rgba(80, 52, 20, 0.35), transparent 22%),
-    linear-gradient(180deg, var(--vn-parch-1), var(--vn-parch-2));
-  box-shadow:
-    inset 0 0 60px rgba(138, 106, 31, 0.35),
-    1px 1px 0 #d9c391, 2px 2px 0 #cdb57a, 3px 3px 0 #d9c391, 4px 4px 0 #bfa56a, 5px 5px 0 #d9c391, 6px 6px 0 #b39a60,
-    0 18px 40px rgba(0, 0, 0, 0.7);
-  border: 2px solid var(--vn-gold-dark);
-}
-#vn_end .small { font-size: 26px; letter-spacing: 0.4em; padding-left: 0.4em; color: var(--vn-gold-dark); font-weight: 700; }
-#vn_end .big { margin-top: 26px; font-size: 58px; font-weight: 700; letter-spacing: 0.14em; padding-left: 0.14em; color: var(--vn-wine); line-height: 1.3; }
-#vn_end .rule { position: relative; width: 62%; height: 1px; margin: 26px 0 24px; background: linear-gradient(90deg, transparent, var(--vn-gold-dark), transparent); }
-#vn_end .rule i { position: absolute; left: 50%; top: -5px; width: 10px; height: 10px; margin-left: -5px; transform: rotate(45deg); background: var(--vn-gold-dark); }
-#vn_end .phrase { font-size: 26px; letter-spacing: 0.2em; color: rgba(59, 42, 26, 0.78); }
-#vn_end .btns { margin-top: 58px; display: flex; gap: 22px; justify-content: center; flex-wrap: wrap; }
-.vn_end_btn {
-  cursor: pointer; padding: 8px 30px; font-size: 26px; font-weight: 700; letter-spacing: 0.2em; padding-left: calc(30px + 0.2em);
-  color: var(--vn-ink); border: 2px solid var(--vn-gold-dark); border-radius: 6px;
-  background: linear-gradient(180deg, rgba(255, 248, 225, 0.9), rgba(220, 192, 127, 0.85));
-}
-.vn_end_btn:hover { box-shadow: 0 0 12px rgba(201, 162, 74, 0.95); filter: brightness(1.05); }
-.vn_end_btn.off { opacity: 0.38; cursor: default; filter: grayscale(0.5); box-shadow: none; }
-#vn_end .corner { position: absolute; right: 0; bottom: 0; width: 70px; height: 70px; background: linear-gradient(315deg, #8a6a1f 0%, #cdb57a 48%, rgba(0, 0, 0, 0) 50%); border-bottom-right-radius: 14px; box-shadow: -3px -3px 6px rgba(0, 0, 0, 0.25); pointer-events: none; }
-
 /* ---------- 直向 ---------- */
 .port #vn_home .frame { inset: 20px; }
 .port #vn_home .col { left: 8%; }
@@ -258,10 +219,6 @@
 .port .vn_cfg_navitem { flex: 1 1 0; }
 .port .vn_cfg_row { flex-direction: column; align-items: flex-start; gap: 10px; }
 .port .vn_cfg_row input[type=range] { width: 420px; }
-.port #vn_end .vn_book { width: 88%; height: 74%; }
-.port #vn_end .big { font-size: 50px; }
-.port #vn_end .btns { flex-direction: column; align-items: center; gap: 16px; margin-top: 44px; }
-.port #vn_end .vn_end_btn { width: 70%; }
 
 
 .vn_slot .old { margin-top: 4px; font-size: 16px; font-weight: 700; color: #a03342; }
@@ -270,14 +227,14 @@
    v0.1.8 新介面：面板（變數在 theme.css 結尾）
    ============================================================= */
 /* ================= 面板：深色多層羊皮紙、方角、破紙邊 ================= */
-.vn_sys_panel, #vn_confirm .vn_cf_box {
+.vn_sys_panel, #vn_confirm .vn_cf_box, .vn_endcard {
   border: 0; border-radius: 0; background: var(--p-paper);
   background-blend-mode: multiply, multiply, multiply, normal, normal, normal, normal, normal, normal;
   box-shadow: var(--p-burn); clip-path: var(--torn); color: var(--p-ink);
 }
 #vn_confirm .vn_cf_box { position: relative; }
 /* 燒焦邊：只在部分邊段加深色焦痕（跟撕紙邊的燒焦波浪段對齊） */
-.vn_sys_panel::after, #vn_confirm .vn_cf_box::after {
+.vn_sys_panel::after, #vn_confirm .vn_cf_box::after, .vn_endcard::after {
   content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 5;
   background:
     radial-gradient(ellipse 8.2% 6.0% at 66.2% 0.0%, rgba(22,10,2,0.95) 0%, rgba(60,28,6,0.7) 35%, rgba(110,60,16,0.25) 65%, rgba(110,60,16,0) 100%),
@@ -300,7 +257,7 @@
 .vn_tabs { border-bottom: 1px solid var(--p-line); }
 .vn_scr_msg { color: var(--p-ink-title); }
 /* 面板內的「選中／重要」按鈕改用墨綠＋金字，跟對話框呼應 */
-.vn_close_btn, #vn_confirm .vn_cf_yes, .vn_tab.on, .vn_cfg_navitem.on, .vn_seg span.on, .vn_pg_btn, .vn_ch_row .done {
+#vn_confirm .vn_cf_yes, .vn_end_btn.main, .vn_tab.on, .vn_cfg_navitem.on, .vn_seg span.on, .vn_pg_btn, .vn_ch_row .done {
   border-radius: 0 !important; color: #f0d9a8 !important; border-color: #2a1408 !important;
   background: var(--btn-paper) !important; background-blend-mode: multiply, multiply, normal, normal !important;
   box-shadow: inset 0 0 8px 1px rgba(40, 20, 6, 0.55), 0 1px 3px rgba(40, 20, 6, 0.4) !important;
@@ -311,7 +268,7 @@
 .vn_tab, .vn_cfg_navitem, .vn_seg span, .vn_slot, .vn_slot .thumb, .vn_slot .del, .vn_ch_row, .vn_cg_item .thumb, #vn_confirm .vn_cf_btn, .vn_end_btn {
   border-radius: 0 !important;
 }
-.vn_tab, .vn_cfg_navitem, .vn_seg span, #vn_confirm .vn_cf_no { color: var(--p-ink); border-color: rgba(78, 46, 18, 0.6); background: rgba(250, 236, 200, 0.42); }
+.vn_tab, .vn_cfg_navitem, .vn_seg span, #vn_confirm .vn_cf_no, .vn_end_btn { color: var(--p-ink); border-color: rgba(78, 46, 18, 0.6); background: rgba(250, 236, 200, 0.42); }
 .vn_slot { border: 1px solid rgba(78, 46, 18, 0.55); background: rgba(250, 236, 200, 0.40); box-shadow: inset 0 0 12px rgba(90, 50, 16, 0.18); }
 .vn_slot:hover { background: rgba(255, 244, 214, 0.62); box-shadow: inset 0 0 0 1px var(--g-gold-dark), 0 0 10px rgba(120, 80, 20, 0.35); }
 .vn_slot .hd, .vn_slot .no { color: #6b4520; }
@@ -336,8 +293,8 @@
 /* 橫向存檔格：三排完整放進面板，不用捲動 */
 .land .vn_scr_body:has(.vn_slots) { padding: 12px 24px; }
 .land .vn_slots { gap: 12px 16px; }
-.land .vn_slot { padding: 9px 12px; min-height: 122px; }
-.land .vn_slot .thumb { flex-basis: 186px; height: 104px; }
+.land .vn_slot { padding: 8px 12px; min-height: 112px; }
+.land .vn_slot .thumb { flex-basis: 172px; height: 96px; }
 
 /* 拉條：深色羊皮紙軌道＋黃銅鈕 */
 .vn_cfg_row input[type=range] { -webkit-appearance: none; appearance: none; background: transparent; }
@@ -375,3 +332,92 @@
 .vn_cg_item .q { color: rgba(60, 34, 12, 0.7); }
 .vn_cg_item.locked .nm { color: rgba(46, 27, 12, 0.75); }
 
+
+/* ---------- 年級結算、劇本修葺中（深色羊皮紙卡片）---------- */
+#vn_end {
+  position: absolute; inset: 0; z-index: 45; display: flex; align-items: center; justify-content: center;
+  background: radial-gradient(ellipse at center, rgba(20, 12, 6, 0.86), rgba(4, 3, 2, 0.97));
+  animation: vn_fadein 0.6s ease both;
+}
+@keyframes vn_fadein { from { opacity: 0; } to { opacity: 1; } }
+.vn_endcard {
+  position: relative; box-sizing: border-box; width: 74%; max-width: 980px; padding: 46px 60px 44px;
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+  animation: vn_cardin 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+@keyframes vn_cardin { from { transform: translateY(24px) scale(0.97); opacity: 0; } to { transform: none; opacity: 1; } }
+#vn_end .small { font-size: 28px; font-weight: 700; letter-spacing: 0.4em; padding-left: 0.4em; color: #6b4520; }
+#vn_end .big { font-size: 50px; font-weight: 700; font-style: italic; letter-spacing: 0.12em; padding-left: 0.12em; color: var(--p-ink-title); line-height: 1.3; text-shadow: 0 1px 0 rgba(255, 240, 200, 0.35); }
+#vn_end.year .big { margin-top: 18px; font-size: 38px; }
+#vn_end .rule { position: relative; width: 60%; height: 1px; margin: 22px 0; background: linear-gradient(90deg, rgba(78, 46, 18, 0), rgba(78, 46, 18, 0.6), rgba(78, 46, 18, 0)); }
+#vn_end .rule i { position: absolute; left: 50%; top: -5px; width: 10px; height: 10px; margin-left: -5px; transform: rotate(45deg); background: #6b4520; }
+#vn_end .phrase { font-size: 26px; letter-spacing: 0.12em; color: var(--p-ink); }
+#vn_end .cg {
+  position: relative; width: 560px; height: 315px; display: flex; align-items: center; justify-content: center;
+  background: #1a120c center / cover no-repeat; border: 1px solid rgba(60, 34, 12, 0.85);
+  box-shadow: 0 0 0 4px rgba(240, 220, 180, 0.35), 0 0 0 5px rgba(60, 34, 12, 0.6), 0 8px 18px rgba(30, 14, 4, 0.5);
+}
+#vn_end .cg .ph { color: rgba(240, 217, 168, 0.75); font-size: 24px; letter-spacing: 0.1em; }
+#vn_end .cg.none { display: none; }
+#vn_end .btns { margin-top: 36px; display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+.vn_end_btn { cursor: pointer; padding: 8px 28px; font-size: 26px; font-weight: 700; letter-spacing: 0.16em; padding-left: calc(28px + 0.16em); border: 1px solid rgba(78, 46, 18, 0.6); }
+.vn_end_btn:hover { filter: brightness(1.08); box-shadow: 0 0 10px rgba(120, 80, 20, 0.45); }
+.port .vn_endcard { width: 90%; padding: 50px 36px 44px; }
+.port #vn_end .cg { width: 560px; height: 315px; }
+.port #vn_end .btns { flex-direction: column; align-items: center; gap: 16px; }
+.port #vn_end .vn_end_btn { width: 72%; }
+
+/* ---------- 過渡畫面：每章開始前的章名 ---------- */
+#vn_card {
+  position: absolute; inset: 0; z-index: 60; display: flex; align-items: center; justify-content: center; text-align: center; cursor: pointer;
+  background: radial-gradient(ellipse 70% 60% at 50% 50%, #0d1a15 0%, #040806 70%, #010202 100%);
+  animation: vn_fadein 0.5s ease both; transition: opacity 0.7s ease;
+}
+#vn_card.out { opacity: 0; pointer-events: none; }
+#vn_card .in { display: flex; flex-direction: column; align-items: center; animation: vn_cardtxt 1.2s ease 0.2s both; }
+@keyframes vn_cardtxt { from { opacity: 0; transform: translateY(10px); letter-spacing: 0.3em; } to { opacity: 1; transform: none; } }
+#vn_card .small { font-size: 26px; letter-spacing: 0.4em; padding-left: 0.4em; color: var(--g-gold); }
+#vn_card.first .small { font-size: 46px; font-weight: 700; letter-spacing: 0.3em; padding-left: 0.3em; color: var(--g-gold-light); }
+#vn_card .sub { margin-top: 10px; font-size: 24px; letter-spacing: 0.4em; padding-left: 0.4em; color: var(--g-gold); }
+#vn_card .rule { position: relative; width: 420px; height: 18px; margin: 18px 0; background: var(--orn) center / 240px 18px no-repeat; }
+#vn_card .rule i { display: none; }
+#vn_card .big { font-size: 54px; font-style: italic; letter-spacing: 0.14em; padding-left: 0.14em; color: var(--g-plat); text-shadow: 0 0 18px rgba(240, 217, 154, 0.25); }
+.port #vn_card .big { font-size: 48px; }
+
+/* ---------- 關閉鈕：圓形鈕扣 ---------- */
+.vn_close_btn {
+  width: 62px !important; height: 62px !important; border-radius: 50% !important; padding: 0; font-size: 0;
+  border: 0 !important; color: #f0d9a8;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0) 54%, rgba(30, 14, 4, 0.55) 56%, rgba(0, 0, 0, 0) 60%),
+    var(--p-mottle),
+    radial-gradient(circle at 38% 32%, #8a5f36 0%, #5e3e20 45%, #3a2412 100%) !important;
+  background-blend-mode: normal, multiply, normal;
+  box-shadow: 0 0 0 3px #b8892e, 0 0 0 4px #5a3c10, inset 0 2px 3px rgba(255, 230, 180, 0.35), inset 0 -3px 6px rgba(0, 0, 0, 0.5), 0 3px 6px rgba(30, 14, 4, 0.6) !important;
+  transition: transform 0.12s ease, filter 0.12s ease;
+}
+.vn_close_btn svg { width: 26px; height: 26px; filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.6)); }
+.vn_close_btn:hover { filter: brightness(1.15); }
+.vn_close_btn:active { transform: scale(0.94); box-shadow: 0 0 0 3px #b8892e, 0 0 0 4px #5a3c10, inset 0 3px 6px rgba(0, 0, 0, 0.6), 0 1px 2px rgba(30, 14, 4, 0.6) !important; }
+.port .vn_close_btn { width: 76px !important; height: 76px !important; }
+.port .vn_close_btn svg { width: 32px; height: 32px; }
+
+/* ---------- 捲軸：細墨線軌道＋深色羊皮紙滑塊 ---------- */
+/* Firefox 用標準屬性；Chrome／Edge／Safari 用下面的 ::-webkit-scrollbar（兩者同時寫，Chrome 會改用標準屬性而失去造型）*/
+@supports not selector(::-webkit-scrollbar) { .vn_scr_body, .log_body { scrollbar-width: thin; scrollbar-color: #6b4520 rgba(78, 46, 18, 0.12); } }
+.vn_scr_body::-webkit-scrollbar, .log_body::-webkit-scrollbar { width: 14px; }
+.vn_scr_body::-webkit-scrollbar-track, .log_body::-webkit-scrollbar-track {
+  background: linear-gradient(90deg, transparent 6px, rgba(78, 46, 18, 0.45) 6px, rgba(78, 46, 18, 0.45) 8px, transparent 8px);
+  margin: 10px 0;
+}
+.vn_scr_body::-webkit-scrollbar-thumb, .log_body::-webkit-scrollbar-thumb {
+  border: 2px solid transparent; background-clip: padding-box; border-radius: 7px / 18px;
+  background-color: #5e3e20;
+  background-image: linear-gradient(90deg, rgba(30, 14, 4, 0.55), rgba(170, 120, 64, 0.55) 45%, rgba(30, 14, 4, 0.55)), var(--p-mottle);
+  box-shadow: inset 0 0 0 1px rgba(30, 14, 4, 0.6);
+}
+.vn_scr_body::-webkit-scrollbar-thumb:hover, .log_body::-webkit-scrollbar-thumb:hover { background-color: #7a5530; }
+.vn_scr_body::-webkit-scrollbar-button, .log_body::-webkit-scrollbar-button { display: none; height: 0; }
+/* 捲軸往內收，避免被破紙邊裁掉 */
+.vn_scr_body, .vn_sys .log_body { margin-right: 22px; padding-right: 8px; }
+.vn_gallery .vn_scr_body { margin-right: 0; padding-right: 24px; }

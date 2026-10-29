@@ -27,7 +27,7 @@ async function fonts() {
     await Promise.race([
       Promise.all([
         document.fonts.load('400 24px "VN Serif"', pre),
-        document.fonts.load('700 24px "VN Serif"', "鉑金色的馬份蛇與獅之歌繼續新遊戲讀檔儲思盆圖鑑設定存檔紀錄返回標題第章年級")
+        document.fonts.load('700 24px "VN Serif"', pre)
       ]),
       new Promise((r) => setTimeout(r, 6000))       // 網路很慢時最多等 6 秒
     ]);

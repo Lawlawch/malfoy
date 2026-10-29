@@ -2,7 +2,7 @@
 # 來源：Noto Serif CJK TC（Regular / Bold）。把整套字型（約 4.4 萬字）切成約 60 個小檔（slice），
 # 並產生 assets/font/fonts.css（每片一個 @font-face + unicode-range）。
 # 瀏覽器只會下載畫面上實際用到的字所在的分片，所以新增任何繁體字都不需要再重跑這支。
-# 另外產生 font/vn_preload.js：劇本與介面實際用字，開機時先預載這些分片，避免出字時換字型閃一下。
+# 另外產生 font/vn_preload.js：劇本與介面實際用字，開機時先預載這些分片。引擎在每章開始前也會先下載該章用到的字（player.js loadFonts），劇本更新後不重跑也不會閃字；字體未到時暫時留白（font-display: block），不會先用系統字體再換回來。
 import glob, os, shutil
 from fontTools.ttLib import TTCollection
 from fontTools import subset
@@ -75,7 +75,7 @@ for tag, w, wt in (("R", "Regular", 400), ("B", "Bold", 700)):
         o.hinting = False; o.notdef_outline = (name == "base"); o.name_IDs = ["*"] if name == "base" else []
         s = subset.Subsetter(o); s.populate(unicodes=cps); s.subset(f)
         fn = "%s-%s.woff2" % (tag, name); f.flavor = "woff2"; f.save(os.path.join(SL, fn))
-        css.append("@font-face { font-family: 'VN Serif'; font-style: normal; font-weight: %d; font-display: swap; src: url('./slices/%s') format('woff2'); unicode-range: %s; }" % (wt, fn, ranges(cps)))
+        css.append("@font-face { font-family: 'VN Serif'; font-style: normal; font-weight: %d; font-display: block; src: url('./slices/%s') format('woff2'); unicode-range: %s; }" % (wt, fn, ranges(cps)))
     print(w, "done")
 import re as _re
 _c = "\n".join(css)

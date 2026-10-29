@@ -1,5 +1,5 @@
 /* =============================================================
-   screens.js  首頁、存檔／讀檔、儲思盆、圖鑑、設定、章節完結
+   screens.js  首頁、存檔／讀檔、儲思盆、圖鑑、設定、過渡畫面、年級結算、劇本修葺中
    ============================================================= */
 import { G, $, el, tap, sf, saveSf, db, cfg, fontPx, story, chapterById, chapterLabel, NUM_CN, DEBUG } from "./core.js";
 import * as ui from "./ui.js";
@@ -244,23 +244,67 @@ function openConfig() {
 }
 
 /* =============================================================
-   章節完結：羊皮紙書頁翻到章末
+   章節流程畫面：過渡畫面（章名）、年級結算、劇本修葺中
    ============================================================= */
-function showEnd(c) {
-  const i = story.chapters.indexOf(c), next = story.chapters[i + 1], canNext = !!(next && next.ready);
-  $("#vn_end")?.remove();
-  const btn = (a, label, off) => tap(el("span.vn_end_btn" + (off ? ".off" : ""), { "data-a": a, text: label }), () => {
-    if (a === "next") { if (!canNext) return; e.remove(); startChapter(next.id); }
-    else { e.remove(); showHome(a === "pensieve" ? "chapters" : null); }
-  });
-  const e = el("div#vn_end.vn_overlay", {},
-    el("div.vn_book", {}, el("div.vn_page", {},
-      el("div.small", { text: chapterLabel(c).replace("．", "・") }),
-      el("div.big", { text: c.title }),
+const yearName = (y) => story.years[y - 1] || (NUM_CN[y] || y) + "年級";
+
+// 過渡畫面：每章開始前顯示章名，約 2.5 秒；點一下可提早結束。回傳 { ready, close }
+function showCard(c) {
+  $("#vn_card")?.remove();
+  const first = c.n === 1;                         // 每個年級第一章：年級名放大
+  const e = el("div#vn_card" + (first ? ".first" : ""), {},
+    el("div.in", {},
+      el("div.small", { text: first ? yearName(c.year) : chapterLabel(c).replace("．", "・") }),
+      first ? el("div.sub", { text: "第" + (NUM_CN[c.n] || c.n) + "章" }) : null,
       el("div.rule", {}, el("i")),
-      el("div.phrase", { text: c.phrase || "這段記憶已被儲思盆收藏。" }),
-      el("div.btns", {}, btn("next", "下一章", !canNext), btn("pensieve", "儲思盆"), btn("home", "回首頁")),
-      el("div.corner"))));
+      el("div.big", { text: c.title })));
+  G.root.append(e);
+  let done;
+  const ready = new Promise((r) => (done = r));
+  const t0 = performance.now(), MIN = 2500;
+  setTimeout(done, MIN);
+  tap(e, () => { if (performance.now() - t0 > 300) done(); });
+  return {
+    ready,
+    close() { e.classList.add("out"); setTimeout(() => e.remove(), 700); }
+  };
+}
+
+// 年級結算：這個年級的結局 CG 與標題；按鈕：返回標題、儲思盆、下一個年級開始
+function showYearEnd(year, endId, next) {
+  $("#vn_end")?.remove();
+  const it = story.cgs.ending.find((x) => x.id === endId);
+  const img = el("div.cg");
+  if (it) { const ph = el("span.ph", { text: it.name }); img.append(ph); tryImg(it.id, (u) => { img.style.backgroundImage = `url(${u})`; ph.remove(); }); }
+  else img.classList.add("none");
+  if (it) img.querySelector(".ph").textContent = "（CG 準備中）";
+  const go = (fn) => () => { e.remove(); fn(); };
+  const nextYear = () => { if (next && next.ready && next.year === year + 1) startChapter(next.id); else showUnfinished(); };
+  const e = el("div#vn_end.vn_overlay.year", {},
+    el("div.vn_endcard", {},
+      el("div.small", { text: yearName(year) + "・完" }),
+      el("div.rule", {}, el("i")),
+      img,
+      el("div.big", { text: it ? it.name : "" }),
+      el("div.btns", {},
+        tap(el("span.vn_end_btn", { "data-a": "home", text: "返回標題" }), go(() => showHome())),
+        tap(el("span.vn_end_btn", { "data-a": "pensieve", text: "儲思盆" }), go(() => showHome("chapters"))),
+        tap(el("span.vn_end_btn.main", { "data-a": "next", text: (NUM_CN[year + 1] || year + 1) + "年級開始" }), go(nextYear)))));
+  G.root.append(e);
+}
+
+// 劇本修葺中：下一章（或下一個年級）還沒做好
+function showUnfinished() {
+  $("#vn_end")?.remove();
+  const go = (fn) => () => { e.remove(); fn(); };
+  const e = el("div#vn_end.vn_overlay.wip", {},
+    el("div.vn_endcard", {},
+      el("div.big", { text: "劇本修葺中" }),
+      el("div.rule", {}, el("i")),
+      el("div.phrase", { text: "後面的故事仍在撰寫中，敬請期待。" }),
+      el("div.btns", {},
+        tap(el("span.vn_end_btn", { "data-a": "home", text: "返回標題" }), go(() => showHome())),
+        tap(el("span.vn_end_btn", { "data-a": "pensieve", text: "儲思盆" }), go(() => showHome("chapters"))))));
   G.root.append(e);
 }
 
@@ -280,6 +324,8 @@ ui.handlers.tool = async (act) => {
   syncTools();
 };
 
-hooks.showEnd = showEnd;
+hooks.card = showCard;
+hooks.yearEnd = showYearEnd;
+hooks.unfinished = showUnfinished;
 hooks.home = () => showHome();
 hooks.leaveHome = () => { hideHome(); $("#vn_end")?.remove(); };

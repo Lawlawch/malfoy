@@ -23,6 +23,9 @@ for (const ch of story.chapters.filter((c) => c.ready)) {
       for (const d of dirs) if (!fs.existsSync(path.join(root, "assets/chara", d, c.face + ".png"))) warn.push({ line: c.line, msg: `立繪不存在：assets/chara/${d}/${c.face}.png` });
     }
   }
+  // 年級最後一章：要有 @ending（年級結算頁顯示這一輪的結局 CG 與標題）
+  const i = story.chapters.indexOf(ch), nx = story.chapters[i + 1];
+  if ((!nx || nx.year !== ch.year) && !r.cmds.some((c) => c.op === "unlock" && c.kind === "ending")) warn.push({ line: 0, msg: "這是年級最後一章，但沒有 @ending：年級結算頁會沒有結局 CG" });
   const texts = r.cmds.filter((c) => c.op === "text").length, choices = r.cmds.filter((c) => c.op === "choice").length;
   console.log(`${r.errors.length ? "✗" : "✓"} ${ch.id}：${texts} 句、${choices} 個選擇、${Object.keys(r.scenes).length} 個場景（簽章 ${r.sig}）`);
   r.errors.forEach((e) => console.log(`   錯誤 第 ${e.line} 行：${e.msg}`));

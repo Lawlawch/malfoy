@@ -25,7 +25,7 @@ export const P = {
   autoPending: false,    // 略過期間沒寫的自動存檔，略過停下時補寫
   inGame: false
 };
-export const hooks = {};  // 由 screens.js 填入：showEnd(chapter)、home()
+export const hooks = {};  // 由 screens.js 填入：card(chapter) 過渡畫面、yearEnd(year, endingId, next)、unfinished()、home()、leaveHome()
 
 /* ---------- 劇本載入（同一章只抓一次）---------- */
 const cache = {};
@@ -33,13 +33,28 @@ export async function loadScript(id) {
   if (cache[id]) return cache[id];
   const res = await fetch(`./story/${id}.txt`, { cache: "no-cache" });
   if (!res.ok) throw new Error(`找不到劇本 story/${id}.txt`);
-  const r = parseScript(await res.text(), { characters: story.characters, speakers: Object.keys(story.speakers) });
+  const src = await res.text();
+  const r = parseScript(src, { characters: story.characters, speakers: Object.keys(story.speakers) });
   if (r.errors.length) {
     console.error(`劇本 ${id} 有錯誤`, r.errors);
     if (DEBUG) ui.toast(`劇本 ${id} 有 ${r.errors.length} 個錯誤（見主控台）`);
   }
+  r.chars = [...new Set(src)].filter((ch) => ch > "~").join("");   // 這一章用到的字（預載字體用）
   cache[id] = r;
   return r;
+}
+
+// 先把一章用到的字所在的字體分片下載好，出字時才不會先用系統字體再換回來（最多等 3 秒）
+export async function loadFonts(r) {
+  if (!r || r.fontsOk || !document.fonts) return;
+  const t = r.chars + "，。「」？！…—";
+  try {
+    await Promise.race([
+      Promise.all([document.fonts.load('400 28px "VN Serif"', t), document.fonts.load('700 28px "VN Serif"', t)]),
+      sleep(3000)
+    ]);
+  } catch (e) {}
+  r.fontsOk = true;
 }
 
 // 預先下載一章的劇本與第一張背景（停在首頁時呼叫，按下開始後就不用等網路）
@@ -49,6 +64,7 @@ export async function preloadChapter(id) {
     const s = await loadScript(id);
     const b = s.cmds.find((x) => x.op === "bg");
     if (b) new Image().src = stage.bgUrl(b.name);
+    loadFonts(s);
   } catch (e) {}
 }
 
@@ -219,6 +235,7 @@ async function exec(c, token) {
     case "unlock": {
       const key = c.kind === "ending" ? "endings" : "cgsSeen";
       sf[key] = sf[key] || {}; sf[key][c.id] = 1; saveSf();
+      if (c.kind === "ending") { const ch = chapterById(s.ch); if (ch) s.f["end_y" + ch.year] = c.id; }   // 年級結算頁顯示這一輪的結局
       return;
     }
     case "hint": ui.toast(c.text); return;
@@ -267,9 +284,13 @@ export async function startChapter(id, opt = {}) {
   if (!c || !c.ready) { ui.toast("這一章還在製作中"); return; }
   leaveGame();
   ui.closeOverlays();
+  const card = hooks.card ? hooks.card(c) : null;  // 過渡畫面（章名），先蓋住畫面，再在後面準備場景
   hooks.leaveHome && hooks.leaveHome();
   const token = P.token;
-  const script = await loadScript(id);
+  let script;
+  try { script = await loadScript(id); } catch (e) { card && card.close(); ui.toast("讀取劇本失敗"); hooks.home && hooks.home(); return; }
+  await loadFonts(script);
+  if (card) await card.ready;
   if (token !== P.token) return;
   sf.chStart = sf.chStart || {}; sf.unlocked = sf.unlocked || {};
   const f = freshFlags(opt.fresh ? null : sf.chStart[id]);
@@ -285,6 +306,7 @@ export async function startChapter(id, opt = {}) {
   ui.resetLog();
   await stage.rebuild(P.state.stage);
   P.pc = 0;
+  card && card.close();
   enterGame();
   run(token);
 }
@@ -302,7 +324,10 @@ function endChapter() {
   if (next && next.ready) sf.cont = next.id; else delete sf.cont;
   saveSf();
   leaveGame();
-  hooks.showEnd && hooks.showEnd(chapterById(id));
+  const c = chapterById(id);
+  if (!next || next.year !== c.year) hooks.yearEnd && hooks.yearEnd(c.year, s.f["end_y" + c.year], next);
+  else if (next.ready) startChapter(next.id);
+  else hooks.unfinished && hooks.unfinished();
 }
 
 /* ---------- 自動存檔 ---------- */
@@ -376,6 +401,8 @@ export async function loadSnap(snap) {
   hooks.leaveHome && hooks.leaveHome();
   P.script = script;
   ui.resetLog();
+  await loadFonts(script);
+  if (token !== P.token) return false;
   if (!compat) {
     P.state = { ch: snap.ch, f: freshFlags(snap.f), stage: clone(snap.stage), scene: snap.scene, sceneF: clone(snap.sceneF), chstart: clone(snap.chstart) };
     P.pc = found ? found.pc : snap.pc;
