@@ -168,13 +168,15 @@ function openGallery() {
       if (got) tap(item, () => viewCG(it, no));
       grid.append(item);
     });
+    // 不滿 6 張時補空格，縮圖區永遠是一整頁的高度，頁碼位置不會跳動
+    while (grid.children.length < 6) grid.append(el("div.vn_cg_item.blank", {}, el("div.thumb"), el("div.nm", { text: "　" })));
     const pager = el("div.vn_pager", {},
       tap(el("span.vn_pg_btn" + (page === 0 ? ".off" : ""), { text: "‹" }), () => { if (page > 0) { page--; render(); } }),
       el("span.vn_pg_no", { text: `${page + 1} / ${pages}` }),
       tap(el("span.vn_pg_btn" + (page >= pages - 1 ? ".off" : ""), { text: "›" }), () => { if (page < pages - 1) { page++; render(); } }));
     S.body.innerHTML = ""; S.body.append(grid);
     S.foot.querySelector(".vn_pager")?.remove();
-    S.foot.append(pager);                          // 頁碼與翻頁鈕固定在面板最下方
+    S.foot.append(pager);                          // 頁碼與翻頁鈕放在底欄，緊接縮圖區下方
     if (DEBUG) {
       const d = el("div.vn_debug", { text: "測試用：" });
       d.append(tap(el("span", { text: "全部解鎖" }), () => { debugUnlock(true); render(); }), "　", tap(el("span", { text: "全部重置" }), () => { debugUnlock(false); render(); }));
@@ -273,7 +275,7 @@ ui.handlers.tool = async (act) => {
   else if (act === "log") { stopAutoSkip(); ui.openLog(); }
   else if (act === "title") {
     stopAutoSkip();
-    if (await ui.confirm({ title: "返回標題畫面？", sub: "將從最近的自動存檔點繼續。", ok: "返回標題", cancel: "取消" })) quitToTitle();
+    if (await ui.confirm({ title: "返回標題畫面？", sub: "將從剛才的位置繼續。", ok: "返回標題", cancel: "取消" })) quitToTitle();
   } else openPanel(act);
   syncTools();
 };

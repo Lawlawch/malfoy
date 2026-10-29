@@ -4,6 +4,7 @@
      { ch, f: {bond, 旗標…}, stage: {bg, charas, bgm}, scene, sceneF, chstart }
    每句台詞（與每個選項）開始時拍一份快照 snap，存檔、自動存檔都用它，
    所以任何時候存檔（打字中、換場中）讀回來都會從這一句重新顯示。
+   自動存檔：每句寫入一次（略過期間暫停，略過停下時補寫）。
    ============================================================= */
 import { G, sf, saveSf, db, clone, cfg, readMark, chapterById, TEXT_SPEED, AUTO_SPEED, SAVE_FORMAT, DEBUG, story, sleep } from "./core.js";
 import { parseScript, evalCond } from "./parser.js";
@@ -21,7 +22,7 @@ export const P = {
   auto: false,
   skip: false,
   waiting: null,         // 等待點擊時的 resolve
-  autoNext: false,       // 章節第一句要寫入自動存檔
+  autoPending: false,    // 略過期間沒寫的自動存檔，略過停下時補寫
   inGame: false
 };
 export const hooks = {};  // 由 screens.js 填入：showEnd(chapter)、home()
@@ -70,8 +71,8 @@ function freshFlags(from) {
 
 /* ---------- 自動／略過 ---------- */
 export function setAuto(on) { P.auto = !!on; if (on) P.skip = false; syncTools(); }
-export function setSkip(on) { P.skip = !!on; if (on) { P.auto = false; ui.finishTyping(); } syncTools(); }
-export function stopAutoSkip() { P.auto = P.skip = false; syncTools(); }
+export function setSkip(on) { P.skip = !!on; if (on) { P.auto = false; ui.finishTyping(); } else flushAutosave(); syncTools(); }
+export function stopAutoSkip() { P.auto = P.skip = false; flushAutosave(); syncTools(); }
 export function syncTools() { ui.toolbarState({ auto: P.auto, skip: P.skip, hide: ui.isHidden() }); }
 
 // 玩家點擊／Enter／滾輪向下
@@ -108,7 +109,58 @@ async function run(token) {
 
 function capture(idx, line) {
   const s = P.state;
-  P.snap = { fmt: SAVE_FORMAT, sig: P.script.sig, pc: idx, ch: s.ch, f: clone(s.f), stage: clone(s.stage), scene: s.scene, sceneF: clone(s.sceneF), chstart: clone(s.chstart), line: line || null };
+  P.snap = { fmt: SAVE_FORMAT, sig: P.script.sig, pc: idx, ch: s.ch, f: clone(s.f), stage: clone(s.stage), scene: s.scene, sceneF: clone(s.sceneF), chstart: clone(s.chstart), line: line || null, fp: fingerprint(P.script, idx, s.scene) };
+}
+
+/* ---------- 精準定位：劇本改過時，在新劇本裡找回存檔那一句 ----------
+   指紋 fp = { scene, op, key（這句文字／這組選項文字）, nth（場景內第幾次出現）, prev（前面最多 3 句） }
+   prev 只收「到存檔點之間沒有改數值、選項、分支」的句子，所以退回這幾句重看時，數值不會被重複計算。 */
+const keyOf = (c) => (c.op === "text" ? c.text : c.op === "choice" ? c.opts.map((o) => o.text).join("|") : "");
+const BARRIER = ["fx", "choice", "jf", "j", "jump", "scene", "end"];
+function sceneRange(script, scene) {
+  let start = 0;
+  if (scene) { start = script.scenes[scene]; if (start === undefined) return null; }
+  let end = script.cmds.length;
+  for (const id in script.scenes) { const v = script.scenes[id]; if (v > start && v < end) end = v; }
+  return [start, end];
+}
+function prevLines(cmds, idx, start) {
+  const out = [];
+  for (let i = idx - 1; i > start && out.length < 3; i--) {
+    if (BARRIER.includes(cmds[i].op)) break;
+    if (cmds[i].op === "text") out.push(cmds[i].text);
+  }
+  return out;
+}
+function fingerprint(script, idx, scene) {
+  const c = script.cmds[idx], r = sceneRange(script, scene);
+  if (!c || !r) return null;
+  const key = keyOf(c);
+  let nth = 0;
+  for (let i = r[0]; i < idx; i++) if (script.cmds[i].op === c.op && keyOf(script.cmds[i]) === key) nth++;
+  return { scene: scene || "", op: c.op, key, nth, prev: prevLines(script.cmds, idx, r[0]) };
+}
+// 回傳 { pc, how: "exact" | "near" }，找不到回傳 null
+export function relocate(script, fp) {
+  if (!fp) return null;
+  const r = sceneRange(script, fp.scene);
+  if (!r) return null;
+  const cmds = script.cmds, [start, end] = r;
+  const cands = [];
+  for (let i = start; i < end; i++) if (cmds[i].op === fp.op && keyOf(cmds[i]) === fp.key) cands.push(i);
+  if (cands.length === 1) return { pc: cands[0], how: "exact" };
+  if (cands.length > 1) {                          // 同一場景出現好幾次（例如「……」）：用前面幾句比對，再不行用第幾次出現
+    const score = (i) => { const p = prevLines(cmds, i, start); return fp.prev.filter((x, k) => p[k] === x).length; };
+    const best = Math.max(...cands.map(score));
+    const top = cands.filter((i) => score(i) === best);
+    return { pc: top.length === 1 ? top[0] : (top[fp.nth] ?? top[0]), how: "exact" };
+  }
+  for (const p of fp.prev) {                       // 這句本身被改寫了：回到最近一句沒改過的句子
+    const m = [];
+    for (let i = start; i < end; i++) if (cmds[i].op === "text" && cmds[i].text === p) m.push(i);
+    if (m.length === 1) return { pc: m[0], how: "near" };
+  }
+  return null;
 }
 
 async function exec(c, token) {
@@ -117,7 +169,7 @@ async function exec(c, token) {
     case "text": {
       const idx = P.pc;
       capture(idx, { speaker: c.speaker, text: c.text });
-      if (P.autoNext) { P.autoNext = false; commitAutosave(); }          // 章節第一句：寫入自動存檔
+      if (P.skip) P.autoPending = true; else commitAutosave();          // 每句寫入自動存檔（略過期間先記著，停下時補寫）
       const read = readMark(s.ch, c.text);
       if (!read && P.skip && cfg().skipRead) setSkip(false);            // 遇到未讀的句子：停止略過
       ui.pushLog(c.speaker, c.text);
@@ -193,8 +245,8 @@ function enterGame() {
   syncTools();
 }
 export function leaveGame() {
+  stopAutoSkip();                                  // 略過中離開：先補寫自動存檔
   P.token++; P.waiting = null; P.inGame = false;
-  stopAutoSkip();
   ui.hideChoices(); ui.clearLine(); ui.msgVisible(false);
   ui.toolbarOn(false); ui.hitOn(false);
   audio.stopAll();
@@ -226,7 +278,7 @@ export async function startChapter(id, opt = {}) {
   saveSf();
   ui.resetLog();
   await stage.rebuild(P.state.stage);
-  P.pc = 0; P.autoNext = true;
+  P.pc = 0;
   enterGame();
   run(token);
 }
@@ -240,7 +292,7 @@ function endChapter() {
   sf.done[id] = 1;
   // 不論下一章做好了沒有，都記下通關時的數值並解鎖；之後章節上線，儲思盆就能直接進入
   if (next) { sf.unlocked[next.id] = 1; sf.chStart[next.id] = clone(s.f); sf.head = next.n; }
-  // 「繼續」：下一章已做好 → 從下一章開頭；還沒做好 → 保留自動存檔（回到最後一個選項）
+  // 「繼續」：下一章已做好 → 從下一章開頭；還沒做好 → 保留自動存檔（回到這一章最後一句）
   if (next && next.ready) sf.cont = next.id; else delete sf.cont;
   saveSf();
   leaveGame();
@@ -249,11 +301,14 @@ function endChapter() {
 
 /* ---------- 自動存檔 ---------- */
 async function commitAutosave() {
-  if (!P.snap) return;
+  if (!P.snap || !P.inGame) return;
+  P.autoPending = false;
   const snap = clone(P.snap);
   const ok = await db.put("snap", "auto", snap);
-  if (ok) { sf.auto = { fmt: SAVE_FORMAT }; delete sf.cont; saveSf(); }
+  // 系統變數只在狀態改變時才寫（避免每句都重寫整份已讀記錄）
+  if (ok && (!sf.auto || sf.auto.fmt !== SAVE_FORMAT || sf.cont)) { sf.auto = { fmt: SAVE_FORMAT }; delete sf.cont; saveSf(); }
 }
+function flushAutosave() { if (P.autoPending) commitAutosave(); }
 async function clearAutosave() { delete sf.auto; await db.del("snap", "auto"); }
 export function hasContinue() {
   if (sf.cont) { const c = chapterById(sf.cont); if (c && c.ready) return true; }
@@ -274,7 +329,7 @@ export async function makeSave() {
   const line = snap.line ? snap.line.text : "";
   const d = new Date(), p = (n) => String(n).padStart(2, "0");
   const meta = {
-    fmt: SAVE_FORMAT, sig: snap.sig, ch: snap.ch, chTitle: c ? c.title : "",
+    fmt: SAVE_FORMAT, sig: snap.sig, fp: snap.fp, ch: snap.ch, chTitle: c ? c.title : "",
     time: `${d.getFullYear()}/${p(d.getMonth() + 1)}/${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`,
     line: line.replace(/\s+/g, " ").slice(0, 40)
   };
@@ -285,12 +340,18 @@ export async function makeSave() {
 /* ---------- 讀檔 ----------
    格式不同 → 無法讀取
    劇本結構相同 → 原樣讀取，從存檔那一句重新顯示
-   劇本結構改過 → 相容讀檔：退回存檔所在場景的開頭（找不到場景就退回章節開頭），還原當時的數值 */
+   劇本結構改過 → 先用指紋在同一場景找回那一句（或最近一句沒改過的句子），找到就直接讀取；
+                   找不到（場景被刪或改名）才退回場景開頭／章節開頭，還原當時的數值 */
+// 回傳 "ok"（可原樣或精準讀取）、"changed"（會退回段落開頭）、"old"、"missing"
 export async function saveStatus(meta) {
   if (!meta || meta.fmt !== SAVE_FORMAT) return "old";
   const c = chapterById(meta.ch);
   if (!c || !c.ready) return "missing";
-  try { const sc = await loadScript(meta.ch); return sc.sig === meta.sig ? "ok" : "changed"; } catch (e) { return "missing"; }
+  try {
+    const sc = await loadScript(meta.ch);
+    if (sc.sig === meta.sig || relocate(sc, meta.fp)) return "ok";
+    return "changed";
+  } catch (e) { return "missing"; }
 }
 
 export async function loadSnap(snap) {
@@ -299,7 +360,8 @@ export async function loadSnap(snap) {
   let script = null;
   try { if (c && c.ready) script = await loadScript(snap.ch); } catch (e) {}
   if (!script) { await ui.confirm({ title: "無法讀取這個存檔", sub: "找不到這個存檔所屬的章節。", ok: "知道了", single: true }); return false; }
-  let compat = script.sig !== snap.sig;
+  let compat = script.sig !== snap.sig, found = null;
+  if (compat) { found = relocate(script, snap.fp); if (found) compat = false; }
   if (compat && !(await ui.confirm({ title: "劇本已更新", sub: "將從該段落開頭繼續。", ok: "繼續", cancel: "取消" }))) return false;
 
   leaveGame();
@@ -310,14 +372,14 @@ export async function loadSnap(snap) {
   ui.resetLog();
   if (!compat) {
     P.state = { ch: snap.ch, f: freshFlags(snap.f), stage: clone(snap.stage), scene: snap.scene, sceneF: clone(snap.sceneF), chstart: clone(snap.chstart) };
-    P.pc = snap.pc;
+    P.pc = found ? found.pc : snap.pc;
+    if (DEBUG && found) console.log("[精準讀檔]", found.how, "→ 指令", found.pc);
   } else {
     const sceneOk = snap.scene && script.scenes[snap.scene] !== undefined;
     const f = freshFlags(sceneOk ? snap.sceneF : snap.chstart);
     P.state = { ch: snap.ch, f, stage: { bg: "", charas: [], bgm: "" }, scene: "", sceneF: clone(f), chstart: clone(snap.chstart || f) };
     P.pc = sceneOk ? script.scenes[snap.scene] : 0;
   }
-  P.autoNext = false;
   P.snap = null;
   await stage.rebuild(P.state.stage);
   if (token !== P.token) return false;
@@ -325,7 +387,7 @@ export async function loadSnap(snap) {
   enterGame();
   // 停在選項的存檔：把選項前最後一句補回對話框
   const cmd = P.script.cmds[P.pc];
-  if (!compat && cmd && cmd.op === "choice" && snap.line) { ui.pushLog(snap.line.speaker, snap.line.text); await ui.showLine(snap.line.speaker, snap.line.text, 0); }
+  if (!compat && cmd && cmd.op === "choice" && snap.line && (!found || found.how === "exact")) { ui.pushLog(snap.line.speaker, snap.line.text); await ui.showLine(snap.line.speaker, snap.line.text, 0); }
   run(token);
   return true;
 }
@@ -337,5 +399,7 @@ ui.handlers.advance = advance;
 ui.handlers.toggleHide = toggleHide;
 ui.handlers.inGame = () => P.inGame;
 ui.handlers.openLog = () => { stopAutoSkip(); ui.openLog(); };
-document.addEventListener("visibilitychange", () => { if (document.hidden) saveSf(); });
+// 切到背景或關閉頁面時：補寫自動存檔、保存系統變數
+document.addEventListener("visibilitychange", () => { if (document.hidden) { flushAutosave(); saveSf(); } });
+window.addEventListener("pagehide", () => { flushAutosave(); saveSf(); });
 if (DEBUG) window.VN = { P };   // 測試模式：可在主控台檢查狀態

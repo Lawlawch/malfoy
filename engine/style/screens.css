@@ -145,7 +145,11 @@
 .vn_ch_row .lock::before { content: ""; position: absolute; left: 4px; top: -11px; width: 10px; height: 12px; border: 3px solid rgba(138, 106, 31, 0.55); border-bottom: none; border-radius: 8px 8px 0 0; }
 
 /* ---------- 圖鑑 ---------- */
-.vn_cg_grid { display: grid; grid-template-columns: repeat(3, 300px); justify-content: center; gap: 14px 22px; }
+.vn_cg_grid { display: grid; grid-template-columns: repeat(3, 230px); justify-content: center; gap: 12px 26px; }
+.vn_cg_item.blank { visibility: hidden; pointer-events: none; }
+/* 圖鑑面板：高度剛好包住內容，在畫面上下置中（不撐滿整個畫面、不用捲動） */
+.vn_gallery .vn_sys_panel { top: 50%; bottom: auto; transform: translateY(-50%); }
+.vn_gallery .vn_scr_body { flex: 0 0 auto; overflow: visible; }
 .vn_cg_item { cursor: pointer; }
 .vn_cg_item .thumb {
   position: relative; aspect-ratio: 16 / 9; display: flex; align-items: center; justify-content: center;
@@ -155,6 +159,7 @@
 }
 .vn_cg_item:hover .thumb { box-shadow: 0 0 14px rgba(201, 162, 74, 0.95); }
 .vn_cg_item .nm { margin-top: 8px; text-align: center; font-size: 22px; font-weight: 700; color: var(--vn-ink); }
+.land .vn_cg_item .nm { font-size: 19px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .vn_cg_item.locked { cursor: default; }
 .vn_cg_item.locked .thumb { background: repeating-linear-gradient(45deg, rgba(138, 106, 31, 0.22), rgba(138, 106, 31, 0.22) 10px, rgba(138, 106, 31, 0.12) 10px, rgba(138, 106, 31, 0.12) 20px); }
 .vn_cg_item.locked:hover .thumb { box-shadow: none; }
