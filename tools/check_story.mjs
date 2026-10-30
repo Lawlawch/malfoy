@@ -20,7 +20,7 @@ for (const ch of story.chapters.filter((c) => c.ready)) {
     if (c.op === "show" || c.op === "face") {
       // 有服裝的角色：每一套服裝都要有這個表情（劇本裡換裝可能發生在別的分支，所以全部檢查）
       const ch = story.characters[c.id], dirs = ch && ch.outfits ? ch.outfits.map((o) => c.id + "/" + o) : [c.id];
-      for (const d of dirs) if (!fs.existsSync(path.join(root, "assets/chara", d, c.face + ".png"))) warn.push({ line: c.line, msg: `立繪不存在：assets/chara/${d}/${c.face}.png` });
+      for (const d of dirs) if (!fs.existsSync(path.join(root, "assets/chara", d, c.face + ".webp"))) warn.push({ line: c.line, msg: `立繪不存在：assets/chara/${d}/${c.face}.webp` });
     }
   }
   // 年級最後一章：要有 @ending（年級結算頁顯示這一輪的結局 CG 與標題）

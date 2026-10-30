@@ -9,9 +9,9 @@ export { story };
 
 /* ---------- 版面：橫向 1280×720、直向 720×1280（遊戲內邏輯像素）---------- */
 export const LAYOUT = {
-  // 立繪（半身）：chara_h = 1 倍時的高度，chara_bottom = 立繪底邊的位置（腰部切邊藏在對話框後面）
+  // 立繪（半身）：chara_h = 1 倍時的高度，chara_bottom = 立繪底邊的位置（橫向上移到 640，雙臂露在對話框上方；底部 15% 漸層淡出，見 theme.css #charas .chara）
   //   chara_k = 1／2／3 人同框時的縮小比例，chara_x = 各人的中心位置（畫面寬度的比例）
-  land: { w: 1280, h: 720, font: 28, chara_h: 620, chara_bottom: 720, chara_k: [1, 1, 0.9], chara_x: [[0.5], [0.33, 0.67], [0.22, 0.5, 0.78]], sel: 28 },
+  land: { w: 1280, h: 720, font: 28, chara_h: 620, chara_bottom: 640, chara_k: [1, 1, 0.9], chara_x: [[0.5], [0.33, 0.67], [0.22, 0.5, 0.78]], sel: 28 },
   port: { w: 720, h: 1280, font: 36, chara_h: 860, chara_bottom: 1000, chara_k: [1, 0.72, 0.55], chara_x: [[0.5], [0.3, 0.7], [0.2, 0.5, 0.8]], sel: 36 }
 };
 export const G = {
@@ -155,7 +155,7 @@ export function fontPx() { return Math.round(G.L.font * FONT_SCALE[cfg().font]);
 /* ---------- 章節與角色 ---------- */
 export const chapterById = (id) => story.chapters.find((c) => c.id === id) || null;
 // 角色目前的服裝：記在數值 f.outfit_<角色>（跟著存檔、場景起點、章節起點一起保存）；沒設過就用 story.js 的預設。
-// 沒有 outfits 的角色回傳 null（立繪直接放在 assets/chara/<角色>/<表情>.png）
+// 沒有 outfits 的角色回傳 null（立繪直接放在 assets/chara/<角色>/<表情>.webp）
 export function outfitOf(f, id) {
   const ch = story.characters[id];
   if (!ch || !ch.outfits) return null;

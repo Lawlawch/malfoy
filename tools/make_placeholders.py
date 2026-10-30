@@ -1,7 +1,7 @@
 # 產生佔位圖：立繪（半身剪影）與背景。
 #   python3 tools/make_placeholders.py            只補缺少的檔案（已存在的不覆蓋，換上正式圖後可放心重跑）
 #   python3 tools/make_placeholders.py --redo-chara   重畫「所有」立繪佔位圖（會覆蓋！只在還沒有正式立繪時使用）
-# 立繪：1200x1600 透明 PNG，assets/chara/<角色id>/<表情>.png，規格見 docs/sprite_spec.md
+# 立繪：1200x1600 透明 WebP，assets/chara/<角色id>/<表情>.webp（多套服裝：<角色id>/<服裝>/<表情>.webp），規格見 docs/sprite_spec.md
 #       角色與表情清單直接讀 story/story.js，新增角色或表情後重跑即可。
 # 背景：1920x1920 JPG，assets/bg/<名稱>.jpg
 from PIL import Image, ImageDraw, ImageFont
@@ -20,7 +20,8 @@ def center(d, w, y, text, f, fill):
 
 # ---------- 立繪：半身剪影 ----------
 W, H = 1200, 1600
-HEAD_TOP, HEAD_R = 150, 190            # 頭頂距畫布上緣 150（約 9%），頭半徑 190
+HEAD_TOP, HEAD_R = 150, 190            # 繪製用的基準頭（半徑 190），畫好後放大成正式規格的頭高
+HEAD_H = 500                           # 正式規格：頭頂 y≈150，頭高約 500（下巴 y≈650）
 CX = W // 2
 HY = HEAD_TOP + HEAD_R                 # 頭的圓心
 COLORS = {"draconia": (120, 140, 190), "ron": (200, 110, 70), "hermione": (150, 100, 70), "hagrid": (120, 90, 60),
@@ -61,24 +62,30 @@ def face_marks(d, face, ink):
 OUTFIT_LABEL = {"noble": "貴族服", "school": "校服"}
 OUTFIT_COLOR = {"school": (38, 38, 46)}            # 校服：霍格華茲黑袍
 def chara(cid, name, face, color, outfit=None):
-    p = os.path.join(ROOT, "chara", cid, *( [outfit] if outfit else [] ), face + ".png")
+    p = os.path.join(ROOT, "chara", cid, *( [outfit] if outfit else [] ), face + ".webp")
     if outfit in OUTFIT_COLOR: color = OUTFIT_COLOR[outfit]
     if os.path.exists(p) and not REDO: return False
     os.makedirs(os.path.dirname(p), exist_ok=True)
     im = Image.new("RGBA", (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(im)
     body = color + (255,); edge = (255, 255, 255, 235)
+    chin = HEAD_TOP + HEAD_H                                      # 下巴 y≈650
     # 身體：肩膀到畫布底部（腰部平切）
-    d.rounded_rectangle([CX - 420, HY + HEAD_R + 120, CX + 420, H + 120], 220, fill=body, outline=edge, width=8)
+    d.rounded_rectangle([CX - 440, chin + 110, CX + 440, H + 120], 220, fill=body, outline=edge, width=8)
     # 脖子
-    d.rectangle([CX - 80, HY + HEAD_R - 40, CX + 80, HY + HEAD_R + 150], fill=body)
-    # 頭
-    d.ellipse([CX - HEAD_R, HEAD_TOP, CX + HEAD_R, HEAD_TOP + 2 * HEAD_R], fill=(240, 236, 228, 255), outline=edge, width=8)
-    face_marks(d, face, (60, 50, 50, 255))
+    d.rectangle([CX - 90, chin - 60, CX + 90, chin + 150], fill=body)
+    # 頭：先用基準尺寸畫好（含表情），再放大到頭高 HEAD_H 貼上
+    hd = Image.new("RGBA", (W, H), (0, 0, 0, 0)); hdd = ImageDraw.Draw(hd)
+    hdd.ellipse([CX - HEAD_R, HEAD_TOP, CX + HEAD_R, HEAD_TOP + 2 * HEAD_R], fill=(240, 236, 228, 255), outline=edge, width=6)
+    face_marks(hdd, face, (60, 50, 50, 255))
+    box = (CX - HEAD_R - 4, HEAD_TOP - 4, CX + HEAD_R + 4, HEAD_TOP + 2 * HEAD_R + 4)
+    k = HEAD_H / (2 * HEAD_R)
+    head = hd.crop(box).resize((round((box[2] - box[0]) * k), round((box[3] - box[1]) * k)), Image.LANCZOS)
+    im.alpha_composite(head, (CX - head.width // 2, HEAD_TOP - round(4 * k)))
     # 文字
-    center(d, W, 820, name + ("．" + OUTFIT_LABEL.get(outfit, outfit) if outfit else ""), font(120, True), (255, 255, 255, 255))
-    center(d, W, 980, cid.upper() + (" · " + outfit if outfit else "") + " · " + face, font(64), (255, 255, 255, 235))
+    center(d, W, 880, name + ("．" + OUTFIT_LABEL.get(outfit, outfit) if outfit else ""), font(120, True), (255, 255, 255, 255))
+    center(d, W, 1040, cid.upper() + (" · " + outfit if outfit else "") + " · " + face, font(64), (255, 255, 255, 235))
     center(d, W, 1490, "PLACEHOLDER 1200x1600 (half body)", font(30), (255, 255, 255, 200))
-    im.save(p, optimize=True)
+    im.save(p, "WEBP", lossless=True, method=6)
     return True
 
 def load_characters():

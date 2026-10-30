@@ -17,11 +17,11 @@ export function initStage(root) {
 
 let currentState = { bg: "", charas: [] };
 export const bgUrl = (name) => `./assets/bg/${name}.jpg`;
-// 立繪路徑：有服裝的角色是 assets/chara/<角色>/<服裝>/<表情>.png，沒有的是 assets/chara/<角色>/<表情>.png
+// 立繪路徑：有服裝的角色是 assets/chara/<角色>/<服裝>/<表情>.webp，沒有的是 assets/chara/<角色>/<表情>.webp
 export function charaUrl(id, face, outfit) {
   const ch = story.characters[id];
-  if (ch && ch.outfits) return `./assets/chara/${id}/${ch.outfits.includes(outfit) ? outfit : (ch.outfit || ch.outfits[0])}/${face}.png`;
-  return `./assets/chara/${id}/${face}.png`;
+  if (ch && ch.outfits) return `./assets/chara/${id}/${ch.outfits.includes(outfit) ? outfit : (ch.outfit || ch.outfits[0])}/${face}.webp`;
+  return `./assets/chara/${id}/${face}.webp`;
 }
 const urlOf = (c) => charaUrl(c.id, c.face, c.outfit);
 export const cgUrl = (id) => `./assets/cg/${id}.jpg`;
@@ -173,6 +173,15 @@ export async function rebuild(state) {
 
 /* ---------- 存檔縮圖：直接用狀態（背景＋在場立繪）畫在畫布上 ----------
    不論目前是直向或橫向，一律用橫向版面畫成 16:9，存檔格裡的縮圖才會一致 */
+// 立繪底部 15% 漸層淡出（跟畫面上的 mask-image 一樣），存檔縮圖用
+function fadeBottom(im) {
+  const c = document.createElement("canvas"); c.width = im.width; c.height = im.height;
+  const x = c.getContext("2d"); x.drawImage(im, 0, 0);
+  const g = x.createLinearGradient(0, im.height * 0.85, 0, im.height);
+  g.addColorStop(0, "rgba(0,0,0,0)"); g.addColorStop(1, "rgba(0,0,0,1)");
+  x.globalCompositeOperation = "destination-out"; x.fillStyle = g; x.fillRect(0, im.height * 0.85, im.width, im.height * 0.15);
+  return c;
+}
 export async function thumbnail(state) {
   const L = LAYOUT.land, sc = 384 / Math.max(L.w, L.h);
   const cv = document.createElement("canvas");
@@ -188,7 +197,7 @@ export async function thumbnail(state) {
   }
   for (const c of state.charas) {
     const im = await preload(urlOf(c)), p = charaPos(state.charas, c.id, L);
-    if (im && p) { const w = p.height * im.width / im.height; ctx.drawImage(im, (p.cx - w / 2) * sc, p.top * sc, w * sc, p.height * sc); }
+    if (im && p) { const w = p.height * im.width / im.height; ctx.drawImage(fadeBottom(im), (p.cx - w / 2) * sc, p.top * sc, w * sc, p.height * sc); }
   }
   if (state.cg) {                                  // 劇情 CG 顯示中：縮圖用 CG（沒有圖時用佔位色）
     const im = await preload(cgUrl(state.cg));

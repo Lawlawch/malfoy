@@ -48,7 +48,7 @@
 - **服裝**（立繪分兩套，每套都有 7 個表情）：
   - **貴族服**（noble）：入學前的便服。第一章斜角巷全程穿這套。款式【待定】。生圖時在描述後加：*elegant aristocratic dress, dark green and silver*【顏色待定】
   - **校服**（school）：霍格華茲黑袍。第一章列車開始穿這套。生圖時加：*Hogwarts black school robes*（分院前沒有學院徽章；分院後是否換成史萊哲林配色【待定】）
-  - 圖檔路徑：`assets/chara/draconia/noble/<表情>.png`、`assets/chara/draconia/school/<表情>.png`；劇本用 `@outfit draconia noble`／`@outfit draconia school` 切換
+  - 圖檔路徑：`assets/chara/draconia/noble/<表情>.webp`、`assets/chara/draconia/school/<表情>.webp`；劇本用 `@outfit draconia noble`／`@outfit draconia school` 切換
 - **性格**：以原著跩哥為底，調整成傲嬌。高傲、看不起「低等」的人，嘴上刻薄，心裡在意。被說中心事或被救時會結巴（「你、你……」「誰、誰要你……」），死不道謝。一年級定位是「口是心非的對手」，隨劇情逐漸軟化。
 - **說話習慣**：叫哈利「波特」；常用「哼」；叫榮恩「衛斯理」或帶貶意的稱呼。
 - **隨從**：克拉、高爾。
