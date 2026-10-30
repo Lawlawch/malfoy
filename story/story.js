@@ -22,7 +22,7 @@ export const years = ["一年級", "二年級", "三年級", "四年級"];
 // 角色。id = 立繪資料夾名（assets/chara/<id>/<表情>.png，規格見 docs/sprite_spec.md）與頭像檔名（assets/avatar/<id>.png）
 export const characters = {
   // outfits：有這一欄的角色立繪放在 assets/chara/<角色>/<服裝>/<表情>.png，劇本用 @outfit 切換（跨場景、跨章節沿用）；outfit：預設服裝
-  draconia: { name: "馬份",     faces: ["normal", "happy", "sad", "angry", "shy", "surprised", "smug"], outfits: ["noble", "school"], outfit: "noble" },   // noble 貴族服、school 校服
+  draconia: { name: "馬份",     faces: ["normal", "happy", "sad", "angry", "shy", "surprised", "smug", "panic", "pout", "cry"], outfits: ["noble", "school"], outfit: "noble" },   // noble 貴族服、school 校服
   ron:      { name: "榮恩",     faces: ["normal", "happy", "sad", "angry", "surprised"] },
   hermione: { name: "妙麗",     faces: ["normal", "happy", "sad", "angry", "shy", "surprised"] },
   hagrid:   { name: "海格",     faces: ["normal", "happy", "sad"], scale: 1.15 },   // scale：立繪縮放倍率（預設 1），高大的角色往上長
@@ -48,8 +48,9 @@ export const cgs = {
   normal: [
     { id: "cg_robeshop", name: "長袍店的初遇" },
     { id: "cg_wandshop", name: "魔杖店．落下的盒子" },
+    { id: "cg_handshake", name: "伸出的手" },
     { id: "cg_hat",      name: "分類帽下的她" },
-    { id: "cg_03",       name: "（待定）" },
+    { id: "cg_song",     name: "星空下的校歌" },
     { id: "cg_duel",     name: "午夜的月光" },
     { id: "cg_mirror",   name: "厄里斯魔鏡" },
     { id: "cg_xmas",     name: "聖誕夜的禮物" },
@@ -69,8 +70,7 @@ export const cgs = {
     { id: "cg_19",       name: "（待定）" },
     { id: "cg_20",       name: "（待定）" },
     { id: "cg_21",       name: "（待定）" },
-    { id: "cg_22",       name: "（待定）" },
-    { id: "cg_23",       name: "（待定）" }
+    { id: "cg_22",       name: "（待定）" }
   ],
   ending: [
     { id: "y1_A", name: "結局：並肩的光" },

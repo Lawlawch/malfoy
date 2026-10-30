@@ -61,14 +61,17 @@
 
 | 角色 | 立繪表情 |
 |---|---|
-| 馬份 | normal、happy、sad、angry、shy、surprised、smug（貴族服、校服兩套都有） |
+| 馬份 | normal、happy、sad、angry、shy、surprised、smug、panic、pout、cry（貴族服、校服兩套都有） |
 | 榮恩 | normal、happy、sad、angry、surprised |
 | 妙麗 | normal、happy、sad、angry、shy、surprised |
 | 海格 | normal、happy、sad |
 | 衛斯理太太、奧利凡德、摩金夫人、克拉、高爾 | normal |
 | 哈利 | 無立繪（第一人稱） |
 
-- smug（高傲、挑釁的笑）目前是馬份限定。
+- smug（高傲、挑釁的笑）、panic（驚慌、慌了手腳）、pout（撒嬌、嘟嘴）、cry（哭）目前是馬份限定。
+  - panic 和 surprised 的分別：surprised 是愣住，panic 是手足無措。
+  - pout 一年級少用（她還是口是心非的對手），羈絆高時再多用；cry 留給真正的重頭戲。
+- 馬份的髮色一律寫「淺金色」。
 - **服裝**：馬份有兩套服裝，貴族服（入學前的便服）和校服。換裝時在草稿標 `［馬份 服裝 校服］`，或在登場時寫 `［馬份 登場，服裝 貴族服，表情 normal］`；之後一直沿用，直到下一次換裝。入學前一律貴族服，搭上霍格華茲特快車起穿校服。
 - 新角色直接寫名字即可，引擎聊天室會補登記與佔位圖，圖由 Lawch 另外生成。
 - 同一個畫面最多三個立繪（左、中、右）。

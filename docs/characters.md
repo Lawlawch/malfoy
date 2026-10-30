@@ -15,7 +15,7 @@
 
 | 角色 | 引擎代號 | 表情 |
 |---|---|---|
-| 馬份 | draconia | normal、happy、sad、angry、shy、surprised、smug（貴族服、校服各一套，共 14 張） |
+| 馬份 | draconia | normal、happy、sad、angry、shy、surprised、smug、panic、pout、cry（貴族服、校服各一套，共 20 張） |
 | 榮恩 | ron | normal、happy、sad、angry、surprised |
 | 妙麗 | hermione | normal、happy、sad、angry、shy、surprised |
 | 海格 | hagrid | normal、happy、sad |
@@ -34,6 +34,9 @@
 - shy：害羞、臉紅、口是心非（傲嬌場面的主力）
 - surprised：驚訝、愣住
 - smug：（馬份限定）高傲、居高臨下、挑釁的笑；和 happy 的分別是 happy 較真心，smug 帶著炫耀或嘲弄
+- panic：（馬份限定）驚慌、手足無措；和 surprised 的分別是 surprised 是「愣住」，panic 是「慌了手腳」
+- pout：（馬份限定）撒嬌、嘟嘴、帶點任性地討東西或討人在意；一年級少用，羈絆高時再多用
+- cry：（馬份限定）哭；留給真正的重頭戲（例如被孤立、家族壓力爆發）。貴族服版可延後生圖
 
 ---
 
@@ -43,9 +46,9 @@
 - **名牌**：馬份。一出場就顯示名字；旁白在她自我介紹前稱她「那女孩」。
 - **稱呼**：自稱全名只在正式介紹時用。平時大家叫她「馬份」，家人叫她「妮亞」。
 - **身份**：一年級新生，純血馬份家獨生女。父親魯休斯，母親水仙。學院【待定，原著為史萊哲林】。
-- **外觀**：鉑金色（淺金）長直髮；灰色眼睛，形容為「像冬天結冰的湖面」；膚色白皙；臉型尖細；身材纖細；常抬著下巴；手指細長，指甲修得整齊。
-  - 生圖描述（英文）：*11-year-old girl, long straight platinum-blonde hair, cold grey eyes, pale skin, sharp delicate face, slender, proud posture with chin raised, anime visual novel style*【髮飾待定】
-- **服裝**（立繪分兩套，每套都有 7 個表情）：
+- **外觀**：淺金色長髮（劇本一律寫「淺金色」）；灰色眼睛，形容為「像冬天結冰的湖面」；膚色白皙；臉型尖細；身材纖細；常抬著下巴；手指細長，指甲修得整齊。
+  - 生圖描述（英文）：*11-year-old girl, long pale blonde hair, cold grey eyes, pale skin, sharp delicate face, slender, proud posture with chin raised, anime visual novel style*【髮飾待定】
+- **服裝**（立繪分兩套，每套都有 10 個表情）：
   - **貴族服**（noble）：入學前的便服。第一章斜角巷全程穿這套。款式【待定】。生圖時在描述後加：*elegant aristocratic dress, dark green and silver*【顏色待定】
   - **校服**（school）：霍格華茲黑袍。第一章列車開始穿這套。生圖時加：*Hogwarts black school robes*（分院前沒有學院徽章；分院後是否換成史萊哲林配色【待定】）
   - 圖檔路徑：`assets/chara/draconia/noble/<表情>.webp`、`assets/chara/draconia/school/<表情>.webp`；劇本用 `@outfit draconia noble`／`@outfit draconia school` 切換
