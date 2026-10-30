@@ -46,6 +46,7 @@ export const speakers = { "哈利": "harry", "？？？": "unknown", "德思禮�
 // 圖鑑（圖檔放 assets/cg/<id>.jpg，沒有圖時顯示佔位）
 export const cgs = {
   normal: [
+    { id: "cg_robeshop", name: "長袍店的初遇" },
     { id: "cg_wandshop", name: "魔杖店．落下的盒子" },
     { id: "cg_hat",      name: "分類帽下的她" },
     { id: "cg_03",       name: "（待定）" },
@@ -69,8 +70,7 @@ export const cgs = {
     { id: "cg_20",       name: "（待定）" },
     { id: "cg_21",       name: "（待定）" },
     { id: "cg_22",       name: "（待定）" },
-    { id: "cg_23",       name: "（待定）" },
-    { id: "cg_24",       name: "（待定）" }
+    { id: "cg_23",       name: "（待定）" }
   ],
   ending: [
     { id: "y1_A", name: "結局：並肩的光" },
