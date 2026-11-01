@@ -121,7 +121,7 @@
 
 *c1_open_b
 #馬份
-@face draconia angry
+@face draconia disdain
 「哼。不懂就老實說，總比不懂裝懂好。」
 #
 她沒有笑我，只是輕輕哼了一聲，又轉回去看鏡子。
@@ -176,7 +176,7 @@
 #馬份
 @face draconia surprised
 「那個人……是你的朋友？」
-@face draconia angry
+@face draconia disdain
 #
 她順著我的視線望出去，聲音一下子冷了下來。
 #馬份
@@ -200,7 +200,7 @@
 #馬份
 @face draconia sad
 「我又沒說錯……他……」
-@face draconia angry
+@face draconia disdain
 「哼。算了，你這個人脾氣倒是不小。」
 @jump *c1_hagrid_end
 
@@ -227,7 +227,7 @@
 #
 我什麼也沒說，只是低下頭，看著自己的鞋尖。
 #馬份
-@face draconia smug
+@face draconia disdain
 「那種野蠻的傢伙，本來就不值得結交。」
 「聰明人懂得挑選朋友。你最好也學著點。」
 #
@@ -842,7 +842,7 @@
 #馬份
 「別誤會。她們兩個坐不滿，剛好多一個位子而已。」
 @elif c1_hand == 2
-@face draconia angry
+@face draconia disdain
 #馬份
 「……你不是分得出誰好誰壞嗎？怎麼，還是來了？」
 #哈利

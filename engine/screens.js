@@ -162,7 +162,7 @@ function openGallery() {
     C.list.slice(page * 6, page * 6 + 6).forEach((it, ix) => {
       const no = C.base + page * 6 + ix + 1, got = !!(sf[C.flag] && sf[C.flag][it.id]);
       const th = el("div.thumb");
-      if (got) { const ph = el("span.ph", { text: it.name }); th.append(ph); tryImg(it.id, (u) => { th.style.backgroundImage = `url(${u})`; ph.remove(); }); }
+      if (got) { const ph = el("span.ph", { text: it.name }); th.append(ph); tryImg(it.id, (u) => { th.style.backgroundImage = `url(${u})`; th.style.backgroundPosition = cgPos(it.id); ph.remove(); }); }
       else th.append(el("span.q", { text: "？" }));
       const item = el("div.vn_cg_item" + (got ? "" : ".locked"), {}, th, el("div.nm", { text: "#" + no + " " + (got ? it.name : "？？？") }));
       if (got) tap(item, () => viewCG(it, no));
@@ -185,13 +185,15 @@ function openGallery() {
   }
   render();
 }
+// 圖鑑與年級結算的 CG 縮圖：載入成功後套上圖檔與焦點（story.js cgs 的 pos）
 function tryImg(id, ok) { const u = `./assets/cg/${id}.webp`, im = new Image(); im.onload = () => ok(u); im.src = u; }
+function cgPos(id) { const c = [...story.cgs.normal, ...story.cgs.ending].find((x) => x.id === id); return (c && c.pos) || "50% 50%"; }
 function viewCG(it, no) {
   $("#vn_cgview")?.remove();
   const ph = el("span", { text: it.name });
   const img = el("div.img", {}, ph);
   const v = el("div#vn_cgview.vn_overlay", {}, img, el("div.cap", { text: "#" + no + " " + it.name }));
-  tryImg(it.id, (u) => { img.style.backgroundImage = `url(${u})`; ph.remove(); });
+  tryImg(it.id, (u) => { img.style.backgroundImage = `url(${u})`; img.style.backgroundPosition = cgPos(it.id); ph.remove(); });
   tap(v, () => v.remove());
   G.root.append(v);
 }
@@ -270,7 +272,7 @@ function showYearEnd(year, endId, next) {
   $("#vn_end")?.remove();
   const it = story.cgs.ending.find((x) => x.id === endId);
   const img = el("div.cg");
-  if (it) { const ph = el("span.ph", { text: it.name }); img.append(ph); tryImg(it.id, (u) => { img.style.backgroundImage = `url(${u})`; ph.remove(); }); }
+  if (it) { const ph = el("span.ph", { text: it.name }); img.append(ph); tryImg(it.id, (u) => { img.style.backgroundImage = `url(${u})`; img.style.backgroundPosition = cgPos(it.id); ph.remove(); }); }
   else img.classList.add("none");
   if (it) img.querySelector(".ph").textContent = "（CG 準備中）";
   const go = (fn) => () => { e.remove(); fn(); };

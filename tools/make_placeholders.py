@@ -26,7 +26,7 @@ CX = W // 2
 HY = HEAD_TOP + HEAD_R                 # 頭的圓心
 COLORS = {"draconia": (120, 140, 190), "ron": (200, 110, 70), "hermione": (150, 100, 70), "hagrid": (120, 90, 60),
           "molly": (190, 130, 100), "ollivander": (110, 110, 120), "malkin": (160, 110, 140), "crabbe": (90, 110, 90), "goyle": (110, 95, 80),
-          "mcgonagall": (60, 110, 80), "sorting_hat": (110, 90, 60), "neville": (150, 120, 90), "fred": (200, 100, 60), "george": (190, 95, 65), "dumbledore": (140, 120, 170), "percy": (180, 105, 70)}
+          "mcgonagall": (60, 110, 80), "sorting_hat": (110, 90, 60), "neville": (150, 120, 90), "fred": (200, 100, 60), "george": (190, 95, 65), "dumbledore": (140, 120, 170), "percy": (180, 105, 70), "pansy": (90, 130, 100), "snape": (40, 40, 48)}
 
 def face_marks(d, face, ink):
     # 用簡單的眉、眼、嘴區分表情（佔位用，方便測試換表情）
@@ -124,4 +124,8 @@ bg("leaky_cauldron.webp", "LEAKY CAULDRON", (46, 30, 22), (126, 86, 54))
 bg("entrance_hall.webp", "ENTRANCE HALL", (50, 46, 52), (128, 116, 104))
 bg("great_hall.webp", "GREAT HALL", (20, 22, 48), (120, 92, 60))
 bg("gryffindor_dorm.webp", "GRYFFINDOR DORM", (70, 22, 24), (150, 92, 60))
+bg("library.webp", "LIBRARY", (48, 36, 26), (130, 104, 72))
+bg("gryffindor_common.webp", "GRYFFINDOR COMMON ROOM", (90, 26, 24), (170, 110, 60))
+bg("potions_classroom.webp", "POTIONS CLASSROOM", (18, 30, 26), (70, 90, 80))
+bg("hagrid_hut.webp", "HAGRID'S HUT", (60, 44, 30), (140, 110, 76))
 print("立繪佔位圖：產生", made, "張")

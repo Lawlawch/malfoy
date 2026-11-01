@@ -361,7 +361,7 @@
 @show ron angry left
 #榮恩
 「哈利，別理她。走了。」
-@face draconia smug
+@face draconia disdain
 #馬份
 「我在跟波特說話，衛斯理。輪不到你插嘴。」
 #榮恩
@@ -397,7 +397,7 @@
 @face draconia surprised
 #
 她張了張嘴，好像準備好的台詞，一下子全忘了。
-@face draconia panic
+@face draconia shy
 #馬份
 「……這、這不是你想不想的問題！」
 「學院的事，又不是你一個人說了算！」

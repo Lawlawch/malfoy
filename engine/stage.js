@@ -121,8 +121,12 @@ export async function hideAll(state, fade) {
 
 /* ---------- 劇情 CG：蓋住背景與立繪，對話框在上面。沒有圖檔時顯示佔位畫面與 CG 名稱 ---------- */
 function cgName(id) { const c = [...story.cgs.normal, ...story.cgs.ending].find((x) => x.id === id); return c ? c.name : id; }
+// CG 焦點：story.js 的 cgs 可加 pos（例如 "50% 15%"），裁切時以這一點為準；沒寫就置中
+export function cgPos(id) { const c = [...story.cgs.normal, ...story.cgs.ending].find((x) => x.id === id); return (c && c.pos) || "50% 50%"; }
+function cgFrac(id) { const m = cgPos(id).match(/([\d.]+)%\s+([\d.]+)%/); return m ? [m[1] / 100, m[2] / 100] : [0.5, 0.5]; }
 function paintCg(id, im) {
   cgLayer.style.backgroundImage = im ? `url("${cgUrl(id)}")` : "";
+  cgLayer.style.backgroundPosition = cgPos(id);
   cgLayer.classList.toggle("noimg", !im);
   cgLayer.querySelector(".ph").textContent = im ? "" : cgName(id);
 }
@@ -201,7 +205,7 @@ export async function thumbnail(state) {
   }
   if (state.cg) {                                  // 劇情 CG 顯示中：縮圖用 CG（沒有圖時用佔位色）
     const im = await preload(cgUrl(state.cg));
-    if (im) { const s = Math.max(L.w / im.width, L.h / im.height), sw = L.w / s, sh = L.h / s; ctx.drawImage(im, (im.width - sw) / 2, (im.height - sh) / 2, sw, sh, 0, 0, cv.width, cv.height); }
+    if (im) { const s = Math.max(L.w / im.width, L.h / im.height), sw = L.w / s, sh = L.h / s, [fx, fy] = cgFrac(state.cg); ctx.drawImage(im, (im.width - sw) * fx, (im.height - sh) * fy, sw, sh, 0, 0, cv.width, cv.height); }
     else { const g = ctx.createLinearGradient(0, 0, cv.width, cv.height); g.addColorStop(0, "#6c5a3a"); g.addColorStop(1, "#3b2a1a"); ctx.fillStyle = g; ctx.fillRect(0, 0, cv.width, cv.height); }
   }
   try { return { url: cv.toDataURL("image/jpeg", 0.7), w: cv.width, h: cv.height }; } catch (e) { return null; }

@@ -61,15 +61,18 @@
 
 | 角色 | 立繪表情 |
 |---|---|
-| 馬份 | normal、happy、sad、angry、shy、surprised、smug、panic、cute、cry（貴族服、黑袍、史萊哲林校服三套都有） |
+| 馬份 | normal、happy、sad、angry、disdain、shy、surprised、smug、panic、cute、cry（貴族服、黑袍、史萊哲林校服三套都有） |
 | 榮恩 | normal、happy、sad、angry、surprised（黑袍、葛來分多校服兩套都有） |
 | 妙麗 | normal、happy、sad、angry、shy、surprised（黑袍、葛來分多校服兩套都有） |
 | 海格 | normal、happy、sad |
+| 潘西 | normal、happy、angry、smug |
+| 石內卜 | normal、angry |
 | 衛斯理太太、奧利凡德、摩金夫人、克拉、高爾 | normal |
 | 哈利 | 無立繪（第一人稱） |
 
-- smug（得意的笑）、panic（嚇得僵住、不敢出聲）、cute（撒嬌、嘟嘴）、cry（強忍眼淚，終於落淚）目前是馬份限定。
-  - panic 和 surprised 的分別：surprised 是愣住，panic 是害怕。
+- smug（得意的笑）、disdain（輕蔑、不屑，覺得對方在耍白痴，但不是真的生氣）、panic（嚇得僵住、不敢出聲）、cute（撒嬌、嘟嘴）、cry（強忍眼淚，終於落淚）目前是馬份限定。
+  - angry 是真的動怒；disdain 是瞧不起、不屑；smug 是得意。
+  - panic 和 surprised 的分別：surprised 是愣住，panic 是害怕。**panic 只用在真的遇到害怕的事物時**；一般的驚訝用 surprised，慌張害羞用 shy。
   - cute 一年級少用（她還是口是心非的對手），羈絆高時再多用；cry 留給真正的重頭戲。
 - 馬份的髮色一律寫「淺金色」。
 - **服裝**：馬份有三套服裝：貴族服（入學前的便服）、黑袍（分院前的校服）、史萊哲林校服；榮恩、妙麗有兩套：黑袍、葛來分多校服。換裝時在草稿標 `［馬份 服裝 黑袍］`，或在登場時寫 `［馬份 登場，服裝 貴族服，表情 normal］`；之後一直沿用，直到下一次換裝。入學前一律貴族服，搭上霍格華茲特快車起穿黑袍，分院後換學院校服。
@@ -78,8 +81,8 @@
 - 同一個畫面最多三個立繪（左、中、右）。
 
 ## 六、背景
-已有：diagon_alley 斜角巷、malkin_shop 摩金夫人長袍店、kings_cross 國王十字車站、train_compartment 列車車廂、hogsmeade_station 活米村車站。
-第一章新增（待生圖）：ollivanders 奧利凡德魔杖店、eeylops 咿啦貓頭鷹商店、leaky_cauldron 破釜酒吧。
+已有：diagon_alley 斜角巷、malkin_shop 摩金夫人長袍店、ollivanders 奧利凡德魔杖店、eeylops 咿啦貓頭鷹商店門口、leaky_cauldron 破釜酒吧、kings_cross 國王十字車站、train_compartment 列車車廂、hogsmeade_station 活米村車站、entrance_hall 入口大廳、great_hall 大廳、gryffindor_dorm 葛來分多寢室。
+第三章新增（待生圖）：library 圖書館、gryffindor_common 葛來分多交誼廳、potions_classroom 魔藥學教室、hagrid_hut 海格的小屋。
 
 - 新背景在草稿中寫「背景（新增）：代號 名稱——一句話描述」。代號用英文小寫加底線。
 - 背景圖是 1920×1920 方圖，遊戲等比例裁切填滿，重要內容放**中央正方形安全區**（橫向會裁掉上下，直向會裁掉左右，各約 280px）。

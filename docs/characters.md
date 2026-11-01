@@ -15,7 +15,7 @@
 
 | 角色 | 引擎代號 | 表情 |
 |---|---|---|
-| 馬份 | draconia | normal、happy、sad、angry、shy、surprised、smug、panic、cute、cry（貴族服、黑袍、史萊哲林校服三套，共 30 張） |
+| 馬份 | draconia | normal、happy、sad、angry、disdain、shy、surprised、smug、panic、cute、cry（貴族服、黑袍、史萊哲林校服三套，共 33 張；原本的 angry 圖改為 disdain，新的 angry 圖待補） |
 | 榮恩 | ron | normal、happy、sad、angry、surprised（黑袍、葛來分多校服兩套，共 10 張） |
 | 妙麗 | hermione | normal、happy、sad、angry、shy、surprised（黑袍、葛來分多校服兩套，共 12 張） |
 | 海格 | hagrid | normal、happy、sad |
@@ -24,17 +24,20 @@
 | 摩金夫人 | malkin | normal |
 | 克拉 | crabbe | normal |
 | 高爾 | goyle | normal |
+| 潘西 | pansy | normal、happy、angry、smug |
+| 石內卜 | snape | normal、angry |
 | 哈利 | （無立繪） | 第一人稱，只有對話紀錄頭像 |
 
 表情用法：
 - normal：平常、說明、冷淡
 - happy：開心、得意地笑
 - sad：失落、受傷、難過
-- angry：生氣、不屑、被激怒
+- angry：生氣、被激怒（真正動怒）
+- disdain：（馬份限定）輕蔑、看不起，帶一點不屑；像是覺得對方在耍白痴、在說什麼屁話，但不是真的生氣。和 angry 的分別是 disdain 冷淡、居高臨下，angry 是真的動怒；和 smug 的分別是 smug 是得意，disdain 是瞧不起。**原本畫好的馬份 angry 圖改用為 disdain；新的 angry 圖待補，補上前劇本仍可寫 angry**
 - shy：害羞、臉紅、口是心非（傲嬌場面的主力）
 - surprised：驚訝、愣住
 - smug：（馬份限定）得意、心滿意足的笑，抬著下巴看人；和 happy 的分別是 happy 較真心開朗，smug 帶著「哼，當然」的炫耀，但不是挑釁嘲弄
-- panic：（馬份限定）害怕得僵住、不敢出聲，臉色微青、冒冷汗；和 surprised 的分別是 surprised 是「愣住」，panic 是「嚇到」
+- panic：（馬份限定）害怕得僵住、不敢出聲，臉色微青、冒冷汗；和 surprised 的分別是 surprised 是「愣住」，panic 是「嚇到」。**只用在真的遇到害怕的事物時**（例：盒子砸下來、梯子晃動、藥水流過來）；一般的驚訝、慌張或害羞，用 surprised 或 shy
 - cute：（馬份限定）撒嬌、嘟嘴、眼神飄向一旁、微微臉紅，帶點任性地討東西或討人在意；一年級少用，羈絆高時再多用
 - cry：（馬份限定）強忍眼淚，終於忍不住流下一兩行淚（不是大哭）；留給真正的重頭戲（例如被孤立、家族壓力爆發）。貴族服版可延後生圖
 
@@ -108,8 +111,18 @@
 - 克拉：黑髮，稍微過肩，髮尾微捲。高爾：黑髮中分，總是在吃東西（第一章在船上啃蛋糕）。立繪只有 normal，穿黑袍。
 - 後續影響：二年級喝變身水變成克拉和高爾的情節，需要另外設計。
 
-### 奈威．隆巴頓
-- 第一章只被提到（蟾蜍不見了），未登記立繪；出場時再補。
+### 潘西．帕金森（pansy）
+- 史萊哲林一年級女生，馬份的朋友。短髮、圓臉，笑起來眼睛瞇成一條線。
+- 叫馬份「妮亞」（朋友裡只有她這樣叫）。愛調侃馬份和哈利的互動，也會嘲笑葛來分多。
+- 表情 normal、happy、angry、smug：登場時 normal，調侃人時換 smug。第三章初登場。
+
+### 石內卜（snape）
+- 魔藥學教授，史萊哲林導師。油膩的黑髮、鷹勾鼻、冰冷的黑眼睛，穿黑色長袍。
+- 第一次上課就針對哈利；偏袒史萊哲林，對馬份暗中幫哈利的事看在眼裡卻不追究。
+- 主線角色，表情 normal、angry：平常 normal，刁難、責罵哈利時用 angry。
+
+### 奈威．隆巴頓（neville）
+- 第二章起有立繪（normal）。蟾蜍常常不見；第三章在魔藥課弄熔了大釜。
 
 ---
 
