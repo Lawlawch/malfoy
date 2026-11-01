@@ -50,7 +50,7 @@ export const speakers = { "哈利": "harry", "？？？": "unknown", "德思禮�
 export const cgs = {
   normal: [
     { id: "cg_robeshop", name: "長袍店的初遇", pos: "50% 15%" },
-    { id: "cg_wandshop", name: "魔杖店．落下的盒子" },
+    { id: "cg_wandshop", name: "魔杖店．落下的盒子", pos: "50% 40%" },
     { id: "cg_handshake", name: "伸出的手" },
     { id: "cg_hat",      name: "分類帽下的她" },
     { id: "cg_song",     name: "星空下的校歌" },

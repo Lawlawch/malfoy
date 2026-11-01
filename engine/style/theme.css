@@ -269,6 +269,7 @@ html, body {
 .vn_sys .log_body { flex: 1 1 auto; overflow-y: auto; -webkit-overflow-scrolling: touch; touch-action: pan-y; overscroll-behavior: contain; padding: 6px 26px 20px; font-size: 24px; line-height: 1.7; user-select: text; -webkit-user-select: text; }
 .vn_log_row { display: flex; gap: 16px; align-items: flex-start; padding: 14px 0; border-bottom: 1px solid rgba(138, 106, 31, 0.28); }
 .vn_log_av { flex: 0 0 72px; width: 72px; height: 72px; }
+.vn_log_av:empty { height: 0; }   /* 旁白沒有頭像：不佔高度，避免下方多出一行空白 */
 .vn_log_av img { width: 72px; height: 72px; border-radius: 50%; display: block; }
 .vn_log_main { flex: 1 1 auto; min-width: 0; }
 .vn_log_name { font-size: 22px; font-weight: 700; letter-spacing: 0.14em; color: var(--vn-wine); margin-bottom: 2px; }
@@ -394,6 +395,7 @@ html, body {
   opacity: 1; border: 0; border-radius: 0;
   background: linear-gradient(180deg, var(--box-1) 0%, var(--box-2) 100%);
   box-shadow: 0 10px 26px rgba(0, 0, 0, 0.55), inset 0 0 40px rgba(0, 0, 0, 0.35);
+  -webkit-backdrop-filter: blur(7px) saturate(0.85); backdrop-filter: blur(7px) saturate(0.85);   /* 毛玻璃：框後的立繪、背景模糊，不會清楚看見立繪被切開的橫切面 */
 }
 /* 金框：外圍粗、內圍細，都用金屬反光漸層 */
 #frame .f1, #msg.nar #frame .f1 { inset: 0; top: 0; left: 0; right: 0; bottom: 0; border: 3px solid transparent; border-image: var(--metal) 1; box-shadow: 0 0 0 1px rgba(40, 26, 6, 0.8), inset 0 0 0 1px rgba(40, 26, 6, 0.6); }
