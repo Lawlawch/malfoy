@@ -174,7 +174,6 @@
 他像個巨大的孩子，朝我用力地揮手。
 揮得太用力，其中一支冰淇淋的頂端啪地掉在他的靴子上。他好像沒發現。
 #馬份
-@face draconia surprised
 「那個人……是你的朋友？」
 @face draconia disdain
 #
@@ -198,7 +197,7 @@
 #
 她沒想到我會這樣說，一時間接不上話。
 #馬份
-@face draconia sad
+@face draconia cute
 「我又沒說錯……他……」
 @face draconia disdain
 「哼。算了，你這個人脾氣倒是不小。」
@@ -220,7 +219,7 @@
 #馬份
 「你這個人，真麻煩。」
 #
-可是她看著我的眼神，已經有點不一樣了。
+她沒再說其他話。
 @jump *c1_hagrid_end
 
 *c1_hagrid_c
