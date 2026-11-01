@@ -78,6 +78,7 @@
 妙麗幾乎是用跑的衝上台。帽子才戴上沒多久——
 #分類帽
 「葛來分多！」
+@outfit hermione gryffindor
 #
 右邊那張長桌爆出歡呼。妙麗紅著臉跑了過去。
 @hide hermione
@@ -110,6 +111,7 @@
 @showcg cg_hat
 #分類帽
 「史萊哲林！」
+@outfit draconia slytherin
 @face draconia happy
 #
 左邊那張長桌響起掌聲。她摘下帽子，滿意地揚起嘴角，朝那邊走去。
@@ -198,6 +200,7 @@
 榮恩的臉綠得像是吃壞了肚子。帽子剛碰到他的頭——
 #分類帽
 「葛來分多！」
+@outfit ron gryffindor
 #
 我和其他人一起用力鼓掌。榮恩一屁股坐到我旁邊，整個人癱在桌上。
 @face ron happy
@@ -419,7 +422,7 @@
 @face draconia shy
 #馬份
 「……誰、誰要你的巧克力蛙。我自己買得起。」
-@face draconia pout
+@face draconia cute
 「……有鄧不利多以外的卡片嗎？」
 @show crabbe
 #克拉

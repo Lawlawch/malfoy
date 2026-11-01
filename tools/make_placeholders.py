@@ -3,7 +3,7 @@
 #   python3 tools/make_placeholders.py --redo-chara   重畫「所有」立繪佔位圖（會覆蓋！只在還沒有正式立繪時使用）
 # 立繪：1200x1600 透明 WebP，assets/chara/<角色id>/<表情>.webp（多套服裝：<角色id>/<服裝>/<表情>.webp），規格見 docs/sprite_spec.md
 #       角色與表情清單直接讀 story/story.js，新增角色或表情後重跑即可。
-# 背景：1920x1920 JPG，assets/bg/<名稱>.jpg
+# 背景：1920x1920 WebP，assets/bg/<名稱>.webp（已存在的不覆蓋，正式背景放進來後可放心重跑）
 from PIL import Image, ImageDraw, ImageFont
 import os, re, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -114,14 +114,14 @@ def bg(name, label, c1, c2):
     for y in range(S):
         t = y / S; d.line([(0, y), (S, y)], fill=tuple(int(c1[i] * (1 - t) + c2[i] * t) for i in range(3)))
     d.rectangle([480, 480, 1440, 1440], outline=(255, 255, 255), width=6)
-    center(d, S, 900, label, font(110), (255, 255, 255)); center(d, S, 1060, "safe area: keep key content in the centre square", font(44), (240, 240, 240)); im.save(p, quality=88)
-bg("kings_cross.jpg", "PLATFORM 9 3/4", (92, 76, 68), (176, 150, 120))
-bg("train_compartment.jpg", "TRAIN COMPARTMENT", (78, 50, 52), (170, 126, 96))
-bg("hogsmeade_station.jpg", "HOGSMEADE STATION", (24, 32, 62), (90, 100, 128))
-bg("ollivanders.jpg", "OLLIVANDERS", (52, 40, 34), (130, 104, 80))
-bg("eeylops.jpg", "EEYLOPS OWL EMPORIUM", (40, 36, 30), (110, 96, 70))
-bg("leaky_cauldron.jpg", "LEAKY CAULDRON", (46, 30, 22), (126, 86, 54))
-bg("entrance_hall.jpg", "ENTRANCE HALL", (50, 46, 52), (128, 116, 104))
-bg("great_hall.jpg", "GREAT HALL", (20, 22, 48), (120, 92, 60))
-bg("gryffindor_dorm.jpg", "GRYFFINDOR DORM", (70, 22, 24), (150, 92, 60))
+    center(d, S, 900, label, font(110), (255, 255, 255)); center(d, S, 1060, "safe area: keep key content in the centre square", font(44), (240, 240, 240)); im.save(p, "WEBP", quality=85, method=6)
+bg("kings_cross.webp", "PLATFORM 9 3/4", (92, 76, 68), (176, 150, 120))
+bg("train_compartment.webp", "TRAIN COMPARTMENT", (78, 50, 52), (170, 126, 96))
+bg("hogsmeade_station.webp", "HOGSMEADE STATION", (24, 32, 62), (90, 100, 128))
+bg("ollivanders.webp", "OLLIVANDERS", (52, 40, 34), (130, 104, 80))
+bg("eeylops.webp", "EEYLOPS OWL EMPORIUM", (40, 36, 30), (110, 96, 70))
+bg("leaky_cauldron.webp", "LEAKY CAULDRON", (46, 30, 22), (126, 86, 54))
+bg("entrance_hall.webp", "ENTRANCE HALL", (50, 46, 52), (128, 116, 104))
+bg("great_hall.webp", "GREAT HALL", (20, 22, 48), (120, 92, 60))
+bg("gryffindor_dorm.webp", "GRYFFINDOR DORM", (70, 22, 24), (150, 92, 60))
 print("立繪佔位圖：產生", made, "張")

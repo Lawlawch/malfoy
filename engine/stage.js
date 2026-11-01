@@ -16,7 +16,7 @@ export function initStage(root) {
 }
 
 let currentState = { bg: "", charas: [] };
-export const bgUrl = (name) => `./assets/bg/${name}.jpg`;
+export const bgUrl = (name) => `./assets/bg/${name}.webp`;
 // 立繪路徑：有服裝的角色是 assets/chara/<角色>/<服裝>/<表情>.webp，沒有的是 assets/chara/<角色>/<表情>.webp
 export function charaUrl(id, face, outfit) {
   const ch = story.characters[id];
@@ -24,7 +24,7 @@ export function charaUrl(id, face, outfit) {
   return `./assets/chara/${id}/${face}.webp`;
 }
 const urlOf = (c) => charaUrl(c.id, c.face, c.outfit);
-export const cgUrl = (id) => `./assets/cg/${id}.jpg`;
+export const cgUrl = (id) => `./assets/cg/${id}.webp`;
 
 function preload(url) {
   return new Promise((res) => { const im = new Image(); im.onload = () => res(im); im.onerror = () => res(null); im.src = url; });
@@ -49,7 +49,7 @@ export async function setBg(state, name, fade) {
 }
 
 /* ---------- 立繪位置：底部對齊（半身立繪的腰部切邊藏在對話框後面）----------
-   高度 = 版面的 chara_h × 同框人數的縮小比例 × 角色自己的 scale（story.js，例如海格 1.15）。
+   高度 = 版面的 chara_h × 同框人數的縮小比例 × 角色自己的 scale（story.js 的 scale，預設 1）。
    比較高大的角色往上長，頭的位置比別人高。寬度依圖檔比例自動決定，水平置中在 cx。 */
 export function charaPos(list, id, L = G.L) {
   const n = Math.min(list.length, 3), i = list.findIndex((c) => c.id === id);

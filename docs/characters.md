@@ -15,9 +15,9 @@
 
 | 角色 | 引擎代號 | 表情 |
 |---|---|---|
-| 馬份 | draconia | normal、happy、sad、angry、shy、surprised、smug、panic、pout、cry（貴族服、校服各一套，共 20 張） |
-| 榮恩 | ron | normal、happy、sad、angry、surprised |
-| 妙麗 | hermione | normal、happy、sad、angry、shy、surprised |
+| 馬份 | draconia | normal、happy、sad、angry、shy、surprised、smug、panic、cute、cry（貴族服、黑袍、史萊哲林校服三套，共 30 張） |
+| 榮恩 | ron | normal、happy、sad、angry、surprised（黑袍、葛來分多校服兩套，共 10 張） |
+| 妙麗 | hermione | normal、happy、sad、angry、shy、surprised（黑袍、葛來分多校服兩套，共 12 張） |
 | 海格 | hagrid | normal、happy、sad |
 | 衛斯理太太 | molly | normal |
 | 奧利凡德 | ollivander | normal |
@@ -33,10 +33,10 @@
 - angry：生氣、不屑、被激怒
 - shy：害羞、臉紅、口是心非（傲嬌場面的主力）
 - surprised：驚訝、愣住
-- smug：（馬份限定）高傲、居高臨下、挑釁的笑；和 happy 的分別是 happy 較真心，smug 帶著炫耀或嘲弄
-- panic：（馬份限定）驚慌、手足無措；和 surprised 的分別是 surprised 是「愣住」，panic 是「慌了手腳」
-- pout：（馬份限定）撒嬌、嘟嘴、帶點任性地討東西或討人在意；一年級少用，羈絆高時再多用
-- cry：（馬份限定）哭；留給真正的重頭戲（例如被孤立、家族壓力爆發）。貴族服版可延後生圖
+- smug：（馬份限定）得意、心滿意足的笑，抬著下巴看人；和 happy 的分別是 happy 較真心開朗，smug 帶著「哼，當然」的炫耀，但不是挑釁嘲弄
+- panic：（馬份限定）害怕得僵住、不敢出聲，臉色微青、冒冷汗；和 surprised 的分別是 surprised 是「愣住」，panic 是「嚇到」
+- cute：（馬份限定）撒嬌、嘟嘴、眼神飄向一旁、微微臉紅，帶點任性地討東西或討人在意；一年級少用，羈絆高時再多用
+- cry：（馬份限定）強忍眼淚，終於忍不住流下一兩行淚（不是大哭）；留給真正的重頭戲（例如被孤立、家族壓力爆發）。貴族服版可延後生圖
 
 ---
 
@@ -45,13 +45,14 @@
 ### 德拉科妮亞．馬份（draconia）
 - **名牌**：馬份。一出場就顯示名字；旁白在她自我介紹前稱她「那女孩」。
 - **稱呼**：自稱全名只在正式介紹時用。平時大家叫她「馬份」，家人叫她「妮亞」。
-- **身份**：一年級新生，純血馬份家獨生女。父親魯休斯，母親水仙。學院【待定，原著為史萊哲林】。
+- **身份**：一年級新生，純血馬份家獨生女。父親魯休斯，母親水仙。學院：史萊哲林（第二章分院）。
 - **外觀**：淺金色長髮（劇本一律寫「淺金色」）；灰色眼睛，形容為「像冬天結冰的湖面」；膚色白皙；臉型尖細；身材纖細；常抬著下巴；手指細長，指甲修得整齊。
   - 生圖描述（英文）：*11-year-old girl, long pale blonde hair, cold grey eyes, pale skin, sharp delicate face, slender, proud posture with chin raised, anime visual novel style*【髮飾待定】
-- **服裝**（立繪分兩套，每套都有 10 個表情）：
+- **服裝**（立繪分三套，每套都有 10 個表情）：
   - **貴族服**（noble）：入學前的便服。第一章斜角巷全程穿這套。款式【待定】。生圖時在描述後加：*elegant aristocratic dress, dark green and silver*【顏色待定】
-  - **校服**（school）：霍格華茲黑袍。第一章列車開始穿這套。生圖時加：*Hogwarts black school robes*（分院前沒有學院徽章；分院後是否換成史萊哲林配色【待定】）
-  - 圖檔路徑：`assets/chara/draconia/noble/<表情>.webp`、`assets/chara/draconia/school/<表情>.webp`；劇本用 `@outfit draconia noble`／`@outfit draconia school` 切換
+  - **黑袍**（school）：霍格華茲黑袍，分院前沒有學院徽章，但她自己戴純綠領帶和銀蛇領帶夾。第一章列車開始到第二章分院前穿這套。
+  - **史萊哲林校服**（slytherin）：分院後換穿，綠色內襯、綠銀斜紋領帶、學院徽章。
+  - 圖檔路徑：`assets/chara/draconia/<服裝>/<表情>.webp`；劇本用 `@outfit draconia noble`／`school`／`slytherin` 切換
 - **性格**：以原著跩哥為底，調整成傲嬌。高傲、看不起「低等」的人，嘴上刻薄，心裡在意。被說中心事或被救時會結巴（「你、你……」「誰、誰要你……」），死不道謝。一年級定位是「口是心非的對手」，隨劇情逐漸軟化。
 - **說話習慣**：叫哈利「波特」；常用「哼」；叫榮恩「衛斯理」或帶貶意的稱呼。
 - **隨從**：克拉、高爾。
@@ -70,6 +71,7 @@
 - **身份**：一年級新生，衛斯理家么兒（男生中最小）。
 - **外觀**：紅髮、雀斑、藍眼、個子高瘦、長鼻子；袍子是舊的，外套打過補丁。
   - 生圖描述：*11-year-old boy, red hair, freckles, blue eyes, tall and lanky, long nose, worn hand-me-down robes*
+- **服裝**：黑袍（school，分院前）、葛來分多校服（gryffindor，第二章分院後換上）。劇本用 `@outfit ron gryffindor` 切換。
 - **性格**：直率、愛吃、自卑家裡窮，被嘲笑時耳朵會變紅。
 - **已確定的設定**：第一章選擇 6 選 A（`f.c1_hand=1`）時，哈利說只是不想跟她起衝突，榮恩悶悶不樂了一陣，不到十分鐘又湊過來聊天；選 B 時榮恩道謝，抱怨她沒禮貌；選 C 時榮恩稱讚哈利「太帥了」。選擇 7 若坐上馬份的船，榮恩會嘀咕一句，被妙麗推上另一條船。
 
@@ -77,6 +79,7 @@
 - **身份**：一年級新生，麻瓜出身。
 - **外觀**：蓬鬆的棕色長髮、棕色眼睛、門牙略大（原著設定，是否保留【待定】）。
   - 生圖描述：*11-year-old girl, very bushy brown hair, brown eyes, bright and earnest expression, Hogwarts robes*
+- **服裝**：黑袍（school，分院前）、葛來分多校服（gryffindor，第二章分院後換上）。劇本用 `@outfit hermione gryffindor` 切換。
 - **性格**：聰明、認真、愛說教、讀過很多書；一開始有點不討喜，其實熱心。
 - **已確定的設定**：第一章在車廂幫奈威找蟾蜍（`f.c1_toad`）。
 
@@ -102,7 +105,7 @@
 ### 克拉（crabbe）、高爾（goyle）
 - **本作改為女生**，沿用姓氏，不另取名字。體型**不寫壯碩**。
 - 馬份的隨從，兩家從祖父那一輩就認識。話極少，大多只回「嗯」。
-- 克拉：綁兩條粗辮子。高爾：總是在吃東西（第一章在船上啃蛋糕）。其他外觀【待定】。
+- 克拉：黑髮，稍微過肩，髮尾微捲。高爾：黑髮中分，總是在吃東西（第一章在船上啃蛋糕）。立繪只有 normal，穿黑袍。
 - 後續影響：二年級喝變身水變成克拉和高爾的情節，需要另外設計。
 
 ### 奈威．隆巴頓

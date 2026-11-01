@@ -1,3 +1,4 @@
+// 【已停用】這 5 個場景已有正式背景（assets/bg/*.webp）；此工具只保留作參考，輸出的 .jpg 引擎不會讀。
 // 用程式（SVG）畫出 5 個暫代場景背景，輸出到 assets/bg/*.jpg（1920x1920，重點內容放中央）。
 // 會覆蓋同名檔案！換上正式背景圖之後不要再跑這支。
 // 用法：node tools/make_scenes.js   （需要 playwright + chromium）

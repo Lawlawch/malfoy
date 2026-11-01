@@ -185,7 +185,7 @@ function openGallery() {
   }
   render();
 }
-function tryImg(id, ok) { const u = `./assets/cg/${id}.jpg`, im = new Image(); im.onload = () => ok(u); im.src = u; }
+function tryImg(id, ok) { const u = `./assets/cg/${id}.webp`, im = new Image(); im.onload = () => ok(u); im.src = u; }
 function viewCG(it, no) {
   $("#vn_cgview")?.remove();
   const ph = el("span", { text: it.name });

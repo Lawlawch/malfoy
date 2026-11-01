@@ -16,7 +16,7 @@ for (const ch of story.chapters.filter((c) => c.ready)) {
   const r = parseScript(fs.readFileSync(file, "utf8"), { characters: story.characters, speakers: Object.keys(story.speakers), cgIds });
   const warn = [...r.warnings];
   for (const c of r.cmds) {
-    if (c.op === "bg" && !fs.existsSync(path.join(root, "assets/bg", c.name + ".jpg"))) warn.push({ line: c.line, msg: `背景圖不存在：assets/bg/${c.name}.jpg` });
+    if (c.op === "bg" && !fs.existsSync(path.join(root, "assets/bg", c.name + ".webp"))) warn.push({ line: c.line, msg: `背景圖不存在：assets/bg/${c.name}.webp` });
     if (c.op === "show" || c.op === "face") {
       // 有服裝的角色：每一套服裝都要有這個表情（劇本裡換裝可能發生在別的分支，所以全部檢查）
       const ch = story.characters[c.id], dirs = ch && ch.outfits ? ch.outfits.map((o) => c.id + "/" + o) : [c.id];
