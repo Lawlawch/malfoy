@@ -49,7 +49,7 @@ export const speakers = { "哈利": "harry", "？？？": "unknown", "德思禮�
 // pos：CG 裁切焦點（"水平% 垂直%"，預設 "50% 50%"）。CG 是方圖，橫向會裁上下、直向會裁左右，焦點決定保留哪一塊；由立繪聊天室量好後填入
 export const cgs = {
   normal: [
-    { id: "cg_robeshop", name: "長袍店的初遇", pos: "50% 15%" },
+    { id: "cg_robeshop", name: "長袍店的初遇", pos: "50% 4%" },
     { id: "cg_wandshop", name: "魔杖店．落下的盒子", pos: "50% 40%" },
     { id: "cg_handshake", name: "伸出的手" },
     { id: "cg_hat",      name: "分類帽下的她" },
