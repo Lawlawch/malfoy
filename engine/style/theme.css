@@ -70,8 +70,8 @@ html, body {
 #msg { position: absolute; z-index: 10; display: none; pointer-events: none; }
 #msg.on { display: block; }
 #msg.hid { display: none !important; }
-.land #msg { left: 160px; top: 470px; width: 1000px; height: 230px; }
-.port #msg { left: 40px; top: 860px; width: 640px; height: 380px; }
+.land #msg { left: 160px; top: 510px; width: 1000px; height: 190px; }   /* 2 行（現有劇本最長 46 字，橫向一行約 34 字） */
+.port #msg { left: 40px; top: 920px; width: 640px; height: 320px; }   /* 3 行（直向一行約 14 字；超過 42 字的句子自動縮字） */
 #msg .box {
   position: absolute; inset: 0; opacity: 0.94;
   background: var(--vn-paper);
