@@ -142,8 +142,8 @@ const ICONS = {
  "skip": "<path d=\"M4 6v12l8-6zM12 6v12l8-6z\" fill=\"currentColor\" stroke=\"none\"/>",
  "log": "<path d=\"M8 4h9a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H8\"/><path d=\"M8 4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2 2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z\"/><path d=\"M12.5 9h4M12.5 12.5h4M12.5 16h2.5\"/>",
  "hide": "<path d=\"M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6z\"/><circle cx=\"12\" cy=\"12\" r=\"2.6\"/><path d=\"M4 20 20 4\"/>",
- "save": "<path d=\"M4 20h10M4 6h6M4 9.5h4.5M4 13h3.5\"/><path d=\"M21 3c-4.5.5-8.5 4.2-10.5 9.2L9.5 16l3.6-1.1C18 13 20.6 8.2 21 3z\"/><path d=\"M9.5 16l4.2-4.4\"/>",
- "load": "<path d=\"M12 7C10 5.5 7 5 3.5 5.5v13c3.5-.5 6.5 0 8.5 1.5 2-1.5 5-2 8.5-1.5v-13C17 5 14 5.5 12 7z\"/><path d=\"M12 7v13\"/>",
+ "save": "<path d=\"M5 6.5v12.5a1.5 1.5 0 0 0 1.5 1.5H19V8\"/><path d=\"M5 19a1.5 1.5 0 0 1 1.5-1.5H19\"/><path d=\"M12 2.5v9\"/><path d=\"M8.5 8.2 12 11.7l3.5-3.5\"/><path d=\"M15.5 4.5H19v3.5\"/>",   // 書＋往裡放的箭頭
+ "load": "<path d=\"M12 8C10 6.5 7 6 3.5 6.5v12c3.5-.5 6.5 0 8.5 1.5 2-1.5 5-2 8.5-1.5v-12C17 6 14 6.5 12 8z\"/><path d=\"M12 8v12\"/><path d=\"M15 3.8a3.6 3.6 0 1 0 3.6 3.5\"/><path d=\"M16.2 1.9 15 3.8l2 1\"/>",   // 打開的書＋迴轉箭頭
  "config": "<path d=\"M21.09 10.56 L21.09 13.44 L18.68 13.72 L17.97 15.47 L19.44 17.41 L17.41 19.44 L15.51 17.94 L13.77 18.67 L13.44 21.09 L10.56 21.09 L10.28 18.68 L8.53 17.97 L6.59 19.44 L4.56 17.41 L6.06 15.51 L5.33 13.77 L2.91 13.44 L2.91 10.56 L5.32 10.28 L6.03 8.53 L4.56 6.59 L6.59 4.56 L8.49 6.06 L10.23 5.33 L10.56 2.91 L13.44 2.91 L13.72 5.32 L15.47 6.03 L17.41 4.56 L19.44 6.59 L17.94 8.49 L18.67 10.23 Z\"/><circle cx=\"12\" cy=\"12\" r=\"2.8\"/>",
  "title": "<path d=\"M4 20V9h3v2h2.5V9h5v2H17V9h3v11z\"/><path d=\"M10 20v-3.5a2 2 0 0 1 4 0V20\"/>"
 };
@@ -151,7 +151,7 @@ function buildToolbar() {
   const strip = el("div.vn_strip");
   TOOLS.forEach(([act, label]) => {
     const b = el("button", { type: "button", "data-act": act, title: label, "aria-label": label });
-    b.innerHTML = `<svg viewBox="0 0 24 24" aria-hidden="true">${ICONS[act]}</svg>`;
+    b.innerHTML = `<svg viewBox="0 0 24 24" aria-hidden="true">${ICONS[act]}</svg><small>${label}</small>`;   // 圖示下面加兩個小字
     strip.append(tap(b, () => handlers.tool && handlers.tool(act)));
   });
   toolbar = el("div#vn_toolbar", {}, strip);

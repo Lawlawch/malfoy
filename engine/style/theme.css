@@ -195,8 +195,11 @@ html, body {
   color: #5a3d22; opacity: 0.82; touch-action: manipulation;
 }
 .port #vn_toolbar button { width: 72px; height: 60px; }
-#vn_toolbar button svg { width: 31px; height: 31px; fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
-.port #vn_toolbar button svg { width: 40px; height: 40px; }
+#vn_toolbar button { flex-direction: column; gap: 2px; }
+#vn_toolbar button svg { width: 25px; height: 25px; fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
+.port #vn_toolbar button svg { width: 32px; height: 32px; }
+#vn_toolbar button small { font-size: 12px; line-height: 1; letter-spacing: 0.1em; padding-left: 0.1em; font-weight: 600; white-space: nowrap; }   /* 圖示下面的兩個小字（按鈕高度不變，對話框高度不變） */
+.port #vn_toolbar button small { font-size: 15px; }
 #vn_toolbar button:hover { opacity: 1; color: var(--vn-wine); background: rgba(201, 162, 74, 0.22); }
 #vn_toolbar button.active { opacity: 1; color: var(--vn-parch-1); background: linear-gradient(180deg, #a03342, var(--vn-wine)); }
 /* 選項時刻：對話框變暗，圖示改成淺羊皮紙色才看得清楚（仍然可以按） */

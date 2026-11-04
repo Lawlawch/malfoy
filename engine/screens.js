@@ -4,6 +4,7 @@
 import { G, $, el, tap, sf, saveSf, db, cfg, fontPx, story, chapterById, chapterLabel, NUM_CN, DEBUG } from "./core.js";
 import * as ui from "./ui.js";
 import * as audio from "./audio.js";
+import { sealHtml, LOCK_HTML, decorateRange, cardFrameHtml, CARD_STAR, cardRuleHtml, cardMotes } from "./deco.js";
 import { P, hooks, preloadChapter, startChapter, hasContinue, doContinue, makeSave, loadSnap, saveStatus, quitToTitle, setAuto, setSkip, toggleHide, stopAutoSkip, syncTools } from "./player.js";
 
 /* =============================================================
@@ -127,8 +128,8 @@ function openChapters() {
     for (let i = 0; i < 10; i++) {
       const c = chs[i];
       const open = !!(c && c.ready && sf.unlocked[c.id]);
-      if (!open) { list.append(el("div.vn_ch_row.locked", {}, el("span.lock"))); continue; }
-      const row = el("div.vn_ch_row", {}, el("span.no", { text: "第" + NUM_CN[c.n] + "章" }), el("span.nm", { text: c.title }), sf.done && sf.done[c.id] ? el("span.done", { text: "已讀" }) : null);
+      if (!open) { list.append(el("div.vn_ch_row.locked", {}, el("span.lock", { html: LOCK_HTML }))); continue; }
+      const row = el("div.vn_ch_row", {}, el("span.no", { text: "第" + NUM_CN[c.n] + "章" }), el("span.nm", { text: c.title }), sf.done && sf.done[c.id] ? el("span.done", { "aria-label": "已讀", html: sealHtml() }) : null);
       tap(row, async () => {
         const note = sf.head !== undefined && c.n > sf.head && !!(sf.chStart && sf.chStart[c.id]);   // 沿用舊時間線留下的進度
         const auto = hasContinue();
@@ -173,7 +174,8 @@ function openGallery() {
     const pager = el("div.vn_pager", {},
       tap(el("span.vn_pg_btn" + (page === 0 ? ".off" : ""), { text: "‹" }), () => { if (page > 0) { page--; render(); } }),
       el("span.vn_pg_no", { text: `${page + 1} / ${pages}` }),
-      tap(el("span.vn_pg_btn" + (page >= pages - 1 ? ".off" : ""), { text: "›" }), () => { if (page < pages - 1) { page++; render(); } }));
+      tap(el("span.vn_pg_btn" + (page >= pages - 1 ? ".off" : ""), { text: "›" }), () => { if (page < pages - 1) { page++; render(); } }),
+      el("span.vn_pg_dots", { html: Array.from({ length: pages }, (_, i) => `<i${i === page ? ' class="on"' : ""}></i>`).join("") }));
     S.body.innerHTML = ""; S.body.append(grid);
     S.foot.querySelector(".vn_pager")?.remove();
     S.foot.append(pager);                          // 頁碼與翻頁鈕放在底欄，緊接縮圖區下方
@@ -222,7 +224,7 @@ function openConfig() {
     const input = el("input", { type: "range", min: 0, max: 100, step: 1, value: c[key] });
     input.addEventListener("input", () => { c[key] = Number(input.value); val.textContent = c[key]; audio.applyVolumes(); });
     input.addEventListener("change", saveSf);
-    T.append(el("div.vn_cfg_row", {}, el("span.lb", { text: label }), el("span.ctl", {}, input, val)));
+    T.append(el("div.vn_cfg_row", {}, el("span.lb", { text: label }), el("span.ctl", {}, decorateRange(input), val)));
   }
   function render() {
     // 文字與音效放在同一頁
@@ -250,11 +252,14 @@ function showCard(c) {
   $("#vn_card")?.remove();
   const first = c.n === 1;                         // 每個年級第一章：年級名放大
   const e = el("div#vn_card" + (first ? ".first" : ""), {},
+    el("div.deco", { html: cardFrameHtml(G.L.w, G.L.h) + cardMotes() }),
     el("div.in", {},
+      el("div.star", { html: CARD_STAR }),
       el("div.small", { text: first ? yearName(c.year) : chapterLabel(c).replace("．", "・") }),
       first ? el("div.sub", { text: "第" + (NUM_CN[c.n] || c.n) + "章" }) : null,
-      el("div.rule", {}, el("i")),
-      el("div.big", { text: c.title })));
+      el("div.rule2", { html: cardRuleHtml(true) }),
+      el("div.big", { text: c.title }),
+      el("div.rule2.under", { html: cardRuleHtml(false) })));
   G.root.append(e);
   let done;
   const ready = new Promise((r) => (done = r));

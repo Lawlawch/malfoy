@@ -6,11 +6,13 @@ import { initStage } from "./stage.js";
 import { initUI } from "./ui.js";
 import { showHome } from "./screens.js";
 import "./player.js";
+import { initDeco } from "./deco.js";
 
 const root = G.root = el("div#game");
 document.body.append(root);
 initStage(root);
 initUI(root);
+initDeco();                                        // 面板按鈕、章節格、存檔格的造型（自動套用）
 const setFont = () => root.style.setProperty("--fs", fontPx() + "px");
 G.onResize.unshift(setFont);
 
