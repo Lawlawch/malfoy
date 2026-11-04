@@ -9,7 +9,7 @@ export const chapters = [
   { id: "ch1_03", year: 1, n: 3,  title: "地窖裡的魔藥課", ready: true },
   { id: "ch1_04", year: 1, n: 4,  title: "飛行課與記憶球", ready: true },
   { id: "ch1_05", year: 1, n: 5,  title: "午夜決鬥", ready: true },
-  { id: "ch1_06", year: 1, n: 6,  title: "萬聖節的巨怪" },
+  { id: "ch1_06", year: 1, n: 6,  title: "萬聖節的山怪", ready: true },
   { id: "ch1_07", year: 1, n: 7,  title: "魁地奇首戰" },
   { id: "ch1_08", year: 1, n: 8,  title: "聖誕節與厄里斯魔鏡" },
   { id: "ch1_09", year: 1, n: 9,  title: "挪威脊背龍與禁林" },
@@ -24,7 +24,7 @@ export const characters = {
   // outfits：有這一欄的角色立繪放在 assets/chara/<角色>/<服裝>/<表情>.webp，劇本用 @outfit 切換（跨場景、跨章節沿用）；outfit：預設服裝
   draconia: { name: "馬份",     faces: ["normal", "happy", "sad", "angry", "disdain", "shy", "surprised", "smug", "panic", "cute", "cry"], outfits: ["noble", "school", "slytherin"], outfit: "noble" },   // noble 貴族服、school 黑袍（分院前）、slytherin 史萊哲林校服
   ron:      { name: "榮恩",     faces: ["normal", "happy", "sad", "angry", "surprised", "disdain", "shy", "panic"], outfits: ["school", "gryffindor"], outfit: "school" },   // school 黑袍（分院前）、gryffindor 葛來分多校服
-  hermione: { name: "妙麗",     faces: ["normal", "happy", "sad", "angry", "shy", "surprised"], outfits: ["school", "gryffindor"], outfit: "school" },   // school 黑袍（分院前）、gryffindor 葛來分多校服
+  hermione: { name: "妙麗",     faces: ["normal", "happy", "sad", "angry", "shy", "surprised", "cry", "panic"], outfits: ["school", "gryffindor"], outfit: "school" },   // school 黑袍（分院前）、gryffindor 葛來分多校服
   hagrid:   { name: "海格",     faces: ["normal", "happy", "sad"], scale: 1 },   // scale：立繪縮放倍率（預設 1），高大的角色往上長（原 1.15，頭會被裁切，暫時改回 1）
   molly:    { name: "衛斯理太太", faces: ["normal"] },
   ollivander: { name: "奧利凡德", faces: ["normal"] },
@@ -41,7 +41,9 @@ export const characters = {
   pansy:       { name: "潘西",     faces: ["normal", "happy", "angry", "smug", "disdain", "surprised"] },
   snape:       { name: "石內卜",   faces: ["normal", "angry"] },
   hooch:       { name: "胡奇夫人", faces: ["normal"] },
-  wood:        { name: "木透",     faces: ["normal"] }
+  wood:        { name: "木透",     faces: ["normal"] },
+  flitwick:    { name: "孚立維教授", faces: ["normal"] },   // 黑影立繪
+  quirrell:    { name: "奎若教授",   faces: ["normal"] }
 };
 
 // 沒有立繪、但會說話的人（#名字 不會被當成打錯字）。值 = 頭像檔名
@@ -64,18 +66,30 @@ export const cgs = {
     { id: "cg_fluffy",   name: "緊抓袍角的手" },
     { id: "cg_fluffy_b", name: "身後的同伴" },
     { id: "cg_broom",    name: "捧著光輪的她" },
+    { id: "cg_pitch_solo", name: "夕陽下的光輪" },
+    { id: "cg_pitch_duo",  name: "並肩的晚霞" },
+    { id: "cg_troll",      name: "山怪背上" },
+    { id: "cg_shield",     name: "護在身後的人" },
     { id: "cg_mirror",   name: "厄里斯魔鏡" },
     { id: "cg_xmas",     name: "聖誕夜的禮物" },
     { id: "cg_forest",   name: "禁林深處" },
     { id: "cg_stone",    name: "魔法石的守護" },
     // 以下暫定（名稱與圖之後再定）
-    { id: "cg_09",       name: "（待定）" },
-    { id: "cg_10",       name: "（待定）" },
-    { id: "cg_11",       name: "（待定）" },
-    { id: "cg_12",       name: "（待定）" },
-    { id: "cg_13",       name: "（待定）" },
-    { id: "cg_14",       name: "（待定）" },
-    { id: "cg_15",       name: "（待定）" }
+    { id: "cg_21",       name: "（待定）" },
+    { id: "cg_22",       name: "（待定）" },
+    { id: "cg_23",       name: "（待定）" },
+    { id: "cg_24",       name: "（待定）" },
+    { id: "cg_25",       name: "（待定）" },
+    { id: "cg_26",       name: "（待定）" },
+    { id: "cg_27",       name: "（待定）" },
+    { id: "cg_28",       name: "（待定）" },
+    { id: "cg_29",       name: "（待定）" },
+    { id: "cg_30",       name: "（待定）" },
+    { id: "cg_31",       name: "（待定）" },
+    { id: "cg_32",       name: "（待定）" },
+    { id: "cg_33",       name: "（待定）" },
+    { id: "cg_34",       name: "（待定）" },
+    { id: "cg_35",       name: "（待定）" }
   ],
   ending: [
     { id: "y1_A", name: "結局：並肩的光" },

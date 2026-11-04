@@ -64,14 +64,14 @@
 |---|---|
 | 馬份 | normal、happy、sad、angry、disdain、shy、surprised、smug、panic、cute、cry（貴族服、黑袍、史萊哲林校服三套都有） |
 | 榮恩 | normal、happy、sad、angry、surprised、disdain、shy、panic（黑袍、葛來分多校服兩套都有） |
-| 妙麗 | normal、happy、sad、angry、shy、surprised（黑袍、葛來分多校服兩套都有） |
+| 妙麗 | normal、happy、sad、angry、shy、surprised、cry、panic（黑袍、葛來分多校服兩套都有） |
 | 海格 | normal、happy、sad |
 | 潘西 | normal、happy、angry、smug、disdain、surprised |
 | 石內卜 | normal、angry |
-| 衛斯理太太、奧利凡德、摩金夫人、克拉、高爾、胡奇夫人、木透 | normal |
+| 衛斯理太太、奧利凡德、摩金夫人、克拉、高爾、胡奇夫人、木透、孚立維教授（黑影）、奎若教授 | normal |
 | 哈利 | 無立繪（第一人稱） |
 
-- disdain（輕蔑、不屑，覺得對方在耍白痴，但不是真的生氣）：馬份、榮恩、潘西有。smug（得意的笑）：馬份、潘西有。panic（嚇得僵住、不敢出聲）：馬份、榮恩有。cute（撒嬌、嘟嘴）、cry（強忍眼淚，終於落淚）目前是馬份限定。
+- disdain（輕蔑、不屑，覺得對方在耍白痴，但不是真的生氣）：馬份、榮恩、潘西有。smug（得意的笑）：馬份、潘西有。panic（嚇得僵住、不敢出聲）：馬份、榮恩、妙麗有。cry（強忍眼淚，終於落淚）：馬份、妙麗有。cute（撒嬌、嘟嘴）目前是馬份限定。
   - angry 是真的動怒；disdain 是瞧不起、不屑；smug 是得意。
   - panic 和 surprised 的分別：surprised 是愣住，panic 是害怕。**panic 只用在真的遇到害怕的事物時**；一般的驚訝用 surprised，慌張害羞用 shy。
   - cute 一年級少用（她還是口是心非的對手），羈絆高時再多用；cry 留給真正的重頭戲。

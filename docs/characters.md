@@ -17,7 +17,7 @@
 |---|---|---|
 | 馬份 | draconia | normal、happy、sad、angry、disdain、shy、surprised、smug、panic、cute、cry（貴族服、黑袍、史萊哲林校服三套，共 33 張；原本的 angry 圖改為 disdain，新的 angry 圖待補） |
 | 榮恩 | ron | normal、happy、sad、angry、surprised、disdain、shy、panic（黑袍、葛來分多校服兩套，共 16 張；disdain、shy、panic 第五章新增，待補圖） |
-| 妙麗 | hermione | normal、happy、sad、angry、shy、surprised（黑袍、葛來分多校服兩套，共 12 張） |
+| 妙麗 | hermione | normal、happy、sad、angry、shy、surprised、cry、panic（黑袍、葛來分多校服兩套，共 16 張；cry、panic 第六章新增，待補圖） |
 | 海格 | hagrid | normal、happy、sad |
 | 衛斯理太太 | molly | normal |
 | 奧利凡德 | ollivander | normal |
@@ -27,6 +27,8 @@
 | 潘西 | pansy | normal、happy、angry、smug、disdain、surprised（disdain、surprised 第四、五章新增，待補圖） |
 | 石內卜 | snape | normal、angry |
 | 胡奇夫人 | hooch | normal |
+| 孚立維教授 | flitwick | normal（黑影立繪） |
+| 奎若教授 | quirrell | normal |
 | 木透 | wood | normal |
 | 哈利 | （無立繪） | 第一人稱，只有對話紀錄頭像 |
 
@@ -39,9 +41,9 @@
 - shy：害羞、臉紅、口是心非（傲嬌場面的主力）
 - surprised：驚訝、愣住
 - smug：（馬份、潘西）得意、心滿意足的笑，抬著下巴看人；和 happy 的分別是 happy 較真心開朗，smug 帶著「哼，當然」的炫耀，但不是挑釁嘲弄
-- panic：（馬份、榮恩）害怕得僵住、不敢出聲，臉色微青、冒冷汗；和 surprised 的分別是 surprised 是「愣住」，panic 是「嚇到」。**只用在真的遇到害怕的事物時**（例：盒子砸下來、梯子晃動、藥水流過來）；一般的驚訝、慌張或害羞，用 surprised 或 shy
+- panic：（馬份、榮恩、妙麗）害怕得僵住、不敢出聲，臉色微青、冒冷汗；和 surprised 的分別是 surprised 是「愣住」，panic 是「嚇到」。**只用在真的遇到害怕的事物時**（例：盒子砸下來、梯子晃動、藥水流過來）；一般的驚訝、慌張或害羞，用 surprised 或 shy
 - cute：（馬份限定）撒嬌、嘟嘴、眼神飄向一旁、微微臉紅，帶點任性地討東西或討人在意；一年級少用，羈絆高時再多用
-- cry：（馬份限定）強忍眼淚，終於忍不住流下一兩行淚（不是大哭）；留給真正的重頭戲（例如被孤立、家族壓力爆發）。貴族服版可延後生圖
+- cry：（馬份、妙麗）強忍眼淚，終於忍不住流下一兩行淚（不是大哭）；留給真正的重頭戲（例如被孤立、家族壓力爆發）。貴族服版可延後生圖
 
 ---
 
@@ -87,7 +89,8 @@
   - 生圖描述：*11-year-old girl, very bushy brown hair, brown eyes, bright and earnest expression, Hogwarts robes*
 - **服裝**：黑袍（school，分院前）、葛來分多校服（gryffindor，第二章分院後換上）。劇本用 `@outfit hermione gryffindor` 切換。
 - **性格**：聰明、認真、愛說教、讀過很多書；一開始有點不討喜，其實熱心。
-- **已確定的設定**：第一章在車廂幫奈威找蟾蜍（`f.c1_toad`）。
+- **表情補充**：cry 用在被榮恩的話傷到、哭著跑走時（第六章）；panic 用在被山怪逼到牆角時。
+- **已確定的設定**：第一章在車廂幫奈威找蟾蜍（`f.c1_toad`）。第六章山怪事件後成為哈利、榮恩的朋友；路線 A 被馬份保護，向她道謝，但明說不認同純血主義。
 
 ### 魯霸．海格（hagrid）
 - **身份**：霍格華茲的鑰匙管理員兼獵場看守。
@@ -131,6 +134,12 @@
 ### 木透（wood）
 - 奧利佛．木透，葛來分多五年級生，魁地奇隊隊長。高大，談到魁地奇就兩眼發亮。名牌用「木透」。第四章初登場，立繪只有 normal。
 - 第四章叮囑哈利「比賽之前，對誰都不准說」；第五章麥教授的信約哈利晚上七點到球場練習。
+
+### 孚立維教授（flitwick）
+- 符咒學教授，個子很小，上課要站在一疊書上。說話熱情，愛稱讚學生。第六章初登場，**立繪是黑影**（只有輪廓的剪影），表情只有 normal。
+
+### 奎若教授（quirrell）
+- 黑魔法防禦術教授，戴紫色頭巾，說話結結巴巴，教室裡全是大蒜味。第六章衝進大廳喊「山怪在地窖裡」。立繪只有 normal。
 
 ### 飛七（無立繪）
 - 學校管理員，養了一隻叫拿樂絲太太的貓。第五章只出聲音、不出立繪（名牌「飛七」，頭像用 unknown）。

@@ -28,7 +28,8 @@ HY = HEAD_TOP + HEAD_R                 # 頭的圓心
 COLORS = {"draconia": (120, 140, 190), "ron": (200, 110, 70), "hermione": (150, 100, 70), "hagrid": (120, 90, 60),
           "molly": (190, 130, 100), "ollivander": (110, 110, 120), "malkin": (160, 110, 140), "crabbe": (90, 110, 90), "goyle": (110, 95, 80),
           "mcgonagall": (60, 110, 80), "sorting_hat": (110, 90, 60), "neville": (150, 120, 90), "fred": (200, 100, 60), "george": (190, 95, 65), "dumbledore": (140, 120, 170), "percy": (180, 105, 70), "pansy": (90, 130, 100), "snape": (40, 40, 48),
-          "hooch": (150, 140, 100), "wood": (170, 80, 60)}
+          "hooch": (150, 140, 100), "wood": (170, 80, 60),
+          "flitwick": (18, 18, 22), "quirrell": (110, 70, 140)}   # flitwick 黑影立繪（佔位用近黑色）
 
 def face_marks(d, face, ink):
     # 用簡單的眉、眼、嘴區分表情（佔位用，方便測試換表情）
@@ -152,4 +153,7 @@ bg("training_grounds.webp", "TRAINING GROUNDS", (60, 96, 120), (90, 130, 70))
 bg("fat_lady_corridor.webp", "FAT LADY CORRIDOR", (40, 26, 30), (120, 80, 60))
 bg("trophy_room.webp", "TROPHY ROOM", (20, 26, 44), (90, 96, 120))
 bg("third_floor_corridor.webp", "THIRD FLOOR CORRIDOR", (24, 22, 26), (80, 70, 64))
+bg("quidditch_pitch.webp", "QUIDDITCH PITCH", (200, 110, 60), (70, 110, 60))
+bg("charms_classroom.webp", "CHARMS CLASSROOM", (60, 50, 80), (140, 120, 100))
+bg("girls_bathroom.webp", "GIRLS' BATHROOM", (50, 60, 64), (120, 130, 128))
 print("立繪佔位圖：產生", made, "張")

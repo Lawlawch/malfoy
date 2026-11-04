@@ -4,13 +4,14 @@
    ============================================================= */
 import { G, LAYOUT, el, sleep, story } from "./core.js";
 
-let bgA, bgB, layer, cgLayer;                      // 兩層背景輪流淡入；立繪層；劇情 CG 層
+let bgA, bgB, layer, cgLayer, cgUnder = null;      // 兩層背景輪流淡入；立繪層；劇情 CG 層；CG 換 CG 時墊在下面的舊 CG
 const charaEls = {};                               // id → <img>
+const ghosts = {};                                 // id → 換表情時疊在上面淡出的舊圖
 
 export function initStage(root) {
   bgA = el("div.stage_bg"); bgB = el("div.stage_bg");
   layer = el("div#charas");
-  cgLayer = el("div#cgl", {}, el("span.ph"));
+  cgLayer = el("div#cgl.cgl", {}, el("span.ph"));
   root.append(bgA, bgB, layer, cgLayer);
   G.onResize.push(() => relayout(currentState, 0));
 }
@@ -78,7 +79,7 @@ export function relayout(state, ms) {
 export async function show(state, id, face, slot, fade, outfit) {
   currentState = state;
   const existing = state.charas.find((c) => c.id === id);
-  if (existing) { existing.outfit = outfit || existing.outfit; setFace(state, id, face); relayout(state, fade); return; }
+  if (existing) { existing.outfit = outfit || existing.outfit; setFace(state, id, face, fade ? 150 : 0); relayout(state, fade); return; }
   const entry = { id, face };
   if (outfit) entry.outfit = outfit;
   if (slot === "left") state.charas.unshift(entry); else state.charas.push(entry);
@@ -94,12 +95,31 @@ export async function show(state, id, face, slot, fade, outfit) {
   if (fade > 0) await sleep(fade);
 }
 
-export function setFace(state, id, face) {
+// 換表情：ms > 0 時舊圖疊在上面淡出（交叉淡化），新圖載入完成才開始，不會閃
+export function setFace(state, id, face, ms = 0) {
   const c = state.charas.find((x) => x.id === id);
   if (!c) return;
   c.face = face;
   const img = charaEls[id];
-  if (img) { img.src = urlOf(c); preload(urlOf(c)); }
+  if (img) swapSrc(id, img, urlOf(c), ms);
+}
+function dropGhost(id) { if (ghosts[id]) { ghosts[id].remove(); delete ghosts[id]; } }
+function swapSrc(id, img, url, ms) {
+  dropGhost(id);
+  if (!ms || !img.complete || !img.naturalWidth) { img.src = url; preload(url); return; }
+  const g = img.cloneNode();
+  g.style.transition = "none";
+  g.style.opacity = getComputedStyle(img).opacity;
+  img.after(g); ghosts[id] = g;
+  preload(url).then(() => {
+    if (ghosts[id] !== g) return;
+    img.src = url;
+    return (img.decode ? img.decode() : Promise.resolve()).catch(() => {});
+  }).then(() => {
+    if (ghosts[id] !== g) return;
+    g.style.transition = `opacity ${ms}ms ease`; g.style.opacity = "0";
+    setTimeout(() => { if (ghosts[id] === g) dropGhost(id); }, ms + 30);
+  });
 }
 // 換裝：角色在台上就直接換圖，保留表情與位置
 export function setOutfit(state, id, outfit) {
@@ -107,14 +127,14 @@ export function setOutfit(state, id, outfit) {
   if (!c) return;
   c.outfit = outfit;
   const img = charaEls[id];
-  if (img) { img.src = urlOf(c); preload(urlOf(c)); }
+  if (img) swapSrc(id, img, urlOf(c), 0);
 }
 
 export async function hide(state, id, fade) {
   const i = state.charas.findIndex((c) => c.id === id);
   if (i < 0) return;
   state.charas.splice(i, 1);
-  const img = charaEls[id]; delete charaEls[id];
+  const img = charaEls[id]; delete charaEls[id]; dropGhost(id);
   if (img) { img.style.transition = `opacity ${fade}ms ease`; img.style.opacity = "0"; setTimeout(() => img.remove(), fade + 30); }
   relayout(state, fade);
   if (fade > 0) await sleep(fade);
@@ -136,18 +156,29 @@ function paintCg(id, im) {
   cgLayer.classList.toggle("noimg", !im);
   cgLayer.querySelector(".ph").textContent = im ? "" : cgName(id);
 }
+// CG 顯示中又換另一張：把舊 CG 複製一份墊在下面，新 CG 疊上去淡入，中間不會露出背景
+function dropCgUnder() { if (cgUnder) { cgUnder.remove(); cgUnder = null; } }
 export async function showCg(state, id, fade) {
+  const swap = !!state.cg && cgLayer.classList.contains("on") && fade > 0;
   state.cg = id;
   const im = await preload(cgUrl(id));
+  dropCgUnder();
+  if (swap) {
+    cgUnder = cgLayer.cloneNode(true); cgUnder.removeAttribute("id");
+    cgUnder.style.transition = "none"; cgUnder.style.opacity = "1";
+    cgLayer.before(cgUnder);
+  }
   paintCg(id, im);
   cgLayer.style.transition = "none"; cgLayer.style.opacity = "0"; cgLayer.classList.add("on");
   cgLayer.offsetWidth;
   cgLayer.style.transition = `opacity ${fade}ms ease`; cgLayer.style.opacity = "1";
   if (fade > 0) await sleep(fade);
+  if (state.cg === id) dropCgUnder();
 }
 export async function hideCg(state, fade) {
   if (!state.cg) return;
   state.cg = "";
+  dropCgUnder();
   cgLayer.style.transition = `opacity ${fade}ms ease`; cgLayer.style.opacity = "0";
   if (fade > 0) await sleep(fade);
   if (!state.cg) cgLayer.classList.remove("on");
@@ -163,6 +194,7 @@ export function focus(state, speakerId) {
 export async function rebuild(state) {
   currentState = state;
   Object.keys(charaEls).forEach((id) => { charaEls[id].remove(); delete charaEls[id]; });
+  Object.keys(ghosts).forEach(dropGhost); dropCgUnder();
   [bgA, bgB].forEach((b) => { b.style.transition = "none"; b.style.opacity = "0"; b.style.backgroundImage = "none"; b.classList.remove("on"); });
   const jobs = [];
   if (state.bg) {

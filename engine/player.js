@@ -221,7 +221,7 @@ async function exec(c, token) {
     case "bg": ui.quillOff(); await stage.setBg(st, c.name, dur(c.fade)); return;
     case "show": await stage.show(st, c.id, c.face, c.slot, dur(c.fade), outfitOf(s.f, c.id)); return;
     case "outfit": s.f["outfit_" + c.id] = c.outfit; stage.setOutfit(st, c.id, c.outfit); return;   // 換裝：之後一直沿用（跨場景、跨章節）
-    case "face": stage.setFace(st, c.id, c.face); return;
+    case "face": stage.setFace(st, c.id, c.face, dur(150)); return;   // 換表情 0.15 秒交叉淡化
     case "hide": await stage.hide(st, c.id, dur(c.fade)); return;
     case "hideall": await stage.hideAll(st, dur(c.fade)); return;
     case "wait": if (!fast()) await sleep(c.ms); return;
