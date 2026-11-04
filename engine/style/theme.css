@@ -52,7 +52,8 @@ html, body {
 #game button, #game input { font-family: inherit; }
 
 /* ---------- 舞台：背景（等比例裁切填滿、置中；重要內容放在中央正方形安全區）與立繪 ---------- */
-#game .stage_bg { position: absolute; inset: 0; opacity: 0; background: center / cover no-repeat; }
+#game .stage_bg { position: absolute; inset: 0; opacity: 0; background: center / cover no-repeat;
+  filter: blur(2px); transform: scale(1.02); }   /* 背景輕微模糊（淺景深，突出立繪）；放大 2% 避免模糊後邊緣透出黑邊 */
 #charas { position: absolute; inset: 0; z-index: 5; pointer-events: none; }
 #charas .chara { position: absolute; width: auto; max-width: none; transform: translateX(-50%); pointer-events: none;
   -webkit-mask-image: linear-gradient(to bottom, #000 85%, transparent 100%); mask-image: linear-gradient(to bottom, #000 85%, transparent 100%); }   /* 底部 15% 漸層淡出，看不到腰部切邊 */

@@ -8,7 +8,7 @@
 ## 一、立繪表情規則
 
 - **重要角色**：表情較多。
-- **少數重要女性角色**：有 shy（目前只有馬份、妙麗）。
+- **少數重要角色**：有 shy（目前是馬份、妙麗、榮恩）。
 - **非重要角色**：表情較少。
 - **路人角色**：預設只有 normal。
 - 劇本只能用下表列出的表情；要新增表情，先改這份文件，再生圖、再登記進 `story/story.js`。
@@ -16,7 +16,7 @@
 | 角色 | 引擎代號 | 表情 |
 |---|---|---|
 | 馬份 | draconia | normal、happy、sad、angry、disdain、shy、surprised、smug、panic、cute、cry（貴族服、黑袍、史萊哲林校服三套，共 33 張；原本的 angry 圖改為 disdain，新的 angry 圖待補） |
-| 榮恩 | ron | normal、happy、sad、angry、surprised（黑袍、葛來分多校服兩套，共 10 張） |
+| 榮恩 | ron | normal、happy、sad、angry、surprised、disdain、shy、panic（黑袍、葛來分多校服兩套，共 16 張；disdain、shy、panic 第五章新增，待補圖） |
 | 妙麗 | hermione | normal、happy、sad、angry、shy、surprised（黑袍、葛來分多校服兩套，共 12 張） |
 | 海格 | hagrid | normal、happy、sad |
 | 衛斯理太太 | molly | normal |
@@ -24,8 +24,10 @@
 | 摩金夫人 | malkin | normal |
 | 克拉 | crabbe | normal |
 | 高爾 | goyle | normal |
-| 潘西 | pansy | normal、happy、angry、smug |
+| 潘西 | pansy | normal、happy、angry、smug、disdain、surprised（disdain、surprised 第四、五章新增，待補圖） |
 | 石內卜 | snape | normal、angry |
+| 胡奇夫人 | hooch | normal |
+| 木透 | wood | normal |
 | 哈利 | （無立繪） | 第一人稱，只有對話紀錄頭像 |
 
 表情用法：
@@ -33,11 +35,11 @@
 - happy：開心、得意地笑
 - sad：失落、受傷、難過
 - angry：生氣、被激怒（真正動怒）
-- disdain：（馬份限定）輕蔑、看不起，帶一點不屑；像是覺得對方在耍白痴、在說什麼屁話，但不是真的生氣。和 angry 的分別是 disdain 冷淡、居高臨下，angry 是真的動怒；和 smug 的分別是 smug 是得意，disdain 是瞧不起。**原本畫好的馬份 angry 圖改用為 disdain；新的 angry 圖待補，補上前劇本仍可寫 angry**
+- disdain：（馬份、榮恩、潘西）輕蔑、看不起，帶一點不屑；像是覺得對方在耍白痴、在說什麼屁話，但不是真的生氣。和 angry 的分別是 disdain 冷淡、居高臨下，angry 是真的動怒；和 smug 的分別是 smug 是得意，disdain 是瞧不起。**原本畫好的馬份 angry 圖改用為 disdain；新的 angry 圖待補，補上前劇本仍可寫 angry**
 - shy：害羞、臉紅、口是心非（傲嬌場面的主力）
 - surprised：驚訝、愣住
-- smug：（馬份限定）得意、心滿意足的笑，抬著下巴看人；和 happy 的分別是 happy 較真心開朗，smug 帶著「哼，當然」的炫耀，但不是挑釁嘲弄
-- panic：（馬份限定）害怕得僵住、不敢出聲，臉色微青、冒冷汗；和 surprised 的分別是 surprised 是「愣住」，panic 是「嚇到」。**只用在真的遇到害怕的事物時**（例：盒子砸下來、梯子晃動、藥水流過來）；一般的驚訝、慌張或害羞，用 surprised 或 shy
+- smug：（馬份、潘西）得意、心滿意足的笑，抬著下巴看人；和 happy 的分別是 happy 較真心開朗，smug 帶著「哼，當然」的炫耀，但不是挑釁嘲弄
+- panic：（馬份、榮恩）害怕得僵住、不敢出聲，臉色微青、冒冷汗；和 surprised 的分別是 surprised 是「愣住」，panic 是「嚇到」。**只用在真的遇到害怕的事物時**（例：盒子砸下來、梯子晃動、藥水流過來）；一般的驚訝、慌張或害羞，用 surprised 或 shy
 - cute：（馬份限定）撒嬌、嘟嘴、眼神飄向一旁、微微臉紅，帶點任性地討東西或討人在意；一年級少用，羈絆高時再多用
 - cry：（馬份限定）強忍眼淚，終於忍不住流下一兩行淚（不是大哭）；留給真正的重頭戲（例如被孤立、家族壓力爆發）。貴族服版可延後生圖
 
@@ -76,6 +78,7 @@
   - 生圖描述：*11-year-old boy, red hair, freckles, blue eyes, tall and lanky, long nose, worn hand-me-down robes*
 - **服裝**：黑袍（school，分院前）、葛來分多校服（gryffindor，第二章分院後換上）。劇本用 `@outfit ron gryffindor` 切換。
 - **性格**：直率、愛吃、自卑家裡窮，被嘲笑時耳朵會變紅。
+- **表情補充**：disdain 用在瞧不起馬份、對哈利的決定翻白眼時；shy 用在出糗、難為情（耳朵變紅）時；panic 用在真的嚇到時（第五章被三頭犬追）。
 - **已確定的設定**：第一章選擇 6 選 A（`f.c1_hand=1`）時，哈利說只是不想跟她起衝突，榮恩悶悶不樂了一陣，不到十分鐘又湊過來聊天；選 B 時榮恩道謝，抱怨她沒禮貌；選 C 時榮恩稱讚哈利「太帥了」。選擇 7 若坐上馬份的船，榮恩會嘀咕一句，被妙麗推上另一條船。
 
 ### 妙麗．格蘭傑（hermione）
@@ -114,12 +117,23 @@
 ### 潘西．帕金森（pansy）
 - 史萊哲林一年級女生，馬份的朋友。短髮、圓臉，笑起來眼睛瞇成一條線。
 - 叫馬份「妮亞」（朋友裡只有她這樣叫）。愛調侃馬份和哈利的互動，也會嘲笑葛來分多。
-- 表情 normal、happy、angry、smug：登場時 normal，調侃人時換 smug。第三章初登場。
+- 表情 normal、happy、angry、smug、disdain、surprised：登場時 normal，調侃人時換 smug；disdain 是冷眼旁觀、意味深長地打量人（第五章早餐）；surprised 是愣住（第四章看見馬份沒在笑）。第三章初登場。
+- **暗線**：第四章偷聽到午夜決鬥，第五章向飛七告密（之後章節揭曉）。表面是馬份的朋友，覺得馬份「跟波特走得太近」。
 
 ### 石內卜（snape）
 - 魔藥學教授，史萊哲林導師。油膩的黑髮、鷹勾鼻、冰冷的黑眼睛，穿黑色長袍。
 - 第一次上課就針對哈利；偏袒史萊哲林，對馬份暗中幫哈利的事看在眼裡卻不追究。
 - 主線角色，表情 normal、angry：平常 normal，刁難、責罵哈利時用 angry。
+
+### 胡奇夫人（hooch）
+- 飛行課老師。灰色短髮，一雙像老鷹一樣的黃眼睛。說話簡短、命令式。第四章初登場，立繪只有 normal。
+
+### 木透（wood）
+- 奧利佛．木透，葛來分多五年級生，魁地奇隊隊長。高大，談到魁地奇就兩眼發亮。名牌用「木透」。第四章初登場，立繪只有 normal。
+- 第四章叮囑哈利「比賽之前，對誰都不准說」；第五章麥教授的信約哈利晚上七點到球場練習。
+
+### 飛七（無立繪）
+- 學校管理員，養了一隻叫拿樂絲太太的貓。第五章只出聲音、不出立繪（名牌「飛七」，頭像用 unknown）。
 
 ### 奈威．隆巴頓（neville）
 - 第二章起有立繪（normal）。蟾蜍常常不見；第三章在魔藥課弄熔了大釜。

@@ -1,7 +1,7 @@
-# 產生佔位圖：立繪（半身剪影）與背景。
+# 產生佔位圖：立繪（長立繪剪影）與背景。
 #   python3 tools/make_placeholders.py            只補缺少的檔案（已存在的不覆蓋，換上正式圖後可放心重跑）
 #   python3 tools/make_placeholders.py --redo-chara   重畫「所有」立繪佔位圖（會覆蓋！只在還沒有正式立繪時使用）
-# 立繪：1200x1600 透明 WebP，assets/chara/<角色id>/<表情>.webp（多套服裝：<角色id>/<服裝>/<表情>.webp），規格見 docs/sprite_spec.md
+# 立繪：1008x1792（9:16 長立繪）透明 WebP，assets/chara/<角色id>/<表情>.webp（多套服裝：<角色id>/<服裝>/<表情>.webp），規格見 docs/sprite_spec.md
 #       角色與表情清單直接讀 story/story.js，新增角色或表情後重跑即可。
 # 背景：1920x1920 WebP，assets/bg/<名稱>.webp（已存在的不覆蓋，正式背景放進來後可放心重跑）
 from PIL import Image, ImageDraw, ImageFont
@@ -18,15 +18,17 @@ def font(n, cjk=False):
 def center(d, w, y, text, f, fill):
     b = d.textbbox((0, 0), text, font=f); d.text(((w - (b[2] - b[0])) / 2 - b[0], y), text, font=f, fill=fill)
 
-# ---------- 立繪：半身剪影 ----------
-W, H = 1200, 1600
-HEAD_TOP, HEAD_R = 150, 190            # 繪製用的基準頭（半徑 190），畫好後放大成正式規格的頭高
-HEAD_H = 500                           # 正式規格：頭頂 y≈150，頭高約 500（下巴 y≈650）
+# ---------- 立繪：長立繪剪影（1008x1792，規格見 docs/sprite_spec.md）----------
+W, H = 1008, 1792
+HEAD_TOP, HEAD_R = 126, 190            # 繪製用的基準頭（半徑 190），畫好後放大成正式規格的頭高
+HEAD_H = 420                           # 正式規格：頭頂 y≈126（7%），頭高約 420（23%，下巴 y≈546）
+WAIST = 1344                           # 上方 3:4 段的底邊（腰）
 CX = W // 2
 HY = HEAD_TOP + HEAD_R                 # 頭的圓心
 COLORS = {"draconia": (120, 140, 190), "ron": (200, 110, 70), "hermione": (150, 100, 70), "hagrid": (120, 90, 60),
           "molly": (190, 130, 100), "ollivander": (110, 110, 120), "malkin": (160, 110, 140), "crabbe": (90, 110, 90), "goyle": (110, 95, 80),
-          "mcgonagall": (60, 110, 80), "sorting_hat": (110, 90, 60), "neville": (150, 120, 90), "fred": (200, 100, 60), "george": (190, 95, 65), "dumbledore": (140, 120, 170), "percy": (180, 105, 70), "pansy": (90, 130, 100), "snape": (40, 40, 48)}
+          "mcgonagall": (60, 110, 80), "sorting_hat": (110, 90, 60), "neville": (150, 120, 90), "fred": (200, 100, 60), "george": (190, 95, 65), "dumbledore": (140, 120, 170), "percy": (180, 105, 70), "pansy": (90, 130, 100), "snape": (40, 40, 48),
+          "hooch": (150, 140, 100), "wood": (170, 80, 60)}
 
 def face_marks(d, face, ink):
     # 用簡單的眉、眼、嘴區分表情（佔位用，方便測試換表情）
@@ -55,12 +57,26 @@ def face_marks(d, face, ink):
     elif face == "smug":
         for s in (-1, 1): d.line([CX + s * ex - 26, ey, CX + s * ex + 26, ey], fill=ink, width=10)
         d.arc([CX - 70, HY + 40, CX + 40, HY + 110], 10, 120, fill=ink, width=10)
+    elif face == "disdain":
+        for s in (-1, 1): d.line([CX + s * ex - 26, ey + 4, CX + s * ex + 26, ey - 4 * s], fill=ink, width=10)
+        d.line([CX - 50, HY + 100, CX + 40, HY + 86], fill=ink, width=9)
+    elif face == "panic":
+        for s in (-1, 1): d.ellipse([CX + s * ex - 10, ey - 10, CX + s * ex + 10, ey + 10], fill=ink)
+        d.line([(CX - 50, HY + 100), (CX - 25, HY + 88), (CX, HY + 100), (CX + 25, HY + 88), (CX + 50, HY + 100)], fill=ink, width=8)
+    elif face == "cute":
+        for s in (-1, 1): d.arc([CX + s * ex - 24, ey - 6, CX + s * ex + 24, ey + 26], 200, 340, fill=ink, width=8)
+        d.ellipse([CX - 14, HY + 84, CX + 14, HY + 112], outline=ink, width=7)
+    elif face == "cry":
+        for s in (-1, 1):
+            d.arc([CX + s * ex - 24, ey - 6, CX + s * ex + 24, ey + 26], 20, 160, fill=ink, width=8)
+            d.ellipse([CX + s * ex - 10, ey + 30, CX + s * ex + 10, ey + 64], fill=(110, 170, 230, 255))
+        d.arc([CX - 60, HY + 80, CX + 60, HY + 150], 200, 340, fill=ink, width=10)
     else:  # normal
         for s in (-1, 1): d.ellipse([CX + s * ex - er, ey - er, CX + s * ex + er, ey + er], fill=ink)
         d.line([CX - 40, HY + 100, CX + 40, HY + 100], fill=ink, width=9)
 
-OUTFIT_LABEL = {"noble": "貴族服", "school": "校服"}
-OUTFIT_COLOR = {"school": (38, 38, 46)}            # 校服：霍格華茲黑袍
+OUTFIT_LABEL = {"noble": "貴族服", "school": "黑袍", "slytherin": "史萊哲林", "gryffindor": "葛來分多"}
+OUTFIT_COLOR = {"school": (38, 38, 46), "slytherin": (34, 70, 52), "gryffindor": (110, 34, 34)}   # 黑袍、史萊哲林綠、葛來分多紅
 def chara(cid, name, face, color, outfit=None):
     p = os.path.join(ROOT, "chara", cid, *( [outfit] if outfit else [] ), face + ".webp")
     if outfit in OUTFIT_COLOR: color = OUTFIT_COLOR[outfit]
@@ -69,10 +85,13 @@ def chara(cid, name, face, color, outfit=None):
     im = Image.new("RGBA", (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(im)
     body = color + (255,); edge = (255, 255, 255, 235)
     chin = HEAD_TOP + HEAD_H                                      # 下巴 y≈650
-    # 身體：肩膀到畫布底部（腰部平切）
-    d.rounded_rectangle([CX - 440, chin + 110, CX + 440, H + 120], 220, fill=body, outline=edge, width=8)
+    # 身體：肩膀到腰，腰以下是下半身（長立繪多出來的部分，平常藏在對話框後面）
+    d.rounded_rectangle([CX - 370, chin + 92, CX + 370, WAIST + 40], 185, fill=body, outline=edge, width=7)
+    leg = tuple(int(c * 0.7) for c in color) + (255,)
+    d.rounded_rectangle([CX - 300, WAIST - 20, CX + 300, H + 100], 120, fill=leg, outline=edge, width=7)
+    d.line([CX - 300, WAIST, CX + 300, WAIST], fill=edge, width=5)
     # 脖子
-    d.rectangle([CX - 90, chin - 60, CX + 90, chin + 150], fill=body)
+    d.rectangle([CX - 76, chin - 50, CX + 76, chin + 126], fill=body)
     # 頭：先用基準尺寸畫好（含表情），再放大到頭高 HEAD_H 貼上
     hd = Image.new("RGBA", (W, H), (0, 0, 0, 0)); hdd = ImageDraw.Draw(hd)
     hdd.ellipse([CX - HEAD_R, HEAD_TOP, CX + HEAD_R, HEAD_TOP + 2 * HEAD_R], fill=(240, 236, 228, 255), outline=edge, width=6)
@@ -82,9 +101,10 @@ def chara(cid, name, face, color, outfit=None):
     head = hd.crop(box).resize((round((box[2] - box[0]) * k), round((box[3] - box[1]) * k)), Image.LANCZOS)
     im.alpha_composite(head, (CX - head.width // 2, HEAD_TOP - round(4 * k)))
     # 文字
-    center(d, W, 880, name + ("．" + OUTFIT_LABEL.get(outfit, outfit) if outfit else ""), font(120, True), (255, 255, 255, 255))
-    center(d, W, 1040, cid.upper() + (" · " + outfit if outfit else "") + " · " + face, font(64), (255, 255, 255, 235))
-    center(d, W, 1490, "PLACEHOLDER 1200x1600 (half body)", font(30), (255, 255, 255, 200))
+    center(d, W, 740, name + ("．" + OUTFIT_LABEL.get(outfit, outfit) if outfit else ""), font(80, True), (255, 255, 255, 255))
+    center(d, W, 874, cid.upper() + (" · " + outfit if outfit else "") + " · " + face, font(44), (255, 255, 255, 235))
+    center(d, W, WAIST + 30, "waist (3:4 line)", font(30), (255, 255, 255, 200))
+    center(d, W, 1700, "PLACEHOLDER 1008x1792 (long)", font(30), (255, 255, 255, 200))
     im.save(p, "WEBP", lossless=True, method=6)
     return True
 
@@ -128,4 +148,8 @@ bg("library.webp", "LIBRARY", (48, 36, 26), (130, 104, 72))
 bg("gryffindor_common.webp", "GRYFFINDOR COMMON ROOM", (90, 26, 24), (170, 110, 60))
 bg("potions_classroom.webp", "POTIONS CLASSROOM", (18, 30, 26), (70, 90, 80))
 bg("hagrid_hut.webp", "HAGRID'S HUT", (60, 44, 30), (140, 110, 76))
+bg("training_grounds.webp", "TRAINING GROUNDS", (60, 96, 120), (90, 130, 70))
+bg("fat_lady_corridor.webp", "FAT LADY CORRIDOR", (40, 26, 30), (120, 80, 60))
+bg("trophy_room.webp", "TROPHY ROOM", (20, 26, 44), (90, 96, 120))
+bg("third_floor_corridor.webp", "THIRD FLOOR CORRIDOR", (24, 22, 26), (80, 70, 64))
 print("立繪佔位圖：產生", made, "張")

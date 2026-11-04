@@ -26,8 +26,9 @@ export function charaUrl(id, face, outfit) {
 const urlOf = (c) => charaUrl(c.id, c.face, c.outfit);
 export const cgUrl = (id) => `./assets/cg/${id}.webp`;
 
+const aspect = {}, lastAspect = {};                // 圖檔路徑 → 高 / 寬（立繪排位用：3:4 或 9:16）；角色 id → 上一次用的高寬比
 function preload(url) {
-  return new Promise((res) => { const im = new Image(); im.onload = () => res(im); im.onerror = () => res(null); im.src = url; });
+  return new Promise((res) => { const im = new Image(); im.onload = () => { aspect[url] = im.height / im.width; res(im); }; im.onerror = () => res(null); im.src = url; });
 }
 
 /* ---------- 背景 ---------- */
@@ -48,21 +49,26 @@ export async function setBg(state, name, fade) {
   back.style.backgroundImage = "none";
 }
 
-/* ---------- 立繪位置：底部對齊（半身立繪的腰部切邊藏在對話框後面）----------
-   高度 = 版面的 chara_h × 同框人數的縮小比例 × 角色自己的 scale（story.js 的 scale，預設 1）。
-   比較高大的角色往上長，頭的位置比別人高。寬度依圖檔比例自動決定，水平置中在 cx。 */
+/* ---------- 立繪位置：以立繪上方 3:4 段（頭頂到腰）排位，底部藏在對話框後面 ----------
+   3:4 段高度 = 版面的 chara_h × 同框人數的縮小比例 × 角色自己的 scale（story.js 的 scale，預設 1），底邊對齊 chara_bottom。
+   比較高大的角色往上長，頭的位置比別人高。長立繪（9:16）頭頂位置不變，整張高度按比例拉長，下半身往下延伸。
+   直向 3 人時改用三角排（版面的 chara_trio）：左右兩人在前，排在中間的人站後排。寬度依圖檔比例自動決定，水平置中在 cx。 */
 export function charaPos(list, id, L = G.L) {
   const n = Math.min(list.length, 3), i = list.findIndex((c) => c.id === id);
   if (i < 0) return null;
-  const xs = L.chara_x[n - 1], k = L.chara_k[n - 1];
+  const trio = n === 3 && L.chara_trio;
+  const xs = trio ? trio.x : L.chara_x[n - 1], k = trio ? trio.k : L.chara_k[n - 1];
+  const bottom = trio ? trio.bottom[i] ?? L.chara_bottom : L.chara_bottom;
   const scale = (story.characters[id] && story.characters[id].scale) || 1;
-  const height = Math.round(L.chara_h * k * scale);
+  const base = L.chara_h * k * scale;                                     // 3:4 段的高度
+  const r = aspect[urlOf(list[i])] || lastAspect[id] || 4 / 3;           // 圖檔高寬比（還沒載入時沿用這個角色上一張圖的，再沒有就當 3:4）
+  lastAspect[id] = r;
   const cx = Math.round(L.w * (xs[i] ?? 0.5));
-  return { cx, top: L.chara_bottom - height, height };
+  return { cx, top: Math.round(bottom - base), height: Math.round(base * r * 0.75), z: trio && i === 1 ? 0 : 1 };
 }
 function place(img, p, ms) {
   img.style.transition = ms ? `opacity ${ms}ms ease, left ${ms}ms ease, top ${ms}ms ease, height ${ms}ms ease, filter .25s` : "none";
-  Object.assign(img.style, { left: p.cx + "px", top: p.top + "px", height: p.height + "px" });
+  Object.assign(img.style, { left: p.cx + "px", top: p.top + "px", height: p.height + "px", zIndex: p.z });
 }
 export function relayout(state, ms) {
   currentState = state;
@@ -93,7 +99,7 @@ export function setFace(state, id, face) {
   if (!c) return;
   c.face = face;
   const img = charaEls[id];
-  if (img) img.src = urlOf(c);
+  if (img) { img.src = urlOf(c); preload(urlOf(c)); }
 }
 // 換裝：角色在台上就直接換圖，保留表情與位置
 export function setOutfit(state, id, outfit) {
@@ -101,7 +107,7 @@ export function setOutfit(state, id, outfit) {
   if (!c) return;
   c.outfit = outfit;
   const img = charaEls[id];
-  if (img) img.src = urlOf(c);
+  if (img) { img.src = urlOf(c); preload(urlOf(c)); }
 }
 
 export async function hide(state, id, fade) {
@@ -163,8 +169,8 @@ export async function rebuild(state) {
     jobs.push(preload(bgUrl(state.bg)));
     bgA.style.backgroundImage = `url("${bgUrl(state.bg)}")`; bgA.style.opacity = "1"; bgA.classList.add("on");
   }
+  await Promise.all(state.charas.map((c) => preload(urlOf(c))));   // 先載入立繪，才知道高寬比（3:4 或 9:16）
   state.charas.forEach((c) => {
-    jobs.push(preload(urlOf(c)));
     const img = el("img.chara", { alt: "", src: urlOf(c), draggable: "false" });
     charaEls[c.id] = img; layer.append(img);
   });
@@ -196,7 +202,9 @@ export async function thumbnail(state) {
     const im = await preload(bgUrl(state.bg));
     if (im) {                                      // 等比例裁切填滿、置中（跟畫面上的 background-size: cover 一樣）
       const s = Math.max(L.w / im.width, L.h / im.height), sw = L.w / s, sh = L.h / s;
+      ctx.filter = "blur(0.6px)";                 // 跟畫面上的背景模糊一致（縮圖比例約 0.3）
       ctx.drawImage(im, (im.width - sw) / 2, (im.height - sh) / 2, sw, sh, 0, 0, cv.width, cv.height);
+      ctx.filter = "none";
     }
   }
   for (const c of state.charas) {
