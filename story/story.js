@@ -43,11 +43,12 @@ export const characters = {
   hooch:       { name: "胡奇夫人", faces: ["normal"] },
   wood:        { name: "木透",     faces: ["normal"] },
   flitwick:    { name: "孚立維教授", faces: ["normal"] },   // 黑影立繪
-  quirrell:    { name: "奎若教授",   faces: ["normal"] }
+  quirrell:    { name: "奎若教授",   faces: ["normal"] },
+  unknown:     { name: "？？？",     faces: ["normal"] }   // 刻意隱藏身分的說話者共用：無形黑影立繪（說話者寫 #？？？，用 @show unknown 上台）；頭像 assets/avatar/unknown.png
 };
 
 // 沒有立繪、但會說話的人（#名字 不會被當成打錯字）。值 = 頭像檔名
-export const speakers = { "哈利": "harry", "？？？": "unknown", "德思禮姨丈": "unknown", "飛七": "unknown" };
+export const speakers = { "哈利": "harry", "德思禮姨丈": "unknown", "飛七": "unknown" };
 
 // 圖鑑（圖檔放 assets/cg/<id>.webp，沒有圖時顯示佔位）
 // pos：CG 裁切焦點（"水平% 垂直%"，預設 "50% 50%"）。CG 是方圖，橫向會裁上下、直向會裁左右，焦點決定保留哪一塊；由立繪聊天室量好後填入

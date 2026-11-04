@@ -29,7 +29,8 @@ COLORS = {"draconia": (120, 140, 190), "ron": (200, 110, 70), "hermione": (150, 
           "molly": (190, 130, 100), "ollivander": (110, 110, 120), "malkin": (160, 110, 140), "crabbe": (90, 110, 90), "goyle": (110, 95, 80),
           "mcgonagall": (60, 110, 80), "sorting_hat": (110, 90, 60), "neville": (150, 120, 90), "fred": (200, 100, 60), "george": (190, 95, 65), "dumbledore": (140, 120, 170), "percy": (180, 105, 70), "pansy": (90, 130, 100), "snape": (40, 40, 48),
           "hooch": (150, 140, 100), "wood": (170, 80, 60),
-          "flitwick": (18, 18, 22), "quirrell": (110, 70, 140)}   # flitwick 黑影立繪（佔位用近黑色）
+          "flitwick": (18, 18, 22), "quirrell": (110, 70, 140),
+          "unknown": (10, 10, 12)}   # unknown ？？？ 共用黑影（佔位用近黑色）   # flitwick 黑影立繪（佔位用近黑色）
 
 def face_marks(d, face, ink):
     # 用簡單的眉、眼、嘴區分表情（佔位用，方便測試換表情）
