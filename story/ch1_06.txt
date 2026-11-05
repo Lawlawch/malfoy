@@ -47,9 +47,9 @@
 
 ;--- 選擇一（一般）：看台上的她 -------------------------------
 @choice 看台邊的人是馬份，我該怎麼做？
-- 飛到她面前 -> *c6_pitch_a | bond+5 c6_pitch=1
-- 看向她 -> *c6_pitch_b | bond+3 c6_pitch=2
-- 裝作沒看見 -> *c6_pitch_c | bond-2 c6_pitch=3
+- 飛到她面前 -> *c6_pitch_a | bond+1 c6_pitch=1
+- 看向她 -> *c6_pitch_b | c6_pitch=2
+- 裝作沒看見 -> *c6_pitch_c | bond-1 c6_pitch=3
 
 *c6_pitch_a
 #
@@ -98,9 +98,9 @@
 
 ;--- 選擇二（關鍵）：練習之後 ---------------------------------
 @choice 練習結束還有時間，我該怎麼做？
-- 讓她自己騎 -> *c6_fly_a | bond+5 c6_fly=1
-- 陪她一起飛 -> *c6_fly_b | bond+8 c6_fly=2
-- 回去休息 -> *c6_fly_c | c6_fly=3
+- 讓她自己騎 -> *c6_fly_a | bond+1 c6_fly=1
+- 陪她一起飛 -> *c6_fly_b | bond+2 c6_fly=2
+- 回去休息 -> *c6_fly_c | bond-2 c6_fly=3
 
 *c6_fly_a
 #哈利
@@ -344,10 +344,10 @@
 要是傳到史萊哲林那邊，妙麗只會更難受。
 
 ;--- 選擇四（關鍵，僅羈絆≥60）：要不要說 ----------------------
-@if bond >= 60
+@if bond >= 65
 @choice 要不要把榮恩的事告訴她？
-- 告訴她 -> *c6_tell_a | bond+3 c6_tell=1
-- 不說 -> *c6_tell_b | c6_tell=2
+- 告訴她 -> *c6_tell_a | bond+1 c6_tell=1
+- 不說 -> *c6_tell_b | bond-1 c6_tell=2
 @else
 @set c6_tell=2
 @jump *c6_tell_b
@@ -366,7 +366,7 @@
 
 ;--- 選擇五（一般，只記旗標，僅路線 A）：她的話 ---------------
 @choice 她也說了這種話，我該怎麼回應？
-- 「閉嘴，馬份。」 -> *c6_shut_a | c6_shut=1
+- 「閉嘴，馬份。」 -> *c6_shut_a | bond-2 c6_shut=1
 - （沉默） -> *c6_shut_b | c6_shut=2
 
 *c6_shut_a
@@ -424,7 +424,7 @@
 ; 場景四　萬聖節晚宴
 ;==============================================================
 @scene y1c6_feast
-@bg great_hall
+@bg great_hall_night
 @wait 300
 
 #
@@ -611,9 +611,9 @@
 
 ;--- 選擇七（關鍵，僅路線 A）：石內卜的問題 -------------------
 @choice 石內卜在問她，我該怎麼說？
-- 替她圓謊，說她是來幫忙的 -> *c6_snape_a | bond+5 c6_snape=1
-- 讓她自己回答 -> *c6_snape_b | bond+3 c6_snape=2
-- 說她是來找妙麗的 -> *c6_snape_c | c6_snape=3
+- 替她圓謊，說她是來幫忙的 -> *c6_snape_a | bond+1 c6_snape=1
+- 讓她自己回答 -> *c6_snape_b | c6_snape=2
+- 說她是來找妙麗的 -> *c6_snape_c | bond-1 c6_snape=3
 
 *c6_snape_a
 #哈利

@@ -176,8 +176,8 @@
 ;--- 選擇一（關鍵，僅路線 A）：心裡話 -------------------------
 @choice 她說出了心裡話，我該怎麼回應她？
 - 「妳明年一定進得了。」 -> *c5_talk_a | c5_talk=1
-- 「那我們一起練習吧。」 -> *c5_talk_b | bond+5 c5_talk=2
-- 「那妳自己呢？妳自己想進嗎？」 -> *c5_talk_c | bond+10 c5_talk=3
+- 「那我們一起練習吧。」 -> *c5_talk_b | bond+1 c5_talk=2
+- 「那妳自己呢？妳自己想進嗎？」 -> *c5_talk_c | bond+2 c5_talk=3
 
 *c5_talk_a
 #哈利
@@ -328,9 +328,9 @@
 
 ;--- 選擇二（關鍵，僅路線 A）：三頭犬 -------------------------
 @choice 三頭犬撲過來了！我該怎麼辦？
-- 擋在她前面 -> *c5_fluffy_a | bond+10 c5_fluffy=1
-- 拉住她的手一起跑 -> *c5_fluffy_b | bond+8 c5_fluffy=2
-- 先衝去開門 -> *c5_fluffy_c | c5_fluffy=3
+- 擋在她前面 -> *c5_fluffy_a | bond+2 c5_fluffy=1
+- 拉住她的手一起跑 -> *c5_fluffy_b | bond+1 c5_fluffy=2
+- 先衝去開門 -> *c5_fluffy_c | bond-2 c5_fluffy=3
 
 *c5_fluffy_a
 @showcg cg_fluffy
@@ -512,7 +512,7 @@
 ; 場景四　第二天早上
 ;==============================================================
 @scene y1c5_morning
-@bg great_hall
+@bg great_hall_day
 @wait 300
 
 #
@@ -648,9 +648,9 @@
 
 ;--- 選擇三（一般）：光輪 2000 --------------------------------
 @choice 她想看一看光輪 2000，我該怎麼做？
-- 「好啊。」 -> *c5_broom_a | bond+5 c5_broom=1
-- 「妳是羨慕吧？」 -> *c5_broom_b | c5_broom=2
-- 「等我練習完，借妳騎一次？」 -> *c5_broom_c | bond+8 c5_broom=3
+- 「好啊。」 -> *c5_broom_a | bond+1 c5_broom=1
+- 「妳是羨慕吧？」 -> *c5_broom_b | bond-1 c5_broom=2
+- 「等我練習完，借妳騎一次？」 -> *c5_broom_c | bond+1 c5_broom=3
 
 *c5_broom_a
 #哈利
