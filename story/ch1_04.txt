@@ -314,7 +314,7 @@
 ; 場景三　麥教授的邀請
 ;==============================================================
 @scene y1c4_mcg
-@bg entrance_hall
+@bg entrance_hall_day
 @wait 300
 
 #
@@ -390,7 +390,7 @@
 ; 場景四　走廊上的追問
 ;==============================================================
 @scene y1c4_stairs
-@bg entrance_hall
+@bg entrance_hall_day
 @wait 300
 
 #

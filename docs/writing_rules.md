@@ -73,7 +73,9 @@
 | 石內卜 | normal、angry |
 | 奈威（便服、葛來分多校服）、克拉、高爾（便服、史萊哲林校服） | normal |
 | 衛斯理太太、木透、奎若教授、飛七 | normal |
-| 孚立維教授、摩金夫人、奧利凡德、胡奇夫人（黑影立繪） | normal |
+| 皮皮鬼 | normal |
+| 孚立維教授、摩金夫人、奧利凡德、胡奇夫人、弗林（黑影立繪） | normal |
+| 李．喬丹（只出聲音，不上台） | normal |
 | ？？？（unknown，刻意隱藏身分的人共用的無形黑影） | normal |
 | 哈利 | 無立繪（第一人稱） |
 
@@ -88,9 +90,11 @@
 - 同一個畫面最多三個立繪（左、中、右）。直向畫面三人時會變成三角排：排在中間的那位站後排（依登場順序由左到右排，`@show … left` 會排到最左），所以想讓誰站後排，就讓他排在中間。
 
 ## 六、背景
-已有：diagon_alley 斜角巷、malkin_shop 摩金夫人長袍店、ollivanders 奧利凡德魔杖店、eeylops 咿啦貓頭鷹商店門口、leaky_cauldron 破釜酒吧、kings_cross 國王十字車站、train_compartment 列車車廂、hogsmeade_station 活米村車站、entrance_hall 入口大廳、great_hall_day 大廳（白天：早餐、白天場景）、great_hall_night 大廳（晚上：宴會、晚餐）、gryffindor_dorm 葛來分多寢室。
+已有：diagon_alley 斜角巷、malkin_shop 摩金夫人長袍店、ollivanders 奧利凡德魔杖店、eeylops 咿啦貓頭鷹商店門口、leaky_cauldron 破釜酒吧、kings_cross 國王十字車站、train_compartment 列車車廂、hogsmeade_station 活米村車站、entrance_hall_day 入口大廳／走廊（白天）、entrance_hall_night 入口大廳／走廊（夜晚）、great_hall_day 大廳（白天：早餐、白天場景）、great_hall_night 大廳（晚上：宴會、晚餐）、gryffindor_dorm 葛來分多寢室。
 第三章新增（待生圖）：library 圖書館、gryffindor_common 葛來分多交誼廳、potions_classroom 魔藥學教室、hagrid_hut 海格的小屋。
 
+- **走廊一律用 entrance_hall_day（白天）或 entrance_hall_night（夜晚）**，不另開走廊背景（胖女士畫像前、盔甲長廊、四樓走廊都用這兩張）。
+- 霍格華茲樓層用中文譯法：禁止進入的是「四樓」右側走廊。
 - 新背景在草稿中寫「背景（新增）：代號 名稱——一句話描述」。代號用英文小寫加底線。
 - 背景圖是 1920×1920 方圖，遊戲等比例裁切填滿，重要內容放**中央正方形安全區**（橫向會裁掉上下，直向會裁掉左右，各約 280px）。
 

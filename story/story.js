@@ -10,7 +10,7 @@ export const chapters = [
   { id: "ch1_04", year: 1, n: 4,  title: "飛行課與記憶球", ready: true },
   { id: "ch1_05", year: 1, n: 5,  title: "午夜決鬥", ready: true },
   { id: "ch1_06", year: 1, n: 6,  title: "萬聖節的山怪", ready: true },
-  { id: "ch1_07", year: 1, n: 7,  title: "魁地奇首戰" },
+  { id: "ch1_07", year: 1, n: 7,  title: "魁地奇首戰", ready: true },
   { id: "ch1_08", year: 1, n: 8,  title: "聖誕節與厄里斯魔鏡" },
   { id: "ch1_09", year: 1, n: 9,  title: "挪威脊背龍與禁林" },
   { id: "ch1_10", year: 1, n: 10, title: "魔法石的守護" },
@@ -45,6 +45,9 @@ export const characters = {
   flitwick:    { name: "孚立維教授", faces: ["normal"] },   // 黑影立繪
   quirrell:    { name: "奎若教授",   faces: ["normal"] },
   filch:       { name: "飛七",     faces: ["normal"] },
+  peeves:      { name: "皮皮鬼",   faces: ["normal"] },
+  flint:       { name: "弗林",     faces: ["normal"] },   // 黑影立繪
+  lee:         { name: "李．喬丹", faces: ["normal"] },   // 只出聲音、從不 @show；頭像暫用 unknown 的圖
   unknown:     { name: "？？？",     faces: ["normal"] }   // 刻意隱藏身分的說話者共用：無形黑影立繪（說話者寫 #？？？，用 @show unknown 上台）；頭像 assets/avatar/unknown.png
 };
 
@@ -65,6 +68,7 @@ export const cgs = {
     { id: "cg_flight",   name: "空中握住的手" },
     { id: "cg_remembrall", name: "草地上的記憶球" },
     { id: "cg_duel",     name: "午夜的月光" },
+    { id: "cg_closet",   name: "櫃子裡" },
     { id: "cg_fluffy",   name: "緊抓袍角的手" },
     { id: "cg_fluffy_b", name: "身後的同伴" },
     { id: "cg_broom",    name: "捧著光輪的她" },
@@ -72,6 +76,9 @@ export const cgs = {
     { id: "cg_pitch_duo",  name: "並肩的晚霞" },
     { id: "cg_troll",      name: "山怪背上" },
     { id: "cg_shield",     name: "護在身後的人" },
+    { id: "cg_candy",      name: "掌心裡的糖" },
+    { id: "cg_stands",     name: "看台上的她" },
+    { id: "cg_handkerchief", name: "手帕" },
     { id: "cg_mirror",   name: "厄里斯魔鏡" },
     { id: "cg_xmas",     name: "聖誕夜的禮物" },
     { id: "cg_forest",   name: "禁林深處" },
@@ -111,11 +118,7 @@ export const cgs = {
     { id: "cg_52",       name: "（待定）" },
     { id: "cg_53",       name: "（待定）" },
     { id: "cg_54",       name: "（待定）" },
-    { id: "cg_55",       name: "（待定）" },
-    { id: "cg_56",       name: "（待定）" },
-    { id: "cg_57",       name: "（待定）" },
-    { id: "cg_58",       name: "（待定）" },
-    { id: "cg_59",       name: "（待定）" }
+    { id: "cg_55",       name: "（待定）" }
   ],
   ending: [
     { id: "y1_A", name: "結局：並肩的光" },

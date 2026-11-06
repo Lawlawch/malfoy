@@ -30,7 +30,7 @@ COLORS = {"draconia": (120, 140, 190), "ron": (200, 110, 70), "hermione": (150, 
           "mcgonagall": (60, 110, 80), "sorting_hat": (110, 90, 60), "neville": (150, 120, 90), "fred": (200, 100, 60), "george": (190, 95, 65), "dumbledore": (140, 120, 170), "percy": (180, 105, 70), "pansy": (90, 130, 100), "snape": (40, 40, 48),
           "hooch": (150, 140, 100), "wood": (170, 80, 60),
           "flitwick": (18, 18, 22), "quirrell": (110, 70, 140),
-          "unknown": (10, 10, 12), "filch": (100, 110, 90)}
+          "unknown": (10, 10, 12), "filch": (100, 110, 90), "peeves": (150, 120, 170), "flint": (18, 18, 22), "lee": (120, 90, 60)}   # flint 黑影立繪
 # 黑影立繪（佔位用近黑色）：flitwick、unknown（？？？共用）、malkin、ollivander、hooch
 for _k in ("malkin", "ollivander", "hooch"): COLORS[_k] = (18, 18, 22)
 
@@ -81,7 +81,7 @@ def face_marks(d, face, ink):
 
 OUTFIT_LABEL = {"casual": "便服", "slytherin": "史萊哲林", "gryffindor": "葛來分多", "winter": "冬裝"}
 WINTER_HOUSE = {"draconia": "slytherin"}   # 冬裝＝學院校服＋頸巾；沒列的角色是葛來分多
-OUTFIT_COLOR = {"school": (38, 38, 46), "slytherin": (34, 70, 52), "gryffindor": (110, 34, 34)}   # 黑袍、史萊哲林綠、葛來分多紅
+OUTFIT_COLOR = {"slytherin": (34, 70, 52), "gryffindor": (110, 34, 34)}   # 史萊哲林綠、葛來分多紅
 def chara(cid, name, face, color, outfit=None):
     p = os.path.join(ROOT, "chara", cid, *( [outfit] if outfit else [] ), face + ".webp")
     if outfit in OUTFIT_COLOR: color = OUTFIT_COLOR[outfit]
@@ -150,7 +150,10 @@ bg("hogsmeade_station.webp", "HOGSMEADE STATION", (24, 32, 62), (90, 100, 128))
 bg("ollivanders.webp", "OLLIVANDERS", (52, 40, 34), (130, 104, 80))
 bg("eeylops.webp", "EEYLOPS OWL EMPORIUM", (40, 36, 30), (110, 96, 70))
 bg("leaky_cauldron.webp", "LEAKY CAULDRON", (46, 30, 22), (126, 86, 54))
-bg("entrance_hall.webp", "ENTRANCE HALL", (50, 46, 52), (128, 116, 104))
+bg("entrance_hall_day.webp", "ENTRANCE HALL (DAY)", (50, 46, 52), (128, 116, 104))
+bg("staff_room.webp", "STAFF ROOM", (60, 40, 30), (150, 100, 60))
+bg("pitch_passage.webp", "PITCH PASSAGE", (30, 26, 22), (110, 90, 60))
+bg("entrance_hall_night.webp", "ENTRANCE HALL (NIGHT)", (16, 18, 40), (90, 70, 50))
 bg("great_hall_day.webp", "GREAT HALL (DAY)", (150, 170, 200), (180, 150, 110))
 bg("great_hall_night.webp", "GREAT HALL (NIGHT)", (14, 16, 44), (110, 80, 50))
 bg("gryffindor_dorm.webp", "GRYFFINDOR DORM", (70, 22, 24), (150, 92, 60))
@@ -159,9 +162,7 @@ bg("gryffindor_common.webp", "GRYFFINDOR COMMON ROOM", (90, 26, 24), (170, 110, 
 bg("potions_classroom.webp", "POTIONS CLASSROOM", (18, 30, 26), (70, 90, 80))
 bg("hagrid_hut.webp", "HAGRID'S HUT", (60, 44, 30), (140, 110, 76))
 bg("training_grounds.webp", "TRAINING GROUNDS", (60, 96, 120), (90, 130, 70))
-bg("fat_lady_corridor.webp", "FAT LADY CORRIDOR", (40, 26, 30), (120, 80, 60))
 bg("trophy_room.webp", "TROPHY ROOM", (20, 26, 44), (90, 96, 120))
-bg("third_floor_corridor.webp", "THIRD FLOOR CORRIDOR", (24, 22, 26), (80, 70, 64))
 bg("quidditch_pitch.webp", "QUIDDITCH PITCH", (200, 110, 60), (70, 110, 60))
 bg("charms_classroom.webp", "CHARMS CLASSROOM", (60, 50, 80), (140, 120, 100))
 bg("girls_bathroom.webp", "GIRLS' BATHROOM", (50, 60, 64), (120, 130, 128))

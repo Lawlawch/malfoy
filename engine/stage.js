@@ -107,7 +107,7 @@ function dropGhost(id) { if (ghosts[id]) { ghosts[id].remove(); delete ghosts[id
 function swapSrc(id, img, url, ms) {
   dropGhost(id);
   if (!ms || !img.complete || !img.naturalWidth) { img.src = url; preload(url); return; }
-  const g = img.cloneNode();
+  const g = img.cloneNode(); g.classList.add("ghost");   // 換表情時暫時疊在上面淡出的舊圖（不是另一個立繪）
   g.style.transition = "none";
   g.style.opacity = getComputedStyle(img).opacity;
   img.after(g); ghosts[id] = g;
