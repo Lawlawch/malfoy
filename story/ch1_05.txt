@@ -13,6 +13,9 @@
 @outfit draconia slytherin
 @outfit ron gryffindor
 @outfit hermione gryffindor
+@outfit neville gryffindor
+@outfit crabbe slytherin
+@outfit goyle slytherin
 
 ;==============================================================
 ; 場景一　午夜
@@ -239,9 +242,11 @@
 「糟、糟了！我不想被開除！」
 #
 門外傳來妙麗和奈威壓低的聲音，接著是兩個人跑遠的腳步聲。
+@show filch
 #飛七
 「乖寶貝，聞一聞。他們應該就在附近……」
 「有人跟我說，今晚有學生要在獎盃室決鬥。」
+@hide filch
 #榮恩
 「……是妳告密的吧！」
 @face draconia surprised
@@ -275,9 +280,11 @@
 @show hermione angry
 #妙麗
 「有人來了！」
+@show filch
 #飛七
 「乖寶貝，聞一聞。他們應該就在附近……」
 「有人跟我說，今晚有學生要在獎盃室決鬥。」
+@hide filch
 #榮恩
 「跑！」
 @hide hermione

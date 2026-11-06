@@ -22,33 +22,34 @@ export const years = ["一年級", "二年級", "三年級", "四年級"];
 // 角色。id = 立繪資料夾名（assets/chara/<id>/<表情>.webp，規格見 docs/sprite_spec.md）與頭像檔名（assets/avatar/<id>.png）
 export const characters = {
   // outfits：有這一欄的角色立繪放在 assets/chara/<角色>/<服裝>/<表情>.webp，劇本用 @outfit 切換（跨場景、跨章節沿用）；outfit：預設服裝
-  draconia: { name: "馬份",     faces: ["normal", "happy", "sad", "angry", "disdain", "shy", "surprised", "smug", "panic", "cute", "cry"], outfits: ["noble", "school", "slytherin"], outfit: "noble" },   // noble 貴族服、school 黑袍（分院前）、slytherin 史萊哲林校服
-  ron:      { name: "榮恩",     faces: ["normal", "happy", "sad", "angry", "surprised", "disdain", "shy", "panic"], outfits: ["school", "gryffindor"], outfit: "school" },   // school 黑袍（分院前）、gryffindor 葛來分多校服
-  hermione: { name: "妙麗",     faces: ["normal", "happy", "sad", "angry", "shy", "surprised", "cry", "panic"], outfits: ["school", "gryffindor"], outfit: "school" },   // school 黑袍（分院前）、gryffindor 葛來分多校服
+  draconia: { name: "馬份",     faces: ["normal", "happy", "sad", "angry", "disdain", "shy", "surprised", "smug", "panic", "cute", "cry"], outfits: ["noble", "slytherin", "winter"], outfit: "noble" },   // noble 貴族服（入學前到分院前）、slytherin 史萊哲林校服（分院後）、winter 冬裝（史萊哲林校服＋頸巾，表情同校服）
+  ron:      { name: "榮恩",     faces: ["normal", "happy", "sad", "angry", "surprised", "disdain", "shy", "panic"], outfits: ["casual", "gryffindor", "winter"], outfit: "casual" },   // casual 便服（分院前）、gryffindor 葛來分多校服、winter 冬裝（校服＋頸巾）
+  hermione: { name: "妙麗",     faces: ["normal", "happy", "sad", "angry", "shy", "surprised", "cry", "panic"], outfits: ["casual", "gryffindor", "winter"], outfit: "casual" },   // casual 便服（分院前）、gryffindor 葛來分多校服、winter 冬裝（校服＋頸巾）
   hagrid:   { name: "海格",     faces: ["normal", "happy", "sad"], scale: 1 },   // scale：立繪縮放倍率（預設 1），高大的角色往上長（原 1.15，頭會被裁切，暫時改回 1）
   molly:    { name: "衛斯理太太", faces: ["normal"] },
-  ollivander: { name: "奧利凡德", faces: ["normal"] },
-  malkin:   { name: "摩金夫人", faces: ["normal"] },
-  crabbe:   { name: "克拉",     faces: ["normal"] },
-  goyle:    { name: "高爾",     faces: ["normal"] },
+  ollivander: { name: "奧利凡德", faces: ["normal"] },   // 黑影立繪
+  malkin:   { name: "摩金夫人", faces: ["normal"] },   // 黑影立繪
+  crabbe:   { name: "克拉",     faces: ["normal"], outfits: ["casual", "slytherin"], outfit: "casual" },   // casual 便服（分院前）、slytherin 史萊哲林校服
+  goyle:    { name: "高爾",     faces: ["normal"], outfits: ["casual", "slytherin"], outfit: "casual" },
   mcgonagall:  { name: "麥教授",   faces: ["normal"] },
   sorting_hat: { name: "分類帽",   faces: ["normal"] },
-  neville:     { name: "奈威",     faces: ["normal"] },
+  neville:     { name: "奈威",     faces: ["normal"], outfits: ["casual", "gryffindor"], outfit: "casual" },
   fred:        { name: "弗雷",     faces: ["normal"] },
   george:      { name: "喬治",     faces: ["normal"] },
   dumbledore:  { name: "鄧不利多", faces: ["normal"] },
   percy:       { name: "派西",     faces: ["normal"] },
   pansy:       { name: "潘西",     faces: ["normal", "happy", "angry", "smug", "disdain", "surprised"] },
   snape:       { name: "石內卜",   faces: ["normal", "angry"] },
-  hooch:       { name: "胡奇夫人", faces: ["normal"] },
+  hooch:       { name: "胡奇夫人", faces: ["normal"] },   // 黑影立繪
   wood:        { name: "木透",     faces: ["normal"] },
   flitwick:    { name: "孚立維教授", faces: ["normal"] },   // 黑影立繪
   quirrell:    { name: "奎若教授",   faces: ["normal"] },
+  filch:       { name: "飛七",     faces: ["normal"] },
   unknown:     { name: "？？？",     faces: ["normal"] }   // 刻意隱藏身分的說話者共用：無形黑影立繪（說話者寫 #？？？，用 @show unknown 上台）；頭像 assets/avatar/unknown.png
 };
 
 // 沒有立繪、但會說話的人（#名字 不會被當成打錯字）。值 = 頭像檔名
-export const speakers = { "哈利": "harry", "德思禮姨丈": "unknown", "飛七": "unknown" };
+export const speakers = { "哈利": "harry", "德思禮姨丈": "unknown" };
 
 // 圖鑑（圖檔放 assets/cg/<id>.webp，沒有圖時顯示佔位）
 // pos：CG 裁切焦點（"水平% 垂直%"，預設 "50% 50%"）。CG 是方圖，橫向會裁上下、直向會裁左右，焦點決定保留哪一塊；由立繪聊天室量好後填入

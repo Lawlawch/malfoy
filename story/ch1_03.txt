@@ -11,6 +11,9 @@
 @outfit draconia slytherin
 @outfit ron gryffindor
 @outfit hermione gryffindor
+@outfit neville gryffindor
+@outfit crabbe slytherin
+@outfit goyle slytherin
 
 ;==============================================================
 ; 場景一　第二天早上
@@ -119,7 +122,7 @@
 #
 早餐快結束的時候，史萊哲林的一年級生陸續離開大廳。
 馬份抱著那盒糖果，從葛來分多的長桌旁經過。
-她身邊多了一個短髮的女孩，臉圓圓的，笑起來的時候眼睛瞇成一條線。
+她身邊多了一個留著及肩直髮的女孩，臉圓圓的，笑起來的時候眼睛瞇成一條線。
 @show draconia normal
 @show pansy normal
 @if c3_breakfast == 1

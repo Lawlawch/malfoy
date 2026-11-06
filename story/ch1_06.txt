@@ -12,6 +12,9 @@
 @outfit draconia slytherin
 @outfit ron gryffindor
 @outfit hermione gryffindor
+@outfit neville gryffindor
+@outfit crabbe slytherin
+@outfit goyle slytherin
 
 ;==============================================================
 ; 場景一　傍晚的球場

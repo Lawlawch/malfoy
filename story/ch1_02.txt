@@ -8,7 +8,7 @@
 ; 哈利固定分到葛來分多，馬份固定分到史萊哲林
 ;==============================================================
 
-@outfit draconia school
+@outfit draconia noble
 
 ;==============================================================
 ; 場景一　城堡大門
@@ -215,6 +215,9 @@
 ;==============================================================
 @scene y1c2_feast
 @bg great_hall_night
+@outfit neville gryffindor
+@outfit crabbe slytherin
+@outfit goyle slytherin
 @show dumbledore
 
 #

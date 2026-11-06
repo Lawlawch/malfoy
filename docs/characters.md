@@ -15,21 +15,23 @@
 
 | 角色 | 引擎代號 | 表情 |
 |---|---|---|
-| 馬份 | draconia | normal、happy、sad、angry、disdain、shy、surprised、smug、panic、cute、cry（貴族服、黑袍、史萊哲林校服三套，共 33 張；原本的 angry 圖改為 disdain，新的 angry 圖待補） |
-| 榮恩 | ron | normal、happy、sad、angry、surprised、disdain、shy、panic（黑袍、葛來分多校服兩套，共 16 張；disdain、shy、panic 第五章新增，待補圖） |
-| 妙麗 | hermione | normal、happy、sad、angry、shy、surprised、cry、panic（黑袍、葛來分多校服兩套，共 16 張；cry、panic 第六章新增，待補圖） |
+| 馬份 | draconia | normal、happy、sad、angry、disdain、shy、surprised、smug、panic、cute、cry（貴族服、史萊哲林校服、冬裝三套，共 33 張） |
+| 榮恩 | ron | normal、happy、sad、angry、surprised、disdain、shy、panic（便服、葛來分多校服、冬裝三套，共 24 張） |
+| 妙麗 | hermione | normal、happy、sad、angry、shy、surprised、cry、panic（便服、葛來分多校服、冬裝三套，共 24 張） |
 | 海格 | hagrid | normal、happy、sad |
 | 衛斯理太太 | molly | normal |
-| 奧利凡德 | ollivander | normal |
-| 摩金夫人 | malkin | normal |
-| 克拉 | crabbe | normal |
-| 高爾 | goyle | normal |
+| 奧利凡德 | ollivander | normal（黑影立繪） |
+| 摩金夫人 | malkin | normal（黑影立繪） |
+| 克拉 | crabbe | normal（便服、史萊哲林校服兩套） |
+| 高爾 | goyle | normal（便服、史萊哲林校服兩套） |
 | 潘西 | pansy | normal、happy、angry、smug、disdain、surprised（disdain、surprised 第四、五章新增，待補圖） |
 | 石內卜 | snape | normal、angry |
-| 胡奇夫人 | hooch | normal |
+| 胡奇夫人 | hooch | normal（黑影立繪） |
 | 孚立維教授 | flitwick | normal（黑影立繪） |
 | 奎若教授 | quirrell | normal |
 | 木透 | wood | normal |
+| 奈威 | neville | normal（便服、葛來分多校服兩套） |
+| 飛七 | filch | normal |
 | ？？？ | unknown | normal（無形黑影立繪，所有刻意隱藏身分的說話者共用） |
 | 哈利 | （無立繪） | 第一人稱，只有對話紀錄頭像 |
 
@@ -56,11 +58,11 @@
 - **身份**：一年級新生，純血馬份家獨生女。父親魯休斯，母親水仙。學院：史萊哲林（第二章分院）。
 - **外觀**：淺金色長髮（劇本一律寫「淺金色」）；灰色眼睛，形容為「像冬天結冰的湖面」；膚色白皙；臉型尖細；身材纖細；常抬著下巴；手指細長，指甲修得整齊。
   - 生圖描述（英文）：*11-year-old girl, long pale blonde hair, cold grey eyes, pale skin, sharp delicate face, slender, proud posture with chin raised, anime visual novel style*【髮飾待定】
-- **服裝**（立繪分三套，每套都有 10 個表情）：
-  - **貴族服**（noble）：入學前的便服。第一章斜角巷全程穿這套。款式【待定】。生圖時在描述後加：*elegant aristocratic dress, dark green and silver*【顏色待定】
-  - **黑袍**（school）：霍格華茲黑袍，分院前沒有學院徽章，但她自己戴純綠領帶和銀蛇領帶夾。第一章列車開始到第二章分院前穿這套。
+- **服裝**（立繪分三套，每套 11 個表情）：
+  - **貴族服**（noble）：入學前的便服。第一章全程（斜角巷、車站、列車、活米村）到第二章分院前都穿這套，分院後才換校服。款式【待定】。生圖時在描述後加：*elegant aristocratic dress, dark green and silver*【顏色待定】
   - **史萊哲林校服**（slytherin）：分院後換穿，綠色內襯、綠銀斜紋領帶、學院徽章。
-  - 圖檔路徑：`assets/chara/draconia/<服裝>/<表情>.webp`；劇本用 `@outfit draconia noble`／`school`／`slytherin` 切換
+  - **冬裝**（winter）：史萊哲林校服＋綠銀頸巾、黑色皮手套。冬天場景使用（第七章起）。
+  - 圖檔路徑：`assets/chara/draconia/<服裝>/<表情>.webp`；劇本用 `@outfit draconia noble`／`slytherin`／`winter` 切換
 - **性格**：以原著跩哥為底，調整成傲嬌。高傲、看不起「低等」的人，嘴上刻薄，心裡在意。被說中心事或被救時會結巴（「你、你……」「誰、誰要你……」），死不道謝。一年級定位是「口是心非的對手」，隨劇情逐漸軟化。
 - **說話習慣**：叫哈利「波特」；常用「哼」；叫榮恩「衛斯理」或帶貶意的稱呼。
 - **隨從**：克拉、高爾。
@@ -77,18 +79,26 @@
 
 ### 榮恩．衛斯理（ron）
 - **身份**：一年級新生，衛斯理家么兒（男生中最小）。
-- **外觀**：紅髮、雀斑、藍眼、個子高瘦、長鼻子；袍子是舊的，外套打過補丁。
+- **外觀**：紅髮、雀斑、藍眼、個子高瘦、長鼻子。整體很不羈：領口敞開、恤衫下襬外露、常常雙手插袋。兩套服裝都是舊袍，打過補丁。立繪的鼻子是乾淨的（不畫污漬）。
   - 生圖描述：*11-year-old boy, red hair, freckles, blue eyes, tall and lanky, long nose, worn hand-me-down robes*
-- **服裝**：黑袍（school，分院前）、葛來分多校服（gryffindor，第二章分院後換上）。劇本用 `@outfit ron gryffindor` 切換。
+- **服裝**：
+  - **便服**（casual，分院前）：衛斯理太太織的棕色背心，沒打領帶。
+  - **葛來分多校服**（gryffindor，第二章分院後換上）：紅金條紋的灰背心，領帶打得鬆鬆垮垮。
+  - **冬裝**（winter）：葛來分多校服＋紅金頸巾。冬天場景使用。
+  - 劇本用 `@outfit ron casual`／`gryffindor`／`winter` 切換。
 - **性格**：直率、愛吃、自卑家裡窮，被嘲笑時耳朵會變紅。
 - **表情補充**：disdain 用在瞧不起馬份、對哈利的決定翻白眼時；shy 用在出糗、難為情（耳朵變紅）時；panic 用在真的嚇到時（第五章被三頭犬追）。
 - **已確定的設定**：第一章選擇 6 選 A（`f.c1_hand=1`）時，哈利說只是不想跟她起衝突，榮恩悶悶不樂了一陣，不到十分鐘又湊過來聊天；選 B 時榮恩道謝，抱怨她沒禮貌；選 C 時榮恩稱讚哈利「太帥了」。選擇 7 若坐上馬份的船，榮恩會嘀咕一句，被妙麗推上另一條船。
 
 ### 妙麗．格蘭傑（hermione）
 - **身份**：一年級新生，麻瓜出身。
-- **外觀**：蓬鬆的棕色長髮、棕色眼睛、門牙略大（原著設定，是否保留【待定】）。
+- **外觀**：蓬鬆但整齊的棕色長髮、棕色眼睛、門牙略大（原著設定，是否保留【待定】）。端莊、有書卷味，立繪常抱著兩本書。
   - 生圖描述：*11-year-old girl, very bushy brown hair, brown eyes, bright and earnest expression, Hogwarts robes*
-- **服裝**：黑袍（school，分院前）、葛來分多校服（gryffindor，第二章分院後換上）。劇本用 `@outfit hermione gryffindor` 切換。
+- **服裝**：
+  - **便服**（casual，分院前）：灰背心。
+  - **葛來分多校服**（gryffindor，第二章分院後換上）：紅金條紋的灰背心。
+  - **冬裝**（winter）：葛來分多校服＋紅金頸巾。冬天場景使用。
+  - 劇本用 `@outfit hermione casual`／`gryffindor`／`winter` 切換。
 - **性格**：聰明、認真、愛說教、讀過很多書；一開始有點不討喜，其實熱心。
 - **表情補充**：cry 用在被榮恩的話傷到、哭著跑走時（第六章）；panic 用在被山怪逼到牆角時。
 - **已確定的設定**：第一章在車廂幫奈威找蟾蜍（`f.c1_toad`）。第六章山怪事件後成為哈利、榮恩的朋友；路線 A 被馬份保護，向她道謝，但明說不認同純血主義。
@@ -107,19 +117,19 @@
 - 外觀：矮胖、紅髮、慈祥。在國王十字車站教哈利穿過柱子。
 
 ### 奧利凡德（ollivander）
-- 魔杖店老闆。年老，有一雙蒼白的銀色眼睛，白髮稀疏，說話慢。口頭禪是「有趣」「奇妙」。
+- 魔杖店老闆。年老，有一雙蒼白的銀色眼睛，白髮稀疏，說話慢。口頭禪是「有趣」「奇妙」。**立繪是黑影**（只有輪廓的剪影）。
 
 ### 摩金夫人（malkin）
-- 長袍店老闆娘。矮胖，笑容可掬，穿淡紫色衣服。叫客人「親愛的」。
+- 長袍店老闆娘。矮胖，笑容可掬，穿淡紫色衣服。叫客人「親愛的」。**立繪是黑影**（只有輪廓的剪影）。
 
 ### 克拉（crabbe）、高爾（goyle）
 - **本作改為女生**，沿用姓氏，不另取名字。體型**不寫壯碩**。
 - 馬份的隨從，兩家從祖父那一輩就認識。話極少，大多只回「嗯」。
-- 克拉：黑髮，稍微過肩，髮尾微捲。高爾：黑髮中分，總是在吃東西（第一章在船上啃蛋糕）。立繪只有 normal，穿黑袍。
+- 克拉：黑髮，稍微過肩，髮尾微捲。高爾：黑髮中分，總是在吃東西（第一章在船上啃蛋糕）。立繪只有 normal，兩套服裝：便服（casual，分院前）、史萊哲林校服（slytherin，分院後）。劇本用 `@outfit crabbe slytherin`／`@outfit goyle slytherin` 切換。
 - 後續影響：二年級喝變身水變成克拉和高爾的情節，需要另外設計。
 
 ### 潘西．帕金森（pansy）
-- 史萊哲林一年級女生，馬份的朋友。短髮、圓臉，笑起來眼睛瞇成一條線。
+- 史萊哲林一年級女生，馬份的朋友。及肩的深褐色直髮、齊瀏海、圓臉，笑起來眼睛瞇成一條線。
 - 叫馬份「妮亞」（朋友裡只有她這樣叫）。愛調侃馬份和哈利的互動，也會嘲笑葛來分多。
 - 表情 normal、happy、angry、smug、disdain、surprised：登場時 normal，調侃人時換 smug；disdain 是冷眼旁觀、意味深長地打量人（第五章早餐）；surprised 是愣住（第四章看見馬份沒在笑）。第三章初登場。
 - **暗線**：第四章偷聽到午夜決鬥，第五章向飛七告密（之後章節揭曉）。表面是馬份的朋友，覺得馬份「跟波特走得太近」。
@@ -130,7 +140,7 @@
 - 主線角色，表情 normal、angry：平常 normal，刁難、責罵哈利時用 angry。
 
 ### 胡奇夫人（hooch）
-- 飛行課老師。灰色短髮，一雙像老鷹一樣的黃眼睛。說話簡短、命令式。第四章初登場，立繪只有 normal。
+- 飛行課老師。灰色短髮，一雙像老鷹一樣的黃眼睛。說話簡短、命令式。第四章初登場，立繪只有 normal，**立繪是黑影**（只有輪廓的剪影）。
 
 ### 木透（wood）
 - 奧利佛．木透，葛來分多五年級生，魁地奇隊隊長。高大，談到魁地奇就兩眼發亮。名牌用「木透」。第四章初登場，立繪只有 normal。
@@ -143,15 +153,16 @@
 - 黑魔法防禦術教授，戴紫色頭巾，說話結結巴巴，教室裡全是大蒜味。第六章衝進大廳喊「山怪在地窖裡」。立繪只有 normal。
 
 ### ？？？（unknown）
-- 刻意隱藏身分的說話者共用的角色：名牌「？？？」，立繪是無形的黑影，表情只有 normal，頭像用 unknown。
+- 刻意隱藏身分的說話者共用的角色：名牌「？？？」，立繪是沒有固定形狀的黑影，表情只有 normal，頭像用 unknown。
 - 劇本寫 `#？？？`，需要讓黑影上台時用 `@show unknown`／`@hide unknown`。不要寫 `#？？？|角色代號`，否則台上會亮起該角色本人的立繪，提早露出身分。
 - 第五章樓梯轉角那聲「……呵。」初登場。
 
-### 飛七（無立繪）
-- 學校管理員，養了一隻叫拿樂絲太太的貓。第五章只出聲音、不出立繪（名牌「飛七」，頭像用 unknown）。
+### 飛七（filch）
+- 學校管理員，養了一隻叫拿樂絲太太的貓。立繪只有 normal（名牌「飛七」）。第五章只出聲音，沒有上台。
 
 ### 奈威．隆巴頓（neville）
-- 第二章起有立繪（normal）。蟾蜍常常不見；第三章在魔藥課弄熔了大釜。
+- 立繪只有 normal，兩套服裝：便服（casual，分院前）、葛來分多校服（gryffindor，第二章分院後換上）。劇本用 `@outfit neville gryffindor` 切換。
+- 蟾蜍常常不見；第三章在魔藥課弄熔了大釜。
 
 ---
 

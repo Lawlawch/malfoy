@@ -30,7 +30,9 @@ COLORS = {"draconia": (120, 140, 190), "ron": (200, 110, 70), "hermione": (150, 
           "mcgonagall": (60, 110, 80), "sorting_hat": (110, 90, 60), "neville": (150, 120, 90), "fred": (200, 100, 60), "george": (190, 95, 65), "dumbledore": (140, 120, 170), "percy": (180, 105, 70), "pansy": (90, 130, 100), "snape": (40, 40, 48),
           "hooch": (150, 140, 100), "wood": (170, 80, 60),
           "flitwick": (18, 18, 22), "quirrell": (110, 70, 140),
-          "unknown": (10, 10, 12)}   # unknown ？？？ 共用黑影（佔位用近黑色）   # flitwick 黑影立繪（佔位用近黑色）
+          "unknown": (10, 10, 12), "filch": (100, 110, 90)}
+# 黑影立繪（佔位用近黑色）：flitwick、unknown（？？？共用）、malkin、ollivander、hooch
+for _k in ("malkin", "ollivander", "hooch"): COLORS[_k] = (18, 18, 22)
 
 def face_marks(d, face, ink):
     # 用簡單的眉、眼、嘴區分表情（佔位用，方便測試換表情）
@@ -77,11 +79,13 @@ def face_marks(d, face, ink):
         for s in (-1, 1): d.ellipse([CX + s * ex - er, ey - er, CX + s * ex + er, ey + er], fill=ink)
         d.line([CX - 40, HY + 100, CX + 40, HY + 100], fill=ink, width=9)
 
-OUTFIT_LABEL = {"noble": "貴族服", "school": "黑袍", "slytherin": "史萊哲林", "gryffindor": "葛來分多"}
+OUTFIT_LABEL = {"noble": "貴族服", "school": "黑袍", "casual": "便服", "slytherin": "史萊哲林", "gryffindor": "葛來分多", "winter": "冬裝"}
+WINTER_HOUSE = {"draconia": "slytherin"}   # 冬裝＝學院校服＋頸巾；沒列的角色是葛來分多
 OUTFIT_COLOR = {"school": (38, 38, 46), "slytherin": (34, 70, 52), "gryffindor": (110, 34, 34)}   # 黑袍、史萊哲林綠、葛來分多紅
 def chara(cid, name, face, color, outfit=None):
     p = os.path.join(ROOT, "chara", cid, *( [outfit] if outfit else [] ), face + ".webp")
     if outfit in OUTFIT_COLOR: color = OUTFIT_COLOR[outfit]
+    if outfit == "winter": color = OUTFIT_COLOR[WINTER_HOUSE.get(cid, "gryffindor")]
     if os.path.exists(p) and not REDO: return False
     os.makedirs(os.path.dirname(p), exist_ok=True)
     im = Image.new("RGBA", (W, H), (0, 0, 0, 0)); d = ImageDraw.Draw(im)
@@ -94,6 +98,9 @@ def chara(cid, name, face, color, outfit=None):
     d.line([CX - 300, WAIST, CX + 300, WAIST], fill=edge, width=5)
     # 脖子
     d.rectangle([CX - 76, chin - 50, CX + 76, chin + 126], fill=body)
+    if outfit == "winter":   # 頸巾：學院兩色條紋
+        c2 = (200, 200, 205, 255) if WINTER_HOUSE.get(cid) == "slytherin" else (210, 170, 60, 255)
+        for i in range(6): d.rectangle([CX - 160, chin + 20 + i * 24, CX + 160, chin + 44 + i * 24], fill=(body if i % 2 == 0 else c2))
     # 頭：先用基準尺寸畫好（含表情），再放大到頭高 HEAD_H 貼上
     hd = Image.new("RGBA", (W, H), (0, 0, 0, 0)); hdd = ImageDraw.Draw(hd)
     hdd.ellipse([CX - HEAD_R, HEAD_TOP, CX + HEAD_R, HEAD_TOP + 2 * HEAD_R], fill=(240, 236, 228, 255), outline=edge, width=6)

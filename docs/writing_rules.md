@@ -65,13 +65,15 @@
 
 | 角色 | 立繪表情 |
 |---|---|
-| 馬份 | normal、happy、sad、angry、disdain、shy、surprised、smug、panic、cute、cry（貴族服、黑袍、史萊哲林校服三套都有） |
-| 榮恩 | normal、happy、sad、angry、surprised、disdain、shy、panic（黑袍、葛來分多校服兩套都有） |
-| 妙麗 | normal、happy、sad、angry、shy、surprised、cry、panic（黑袍、葛來分多校服兩套都有） |
+| 馬份 | normal、happy、sad、angry、disdain、shy、surprised、smug、panic、cute、cry（貴族服、史萊哲林校服、冬裝三套都有） |
+| 榮恩 | normal、happy、sad、angry、surprised、disdain、shy、panic（便服、葛來分多校服、冬裝三套都有） |
+| 妙麗 | normal、happy、sad、angry、shy、surprised、cry、panic（便服、葛來分多校服、冬裝三套都有） |
 | 海格 | normal、happy、sad |
 | 潘西 | normal、happy、angry、smug、disdain、surprised |
 | 石內卜 | normal、angry |
-| 衛斯理太太、奧利凡德、摩金夫人、克拉、高爾、胡奇夫人、木透、孚立維教授（黑影）、奎若教授 | normal |
+| 奈威（便服、葛來分多校服）、克拉、高爾（便服、史萊哲林校服） | normal |
+| 衛斯理太太、木透、奎若教授、飛七 | normal |
+| 孚立維教授、摩金夫人、奧利凡德、胡奇夫人（黑影立繪） | normal |
 | ？？？（unknown，刻意隱藏身分的人共用的無形黑影） | normal |
 | 哈利 | 無立繪（第一人稱） |
 
@@ -80,7 +82,7 @@
   - panic 和 surprised 的分別：surprised 是愣住，panic 是害怕。**panic 只用在真的遇到害怕的事物時**；一般的驚訝用 surprised，慌張害羞用 shy。
   - cute 一年級少用（她還是口是心非的對手），羈絆高時再多用；cry 留給真正的重頭戲。
 - 馬份的髮色一律寫「淺金色」。
-- **服裝**：馬份有三套服裝：貴族服（入學前的便服）、黑袍（分院前的校服）、史萊哲林校服；榮恩、妙麗有兩套：黑袍、葛來分多校服。換裝時在草稿標 `［馬份 服裝 黑袍］`，或在登場時寫 `［馬份 登場，服裝 貴族服，表情 normal］`；之後一直沿用，直到下一次換裝。入學前一律貴族服，搭上霍格華茲特快車起穿黑袍，分院後換學院校服。
+- **服裝**：馬份有三套：貴族服（分院前）、史萊哲林校服、冬裝；榮恩、妙麗有三套：便服（分院前）、葛來分多校服、冬裝；奈威、克拉、高爾有兩套：便服（分院前）、學院校服。冬裝＝學院校服加頸巾，冬天場景使用。換裝時在草稿標 `［馬份 服裝 冬裝］`，或在登場時寫 `［馬份 登場，服裝 貴族服，表情 normal］`；之後一直沿用，直到下一次換裝。分院前一律穿貴族服或便服，分院後換學院校服。
   - 分院之後的章節，三人一律穿學院校服，不必再標。
 - 新角色直接寫名字即可，引擎聊天室會補登記與佔位圖，圖由 Lawch 另外生成。
 - 同一個畫面最多三個立繪（左、中、右）。直向畫面三人時會變成三角排：排在中間的那位站後排（依登場順序由左到右排，`@show … left` 會排到最左），所以想讓誰站後排，就讓他排在中間。
