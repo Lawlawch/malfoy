@@ -1,5 +1,5 @@
 # 用正式立繪裁出對話紀錄的圓形頭像（256x256），覆蓋 assets/avatar/<角色id>.png
-#   python3 tools/avatar_from_sprite.py draconia draconia/noble/normal.webp 590 450 520
+#   python3 tools/avatar_from_sprite.py draconia draconia/noble/normal.webp 508 318 400
 #   參數：角色id、立繪路徑（assets/chara/ 之下）、臉部中心 x、y、裁切邊長（原圖像素）
 # 同一個角色的參數換表情、換服裝都通用（同尺寸）。長立繪 1008x1792 的頭頂約 y≈126、下巴約 y≈546（舊 1200x1600 的 0.84 倍）。
 from PIL import Image, ImageDraw
