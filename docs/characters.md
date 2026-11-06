@@ -59,10 +59,10 @@
 - **外觀**：淺金色長髮（劇本一律寫「淺金色」）；灰色眼睛，形容為「像冬天結冰的湖面」；膚色白皙；臉型尖細；身材纖細；常抬著下巴；手指細長，指甲修得整齊。
   - 生圖描述（英文）：*11-year-old girl, long pale blonde hair, cold grey eyes, pale skin, sharp delicate face, slender, proud posture with chin raised, anime visual novel style*【髮飾待定】
 - **服裝**（立繪分三套，每套 11 個表情）：
-  - **貴族服**（noble）：入學前的便服。第一章全程（斜角巷、車站、列車、活米村）到第二章分院前都穿這套，分院後才換校服。款式【待定】。生圖時在描述後加：*elegant aristocratic dress, dark green and silver*【顏色待定】
+  - **貴族服**（casual，馬份的便服）：入學前的便服。第一章全程（斜角巷、車站、列車、活米村）到第二章分院前都穿這套，分院後才換校服。款式【待定】。生圖時在描述後加：*elegant aristocratic dress, dark green and silver*【顏色待定】
   - **史萊哲林校服**（slytherin）：分院後換穿，綠色內襯、綠銀斜紋領帶、學院徽章。
   - **冬裝**（winter）：史萊哲林校服＋綠銀頸巾、黑色皮手套。冬天場景使用（第七章起）。
-  - 圖檔路徑：`assets/chara/draconia/<服裝>/<表情>.webp`；劇本用 `@outfit draconia noble`／`slytherin`／`winter` 切換
+  - 圖檔路徑：`assets/chara/draconia/<服裝>/<表情>.webp`；劇本用 `@outfit draconia casual`／`slytherin`／`winter` 切換
 - **性格**：以原著跩哥為底，調整成傲嬌。高傲、看不起「低等」的人，嘴上刻薄，心裡在意。被說中心事或被救時會結巴（「你、你……」「誰、誰要你……」），死不道謝。一年級定位是「口是心非的對手」，隨劇情逐漸軟化。
 - **說話習慣**：叫哈利「波特」；常用「哼」；叫榮恩「衛斯理」或帶貶意的稱呼。
 - **隨從**：克拉、高爾。

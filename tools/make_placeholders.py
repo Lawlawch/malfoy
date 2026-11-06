@@ -79,7 +79,7 @@ def face_marks(d, face, ink):
         for s in (-1, 1): d.ellipse([CX + s * ex - er, ey - er, CX + s * ex + er, ey + er], fill=ink)
         d.line([CX - 40, HY + 100, CX + 40, HY + 100], fill=ink, width=9)
 
-OUTFIT_LABEL = {"noble": "貴族服", "school": "黑袍", "casual": "便服", "slytherin": "史萊哲林", "gryffindor": "葛來分多", "winter": "冬裝"}
+OUTFIT_LABEL = {"casual": "便服", "slytherin": "史萊哲林", "gryffindor": "葛來分多", "winter": "冬裝"}
 WINTER_HOUSE = {"draconia": "slytherin"}   # 冬裝＝學院校服＋頸巾；沒列的角色是葛來分多
 OUTFIT_COLOR = {"school": (38, 38, 46), "slytherin": (34, 70, 52), "gryffindor": (110, 34, 34)}   # 黑袍、史萊哲林綠、葛來分多紅
 def chara(cid, name, face, color, outfit=None):

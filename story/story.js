@@ -22,7 +22,7 @@ export const years = ["一年級", "二年級", "三年級", "四年級"];
 // 角色。id = 立繪資料夾名（assets/chara/<id>/<表情>.webp，規格見 docs/sprite_spec.md）與頭像檔名（assets/avatar/<id>.png）
 export const characters = {
   // outfits：有這一欄的角色立繪放在 assets/chara/<角色>/<服裝>/<表情>.webp，劇本用 @outfit 切換（跨場景、跨章節沿用）；outfit：預設服裝
-  draconia: { name: "馬份",     faces: ["normal", "happy", "sad", "angry", "disdain", "shy", "surprised", "smug", "panic", "cute", "cry"], outfits: ["noble", "slytherin", "winter"], outfit: "noble" },   // noble 貴族服（入學前到分院前）、slytherin 史萊哲林校服（分院後）、winter 冬裝（史萊哲林校服＋頸巾，表情同校服）
+  draconia: { name: "馬份",     faces: ["normal", "happy", "sad", "angry", "disdain", "shy", "surprised", "smug", "panic", "cute", "cry"], outfits: ["casual", "slytherin", "winter"], outfit: "casual" },   // casual 貴族服（便服）（入學前到分院前）、slytherin 史萊哲林校服（分院後）、winter 冬裝（史萊哲林校服＋頸巾，表情同校服）
   ron:      { name: "榮恩",     faces: ["normal", "happy", "sad", "angry", "surprised", "disdain", "shy", "panic"], outfits: ["casual", "gryffindor", "winter"], outfit: "casual" },   // casual 便服（分院前）、gryffindor 葛來分多校服、winter 冬裝（校服＋頸巾）
   hermione: { name: "妙麗",     faces: ["normal", "happy", "sad", "angry", "shy", "surprised", "cry", "panic"], outfits: ["casual", "gryffindor", "winter"], outfit: "casual" },   // casual 便服（分院前）、gryffindor 葛來分多校服、winter 冬裝（校服＋頸巾）
   hagrid:   { name: "海格",     faces: ["normal", "happy", "sad"], scale: 1 },   // scale：立繪縮放倍率（預設 1），高大的角色往上長（原 1.15，頭會被裁切，暫時改回 1）

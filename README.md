@@ -15,7 +15,7 @@
 | `engine/` | 引擎程式：`parser.js` 劇本解析、`player.js` 播放與存檔、`stage.js` 背景立繪、`ui.js` 對話框與輸入、`screens.js` 各畫面、`audio.js` 音效 |
 | `engine/style/` | 外觀：`theme.css` 對話框、名牌、選項、工具列（墨綠＋金框）；`screens.css` 各畫面與羊皮紙面板 |
 | `assets/bg/<名稱>.webp` | 背景（等比例裁切填滿，重要內容放中央） |
-| `assets/chara/<角色>/<表情>.webp` | 立繪（長立繪 1008×1792 透明 WebP，舊的 1200×1600 半身也能用，規格見 `docs/sprite_spec.md`；目前全部是長立繪佔位圖，正式圖之後一次換上）。有服裝的角色（目前只有馬份）是 `assets/chara/<角色>/<服裝>/<表情>.webp`，例如 `draconia/noble/`、`draconia/slytherin/` |
+| `assets/chara/<角色>/<表情>.webp` | 立繪（長立繪 1008×1792 透明 WebP，舊的 1200×1600 半身也能用，規格見 `docs/sprite_spec.md`；目前全部是長立繪佔位圖，正式圖之後一次換上）。有服裝的角色（目前只有馬份）是 `assets/chara/<角色>/<服裝>/<表情>.webp`，例如 `draconia/casual/`、`draconia/slytherin/` |
 | `assets/avatar/<角色>.png` | 紀錄頭像 |
 | `assets/cg/<id>.webp` | CG：劇情中顯示（`@showcg`）與圖鑑共用；沒有圖時顯示佔位 |
 | `assets/bgm/`、`assets/sound/`、`assets/voice/` | 音樂、效果音、語音（`.mp3`，目前還沒有） |
