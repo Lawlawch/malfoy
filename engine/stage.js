@@ -234,9 +234,7 @@ export async function thumbnail(state) {
     const im = await preload(bgUrl(state.bg));
     if (im) {                                      // 等比例裁切填滿、置中（跟畫面上的 background-size: cover 一樣）
       const s = Math.max(L.w / im.width, L.h / im.height), sw = L.w / s, sh = L.h / s;
-      ctx.filter = "blur(0.6px)";                 // 跟畫面上的背景模糊一致（縮圖比例約 0.3）
       ctx.drawImage(im, (im.width - sw) / 2, (im.height - sh) / 2, sw, sh, 0, 0, cv.width, cv.height);
-      ctx.filter = "none";
     }
   }
   for (const c of state.charas) {
