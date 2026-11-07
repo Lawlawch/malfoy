@@ -287,6 +287,13 @@ export function parseScript(src, ctx = {}) {
         case "end":
           push({ op: "end", line: ln });
           break;
+        case "tag": {                                    // @tag 文字：畫面左上角的小角標（例：幕間）；@tag off 收起
+          const t = rest.trim();
+          if (!t) { err(errors, ln, "@tag 缺少文字（收起請寫 @tag off）"); break; }
+          if (t !== "off" && Array.from(t).length > 12) warnings.push({ line: ln, msg: "@tag 的文字超過 12 個字，角標會太長" });
+          push({ op: "tag", text: t === "off" ? "" : t, line: ln });
+          break;
+        }
         default:
           err(errors, ln, `不認得的指令 @${op}`);
       }

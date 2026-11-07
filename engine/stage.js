@@ -4,7 +4,7 @@
    ============================================================= */
 import { G, LAYOUT, el, sleep, story } from "./core.js";
 
-let bgA, bgB, layer, cgLayer, cgUnder = null;      // 兩層背景輪流淡入；立繪層；劇情 CG 層；CG 換 CG 時墊在下面的舊 CG
+let bgA, bgB, layer, cgLayer, cgUnder = null, tagEl;      // 兩層背景輪流淡入；立繪層；劇情 CG 層；CG 換 CG 時墊在下面的舊 CG
 const charaEls = {};                               // id → <img>
 const ghosts = {};                                 // id → 換表情時疊在上面淡出的舊圖
 
@@ -12,7 +12,8 @@ export function initStage(root) {
   bgA = el("div.stage_bg"); bgB = el("div.stage_bg");
   layer = el("div#charas");
   cgLayer = el("div#cgl.cgl", {}, el("span.ph"));
-  root.append(bgA, bgB, layer, cgLayer);
+  tagEl = el("div#vn_tag");                       // 左上角角標（@tag）
+  root.append(bgA, bgB, layer, cgLayer, tagEl);
   G.onResize.push(() => relayout(currentState, 0));
 }
 
@@ -210,7 +211,15 @@ export async function rebuild(state) {
   cgLayer.style.transition = "none";
   if (state.cg) { const im = await preload(cgUrl(state.cg)); paintCg(state.cg, im); cgLayer.style.opacity = "1"; cgLayer.classList.add("on"); }
   else { cgLayer.style.opacity = "0"; cgLayer.classList.remove("on"); }
+  tagEl.style.transition = "none"; setTag(state, state.tag); void tagEl.offsetWidth; tagEl.style.transition = "";   // 讀檔還原角標（不淡入）
   await Promise.all(jobs);
+}
+
+/* ---------- 角標（@tag）：文字記在 state.tag，存檔、讀檔跟著 stage 一起走 ---------- */
+export function setTag(state, text) {
+  state.tag = text || "";
+  if (state.tag) tagEl.textContent = state.tag;
+  tagEl.classList.toggle("on", !!state.tag);
 }
 
 /* ---------- 存檔縮圖：直接用狀態（背景＋在場立繪）畫在畫布上 ----------

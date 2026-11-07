@@ -31,7 +31,11 @@ let typing = null;                                  // 逐字顯示中的控制�
 
 export function msgVisible(on) { msg.classList.toggle("on", !!on); if (!on) hideQuill(); syncToolbar(); }
 export function isHidden() { return msg.classList.contains("hid"); }
-export function setHidden(on) { msg.classList.toggle("hid", !!on); syncToolbar(); }
+export function setHidden(on) {
+  msg.classList.toggle("hid", !!on);
+  document.getElementById("vn_tag")?.classList.toggle("uihid", !!on);   // 隱藏對話框時，左上角標一起收起
+  syncToolbar();
+}
 
 function speakerInfo(sp) {
   if (!sp) return null;

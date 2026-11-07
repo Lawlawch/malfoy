@@ -211,6 +211,7 @@ async function exec(c, token) {
     }
     case "scene":
       s.scene = c.id; s.sceneF = clone(s.f);
+      stage.setTag(st, "");                                              // 進入新場景：角標自動收起
       await stage.hideCg(st, 0);
       await stage.hideAll(st, 0);
       return;
@@ -239,6 +240,7 @@ async function exec(c, token) {
       return;
     }
     case "hint": ui.toast(c.text); return;
+    case "tag": stage.setTag(st, c.text); return;                        // 左上角角標（文字存在 stage.tag，存檔會一起記下）
     case "end": endChapter(); return "stop";
   }
 }

@@ -63,6 +63,13 @@ html, body {
 .cgl .ph { position: absolute; left: 0; right: 0; top: 30%; text-align: center; color: var(--vn-parch-1); font-size: 40px; font-weight: 700; letter-spacing: 0.2em; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8); }
 .cgl .ph:not(:empty)::before { content: "CG"; display: block; margin-bottom: 14px; font-size: 22px; letter-spacing: 0.4em; color: var(--vn-gold-light); opacity: 0.8; }
 .port .cgl .ph { top: 24%; }
+/* 左上角角標（@tag）：小字、半透明深色底、圓角；在 CG 之上、對話框之下，不擋操作 */
+#vn_tag { position: absolute; left: 22px; top: 18px; z-index: 8; pointer-events: none; opacity: 0; transition: opacity 0.35s ease;
+  padding: 5px 14px 6px 16px; border-radius: 8px; background: rgba(8, 14, 11, 0.58); border: 1px solid rgba(217, 184, 106, 0.45);
+  color: #f0e4c4; font-size: 20px; letter-spacing: 0.2em; line-height: 1.2; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7); white-space: nowrap; }
+#vn_tag.on { opacity: 1; }
+#vn_tag.uihid { opacity: 0; }
+.port #vn_tag { left: 20px; top: 22px; font-size: 26px; padding: 6px 16px 7px 18px; }
 #hit { position: absolute; inset: 0; z-index: 20; display: none; cursor: pointer; }
 #hit.on { display: block; }
 
