@@ -30,7 +30,7 @@ COLORS = {"draconia": (120, 140, 190), "ron": (200, 110, 70), "hermione": (150, 
           "mcgonagall": (60, 110, 80), "sorting_hat": (110, 90, 60), "neville": (150, 120, 90), "fred": (200, 100, 60), "george": (190, 95, 65), "dumbledore": (140, 120, 170), "percy": (180, 105, 70), "pansy": (90, 130, 100), "snape": (40, 40, 48),
           "hooch": (150, 140, 100), "wood": (170, 80, 60),
           "flitwick": (18, 18, 22), "quirrell": (110, 70, 140),
-          "unknown": (10, 10, 12), "filch": (100, 110, 90), "peeves": (150, 120, 170), "flint": (18, 18, 22), "lee": (120, 90, 60)}   # flint 黑影立繪
+          "unknown": (10, 10, 12), "filch": (100, 110, 90), "peeves": (150, 120, 170), "flint": (18, 18, 22), "lee": (120, 90, 60), "pince": (18, 18, 22)}   # flint、pince 黑影立繪
 # 黑影立繪（佔位用近黑色）：flitwick、unknown（？？？共用）、malkin、ollivander、hooch
 for _k in ("malkin", "ollivander", "hooch"): COLORS[_k] = (18, 18, 22)
 
@@ -166,4 +166,6 @@ bg("trophy_room.webp", "TROPHY ROOM", (20, 26, 44), (90, 96, 120))
 bg("quidditch_pitch.webp", "QUIDDITCH PITCH", (200, 110, 60), (70, 110, 60))
 bg("charms_classroom.webp", "CHARMS CLASSROOM", (60, 50, 80), (140, 120, 100))
 bg("girls_bathroom.webp", "GIRLS' BATHROOM", (50, 60, 64), (120, 130, 128))
+bg("slytherin_common.webp", "SLYTHERIN COMMON ROOM", (10, 30, 24), (40, 90, 70))
+bg("mirror_room.webp", "MIRROR ROOM", (20, 18, 24), (110, 90, 50))
 print("立繪佔位圖：產生", made, "張")
