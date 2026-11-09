@@ -19,7 +19,7 @@
 | 榮恩 | ron | normal、happy、sad、angry、surprised、disdain、shy、panic（便服、葛來分多校服、冬裝三套，共 24 張） |
 | 妙麗 | hermione | normal、happy、sad、angry、shy、surprised、cry、panic（便服、葛來分多校服、冬裝三套，共 24 張） |
 | 海格 | hagrid | normal、happy、sad |
-| 衛斯理太太 | molly | normal |
+| 茉莉 | molly | normal |
 | 奧利凡德 | ollivander | normal（黑影立繪） |
 | 摩金夫人 | malkin | normal（黑影立繪） |
 | 克拉 | crabbe | normal（便服、史萊哲林校服兩套） |
@@ -86,7 +86,7 @@
 - **外觀**：紅髮、雀斑、藍眼、個子高瘦、長鼻子。整體很不羈：領口敞開、恤衫下襬外露、常常雙手插袋。兩套服裝都是舊袍，打過補丁。立繪的鼻子是乾淨的（不畫污漬）。
   - 生圖描述：*11-year-old boy, red hair, freckles, blue eyes, tall and lanky, long nose, worn hand-me-down robes*
 - **服裝**：
-  - **便服**（casual，分院前）：衛斯理太太織的棕色背心，沒打領帶。
+  - **便服**（casual，分院前）：茉莉織的棕色背心，沒打領帶。
   - **葛來分多校服**（gryffindor，第二章分院後換上）：紅金條紋的灰背心，領帶打得鬆鬆垮垮。
   - **冬裝**（winter）：葛來分多校服＋紅金頸巾。冬天場景使用。
   - 劇本用 `@outfit ron casual`／`gryffindor`／`winter` 切換。
@@ -116,8 +116,8 @@
 
 ## 三、配角（只有 normal）
 
-### 衛斯理太太（molly）
-- 名牌用「衛斯理太太」（皇冠譯名，不用「衛斯理夫人」）。表情只有 normal。
+### 茉莉（molly）
+- 名牌用「茉莉」（不用「衛斯理太太」「衛斯理夫人」）。表情只有 normal。
 - 外觀：矮胖、紅髮、慈祥。在國王十字車站教哈利穿過柱子。
 
 ### 奧利凡德（ollivander）

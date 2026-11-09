@@ -34,7 +34,7 @@
 | Neville Longbottom | 奈威．隆巴頓 | 納威 |
 | Crabbe／Goyle | 克拉／高爾 | 克拉布、克拉伯 |
 | Draco Malfoy（本作） | 德拉科妮亞．馬份 | 馬爾福 |
-| Mrs Weasley | 衛斯理太太 | 衛斯理夫人 |
+| Mrs Weasley（Molly） | 茉莉 | 衛斯理太太、衛斯理夫人 |
 | Diagon Alley | 斜角巷 | 對角巷 |
 | Hogsmeade | 活米村 | 霍格莫德 |
 | Hogwarts | 霍格華茲 | 霍格沃茨 |
@@ -72,7 +72,7 @@
 | 潘西 | normal、happy、angry、smug、disdain、surprised |
 | 石內卜 | normal、angry |
 | 奈威（便服、葛來分多校服）、克拉、高爾（便服、史萊哲林校服） | normal |
-| 衛斯理太太、木透、奎若教授、飛七 | normal |
+| 茉莉、木透、奎若教授、飛七 | normal |
 | 皮皮鬼 | normal |
 | 孚立維教授、摩金夫人、奧利凡德、胡奇夫人、弗林、平斯夫人（黑影立繪） | normal |
 | 李．喬丹（只出聲音，不上台） | normal |

@@ -26,7 +26,7 @@ export const characters = {
   ron:      { name: "榮恩",     faces: ["normal", "happy", "sad", "angry", "surprised", "disdain", "shy", "panic"], outfits: ["casual", "gryffindor", "winter"], outfit: "casual" },   // casual 便服（分院前）、gryffindor 葛來分多校服、winter 冬裝（校服＋頸巾）
   hermione: { name: "妙麗",     faces: ["normal", "happy", "sad", "angry", "shy", "surprised", "cry", "panic"], outfits: ["casual", "gryffindor", "winter"], outfit: "casual" },   // casual 便服（分院前）、gryffindor 葛來分多校服、winter 冬裝（校服＋頸巾）
   hagrid:   { name: "海格",     faces: ["normal", "happy", "sad"], scale: 1 },   // scale：立繪縮放倍率（預設 1），高大的角色往上長（原 1.15，頭會被裁切，暫時改回 1）
-  molly:    { name: "衛斯理太太", faces: ["normal"] },
+  molly:    { name: "茉莉", faces: ["normal"] },
   ollivander: { name: "奧利凡德", faces: ["normal"] },   // 黑影立繪
   malkin:   { name: "摩金夫人", faces: ["normal"] },   // 黑影立繪
   crabbe:   { name: "克拉",     faces: ["normal"], outfits: ["casual", "slytherin"], outfit: "casual" },   // casual 便服（分院前）、slytherin 史萊哲林校服
