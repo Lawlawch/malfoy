@@ -187,7 +187,10 @@ async function exec(c, token) {
       capture(idx, { speaker: c.speaker, text: c.text });
       if (P.skip) P.autoPending = true; else commitAutosave();          // 每句寫入自動存檔（略過期間先記著，停下時補寫）
       const read = readMark(s.ch, c.text);
-      if (!read && P.skip && cfg().skipRead) setSkip(false);            // 遇到未讀的句子：停止略過
+      if (!read && P.skip && cfg().skipRead) {                          // 遇到未讀的句子：停止略過，並提示原因
+        setSkip(false);
+        if (!ui.isHidden()) ui.toast("未讀句子不會略過，可在設定更改");
+      }
       ui.pushLog(c.speaker, c.text);
       stage.focus(st, c.speaker && c.speaker.id);
       await ui.showLine(c.speaker, c.text, P.skip ? 0 : TEXT_SPEED[cfg().text]);

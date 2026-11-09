@@ -121,11 +121,10 @@ export const cgs = {
     { id: "cg_55",       name: "（待定）" }
   ],
   ending: [
-    { id: "y1_A", name: "結局：並肩的光" },
-    { id: "y1_B", name: "結局：各自的路" },
-    { id: "y1_C", name: "結局：陰影之下" },
-    { id: "y1_D", name: "結局：被遺忘的約定" },
-    // 以下暫定
+    { id: "y1_A", name: "結局：（待定）" },
+    { id: "y1_B", name: "結局：（待定）" },
+    { id: "y1_C", name: "結局：（待定）" },
+    { id: "y1_D", name: "結局：（待定）" },
     { id: "y1_E", name: "結局：（待定）" },
     { id: "y1_F", name: "結局：（待定）" }
   ]

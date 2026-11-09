@@ -153,7 +153,7 @@ function openChapters() {
 function openGallery() {
   const S = ui.panel("圖鑑");
   S.root.classList.add("vn_gallery");
-  const cats = [{ name: "一般 CG", list: story.cgs.normal, flag: "cgsSeen", base: 0 }, { name: "結局 CG", list: story.cgs.ending, flag: "endings", base: 500 }];   // 結局 CG 編號從 #501 起算
+  const cats = [{ name: "一般 CG", list: story.cgs.normal, flag: "cgsSeen", base: 0 }, { name: "結局 CG", list: story.cgs.ending, flag: "endings", base: 900 }];   // 結局 CG 編號從 #901 起算
   let cat = 0, page = 0;
   function render() {
     tabs(S, cats.map((c) => c.name), cat, (i) => { cat = i; page = 0; render(); });
