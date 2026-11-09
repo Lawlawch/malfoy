@@ -333,39 +333,65 @@
 .vn_cg_item.locked .nm { color: rgba(46, 27, 12, 0.75); }
 
 
-/* ---------- 年級結算、劇本修葺中（深色羊皮紙卡片）---------- */
+/* ---------- 章節完結、年級結算：藍色星空（上深下淺）---------- */
+@keyframes vn_fadein { from { opacity: 0; } to { opacity: 1; } }
 #vn_end {
-  position: absolute; inset: 0; z-index: 45; display: flex; align-items: center; justify-content: center;
-  background: radial-gradient(ellipse at center, rgba(20, 12, 6, 0.86), rgba(4, 3, 2, 0.97));
+  position: absolute; inset: 0; z-index: 45; display: flex; align-items: center; justify-content: center; text-align: center; overflow: hidden;
+  background: radial-gradient(ellipse 90% 45% at 50% 108%, rgba(90, 140, 220, 0.35), transparent 70%), linear-gradient(to top, #2b4f93 0%, #173571 22%, #0c1d48 52%, #050c24 80%, #02040d 100%);
   animation: vn_fadein 0.6s ease both;
 }
-@keyframes vn_fadein { from { opacity: 0; } to { opacity: 1; } }
-.vn_endcard {
-  position: relative; box-sizing: border-box; width: 74%; max-width: 980px; padding: 46px 60px 44px;
-  display: flex; flex-direction: column; align-items: center; text-align: center;
-  animation: vn_cardin 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
-}
-@keyframes vn_cardin { from { transform: translateY(24px) scale(0.97); opacity: 0; } to { transform: none; opacity: 1; } }
-#vn_end .small { font-size: 28px; font-weight: 700; letter-spacing: 0.4em; padding-left: 0.4em; color: #6b4520; }
-#vn_end .big { font-size: 50px; font-weight: 700; font-style: italic; letter-spacing: 0.12em; padding-left: 0.12em; color: var(--p-ink-title); line-height: 1.3; text-shadow: 0 1px 0 rgba(255, 240, 200, 0.35); }
-#vn_end.year .big { margin-top: 18px; font-size: 38px; }
-#vn_end .rule { position: relative; width: 60%; height: 1px; margin: 22px 0; background: linear-gradient(90deg, rgba(78, 46, 18, 0), rgba(78, 46, 18, 0.6), rgba(78, 46, 18, 0)); }
-#vn_end .rule i { position: absolute; left: 50%; top: -5px; width: 10px; height: 10px; margin-left: -5px; transform: rotate(45deg); background: #6b4520; }
-#vn_end .phrase { font-size: 26px; letter-spacing: 0.12em; color: var(--p-ink); }
+#vn_end .deco { position: absolute; inset: 0; pointer-events: none; }
+#vn_end .se_defs { position: absolute; width: 0; height: 0; }
+#vn_end .sky, #vn_card .sky { position: absolute; inset: 0; width: 100%; height: 100%; }
+#vn_end .tw, #vn_card .tw { animation: vn_twinkle 3.2s ease-in-out infinite; }
+@keyframes vn_twinkle { 0%, 100% { opacity: 0.25; } 50% { opacity: 1; } }
+#vn_end .in { position: relative; display: flex; flex-direction: column; align-items: center; animation: vn_cardtxt 1.1s ease 0.15s both; }
+#vn_end .star svg { width: 60px; height: 46px; display: block; }
+#vn_end .yr { margin-top: 6px; font-size: 26px; letter-spacing: 0.45em; padding-left: 0.45em; color: #d9b86a; }
+#vn_end .chn { margin-top: 8px; font-size: 24px; letter-spacing: 0.45em; padding-left: 0.45em; color: #c9b07a; }
+#vn_end .rl svg { display: block; }
+#vn_end .rl .long { width: 460px; height: 30px; margin: 14px auto 16px; }
+#vn_end .rl .short { width: 260px; height: 20px; margin: 18px auto 0; }
+#vn_end .ttl { font-size: 54px; font-style: italic; letter-spacing: 0.14em; padding-left: 0.14em; color: #eef0f6; text-shadow: 0 0 22px rgba(170, 200, 255, 0.35); }
+#vn_end .fin { margin-top: 16px; display: flex; align-items: center; gap: 18px; font-size: 34px; font-weight: 700; letter-spacing: 0.6em; padding-left: 0.6em; color: #f0d99a; text-shadow: 0 0 14px rgba(240, 217, 154, 0.45); }
+#vn_end .fin i { width: 14px; height: 14px; background: #f0d99a; opacity: 0.9; clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%); }
+#vn_end .btns { display: flex; gap: 34px; margin-top: 44px; }
+.se_btn { position: relative; z-index: 0; width: 210px; height: 62px; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 24px; letter-spacing: 0.2em; color: #f0e4c4; cursor: pointer; transition: filter 0.15s ease, transform 0.12s ease; }
+.se_btn span { padding-left: 0.2em; }
+.se_btn > svg.bg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; overflow: visible; }
+.se_btn .ic { width: 22px; height: 22px; flex: none; }
+.se_btn:hover { filter: brightness(1.15); }
+.se_btn:active { transform: scale(0.97); }
+.se_btn.main { color: #10204a; font-weight: 700; }
+.se_btn.off { color: rgba(200, 210, 230, 0.38); cursor: default; filter: none; transform: none; }
+.se_btn.off .ic { opacity: 0.6; }
+.se_btn .note { position: absolute; left: -20px; right: -20px; top: 100%; margin-top: 8px; font-style: normal; font-size: 17px; letter-spacing: 0.2em; color: rgba(200, 210, 235, 0.6); }
+.port #vn_end .ttl { font-size: 48px; }
+.port #vn_end .yr { font-size: 30px; }
+.port #vn_end .chn { font-size: 28px; }
+.port #vn_end .btns { gap: 20px; margin-top: 64px; }
+.port .se_btn { width: 200px; height: 72px; font-size: 26px; }
+/* 年級結算：結局 CG 在左、文字在右（直向時上下排） */
+#vn_end.yrend .in { width: 1100px; }
+#vn_end .head { display: flex; align-items: center; gap: 16px; font-size: 30px; letter-spacing: 0.45em; color: #d9b86a; }
+#vn_end .head span { padding-left: 0.45em; }
+#vn_end .head svg { width: 46px; height: 36px; display: block; }
+#vn_end .mid { display: flex; align-items: center; gap: 46px; margin-top: 22px; }
 #vn_end .cg {
-  position: relative; width: 560px; height: 315px; display: flex; align-items: center; justify-content: center;
-  background: #1a120c center / cover no-repeat; border: 1px solid rgba(60, 34, 12, 0.85);
-  box-shadow: 0 0 0 4px rgba(240, 220, 180, 0.35), 0 0 0 5px rgba(60, 34, 12, 0.6), 0 8px 18px rgba(30, 14, 4, 0.5);
+  width: 576px; height: 324px; flex: none; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #1a2c58, #0b1636) center / cover no-repeat;
+  outline: 1px solid rgba(217, 184, 106, 0.8); outline-offset: 6px; box-shadow: 0 0 0 1px rgba(217, 184, 106, 0.9), 0 0 30px rgba(120, 160, 240, 0.25);
+  color: rgba(200, 215, 245, 0.5); font-size: 20px; letter-spacing: 0.2em;
 }
-#vn_end .cg .ph { color: rgba(240, 217, 168, 0.75); font-size: 24px; letter-spacing: 0.1em; }
-#vn_end .cg.none { display: none; }
-#vn_end .btns { margin-top: 36px; display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
-.vn_end_btn { cursor: pointer; padding: 8px 28px; font-size: 26px; font-weight: 700; letter-spacing: 0.16em; padding-left: calc(28px + 0.16em); border: 1px solid rgba(78, 46, 18, 0.6); }
-.vn_end_btn:hover { filter: brightness(1.08); box-shadow: 0 0 10px rgba(120, 80, 20, 0.45); }
-.port .vn_endcard { width: 90%; padding: 50px 36px 44px; }
-.port #vn_end .cg { width: 560px; height: 315px; }
-.port #vn_end .btns { flex-direction: column; align-items: center; gap: 16px; }
-.port #vn_end .vn_end_btn { width: 72%; }
+#vn_end .txt { width: 420px; display: flex; flex-direction: column; align-items: center; }
+#vn_end .etag { font-size: 22px; letter-spacing: 0.4em; padding-left: 0.4em; color: #c9b07a; }
+#vn_end .ettl { margin-top: 8px; font-size: 44px; font-style: italic; letter-spacing: 0.12em; color: #eef0f6; text-shadow: 0 0 22px rgba(170, 200, 255, 0.35); }
+#vn_end .eline { margin-top: 14px; font-size: 22px; line-height: 1.8; letter-spacing: 0.12em; color: #c8d6f0; white-space: pre-line; }
+#vn_end.yrend .btns { margin-top: 40px; }
+.port #vn_end.yrend .in { width: 640px; }
+.port #vn_end .mid { flex-direction: column; gap: 30px; margin-top: 34px; }
+.port #vn_end .cg { width: 600px; height: 338px; }
+.port #vn_end .txt { width: 600px; }
+.port #vn_end.yrend .btns { margin-top: 70px; }
 
 /* ---------- 過渡畫面：每章開始前的章名 ---------- */
 #vn_card {
@@ -505,7 +531,6 @@
 #game .vn_tab { padding: 8px 36px; }
 #game .vn_cfg_navitem { padding: 12px 30px; }
 #game .vn_pg_btn { width: 84px; padding: 4px 0; }
-#game .vn_end_btn { padding: 10px 48px; }
 #game .vn_slot .del { padding: 4px 22px; }
 .vn_tabs { gap: 10px; }
 .land .vn_gallery .vn_tab { padding: 14px 16px; white-space: nowrap; }

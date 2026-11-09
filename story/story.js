@@ -121,13 +121,13 @@ export const cgs = {
     { id: "cg_50",       name: "（待定）" },
     { id: "cg_51",       name: "（待定）" }
   ],
-  ending: [
-    { id: "y1_A", name: "結局：（待定）" },
-    { id: "y1_B", name: "結局：（待定）" },
-    { id: "y1_C", name: "結局：（待定）" },
-    { id: "y1_D", name: "結局：（待定）" },
-    { id: "y1_E", name: "結局：（待定）" },
-    { id: "y1_F", name: "結局：（待定）" }
+  ending: [   // line：年級結算頁的結局語句（可用 \n 換行）
+    { id: "y1_A", name: "結局：（待定）", line: "" },
+    { id: "y1_B", name: "結局：（待定）", line: "" },
+    { id: "y1_C", name: "結局：（待定）", line: "" },
+    { id: "y1_D", name: "結局：（待定）", line: "" },
+    { id: "y1_E", name: "結局：（待定）", line: "" },
+    { id: "y1_F", name: "結局：（待定）", line: "" }
   ]
 };
 

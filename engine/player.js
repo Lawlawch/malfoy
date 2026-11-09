@@ -25,7 +25,7 @@ export const P = {
   autoPending: false,    // 略過期間沒寫的自動存檔，略過停下時補寫
   inGame: false
 };
-export const hooks = {};  // 由 screens.js 填入：card(chapter) 過渡畫面、yearEnd(year, endingId, next)、unfinished()、home()、leaveHome()
+export const hooks = {};  // 由 screens.js 填入：card(chapter) 過渡畫面、chapterEnd(chapter, next, toYearEnd)、yearEnd(year, endingId, next)、home()、leaveHome()
 
 /* ---------- 劇本載入（同一章只抓一次）---------- */
 const cache = {};
@@ -330,9 +330,9 @@ function endChapter() {
   saveSf();
   leaveGame();
   const c = chapterById(id);
-  if (!next || next.year !== c.year) hooks.yearEnd && hooks.yearEnd(c.year, s.f["end_y" + c.year], next);
-  else if (next.ready) startChapter(next.id);
-  else hooks.unfinished && hooks.unfinished();
+  // 一律先出章節完結畫面；年級最後一章按「下一章」進入年級結算
+  const lastOfYear = !next || next.year !== c.year, endF = s.f["end_y" + c.year];
+  hooks.chapterEnd && hooks.chapterEnd(c, next, lastOfYear ? () => hooks.yearEnd(c.year, endF, next) : null);
 }
 
 /* ---------- 自動存檔 ---------- */
