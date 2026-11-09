@@ -20,7 +20,7 @@
 ; 場景一　傍晚的球場
 ;==============================================================
 @scene y1c6_pitch
-@bg quidditch_pitch
+@bg quidditch_pitch_sunset
 @wait 400
 
 #
