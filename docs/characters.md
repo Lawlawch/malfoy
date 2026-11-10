@@ -24,18 +24,19 @@
 | 摩金夫人 | malkin | normal（黑影立繪） |
 | 克拉 | crabbe | normal（便服、史萊哲林校服兩套） |
 | 高爾 | goyle | normal（便服、史萊哲林校服兩套） |
-| 潘西 | pansy | normal、happy、angry、smug、disdain、surprised（disdain、surprised 第四、五章新增，待補圖） |
+| 潘西 | pansy | normal、happy、angry、smug、disdain、surprised、panic、cry（panic、cry 第十章新增，待補圖） |
 | 石內卜 | snape | normal、angry |
 | 胡奇夫人 | hooch | normal（黑影立繪） |
 | 孚立維教授 | flitwick | normal（黑影立繪） |
 | 奎若教授 | quirrell | normal |
 | 木透 | wood | normal |
-| 奈威 | neville | normal（便服、葛來分多校服兩套） |
+| 奈威 | neville | normal、sad、cry（便服、葛來分多校服兩套；sad、cry 第九章新增，待補圖） |
 | 飛七 | filch | normal |
 | 皮皮鬼 | peeves | normal |
 | 李．喬丹 | lee | 只出聲音，不上台（頭像用 unknown 或另生） |
 | 弗林 | flint | normal（黑影立繪） |
 | 平斯夫人 | pince | normal（黑影立繪） |
+| 翡冷翠 | firenze | normal |
 | ？？？ | unknown | normal（無形黑影立繪，所有刻意隱藏身分的說話者共用） |
 | 哈利 | （無立繪） | 第一人稱，只有對話紀錄頭像 |
 
@@ -176,8 +177,11 @@
 ### 平斯夫人（pince）
 - 圖書館管理員，像禿鷹一樣守著禁書區。第八章初登場，**立繪是黑影**，只有 normal。
 
+### 翡冷翠（firenze）
+- 禁林裡的人馬：上半身是金髮的青年，下半身是銀白色的馬身，眼睛是淡藍色。第十章初登場，只有 normal。
+
 ### 奈威．隆巴頓（neville）
-- 立繪只有 normal，兩套服裝：便服（casual，分院前）、葛來分多校服（gryffindor，第二章分院後換上）。劇本用 `@outfit neville gryffindor` 切換。
+- 表情：normal、sad、cry（sad、cry 第九章新增）。兩套服裝：便服（casual，分院前）、葛來分多校服（gryffindor，第二章分院後換上）。劇本用 `@outfit neville gryffindor` 切換。
 - 蟾蜍常常不見；第三章在魔藥課弄熔了大釜。
 
 ---
