@@ -71,7 +71,7 @@
 | 海格 | normal、happy、sad |
 | 潘西 | normal、happy、angry、smug、disdain、surprised、panic、cry |
 | 石內卜 | normal、angry |
-| 奈威（便服、葛來分多校服） | normal、sad、cry、panic |
+| 奈威（便服、葛來分多校服） | normal、happy、sad、cry、panic |
 | 克拉、高爾（便服、史萊哲林校服） | normal |
 | 茉莉、木透、奎若教授、飛七、翡冷翠 | normal |
 | 皮皮鬼 | normal |
