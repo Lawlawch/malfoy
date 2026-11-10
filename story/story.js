@@ -13,7 +13,7 @@ export const chapters = [
   { id: "ch1_07", year: 1, n: 7,  title: "魁地奇首戰", ready: true },
   { id: "ch1_08", year: 1, n: 8,  title: "聖誕節與厄里斯魔鏡", ready: true },
   { id: "ch1_09", year: 1, n: 9,  title: "挪威脊背龍", ready: true },
-  { id: "ch1_10", year: 1, n: 10, title: "禁林", ready: true },
+  { id: "ch1_10", year: 1, n: 10, title: "禁忌森林", ready: true },
   { id: "ch1_11", year: 1, n: 11, title: "活板門之下" },
   { id: "ch1_12", year: 1, n: 12, title: "（暫定）醫院廂房與學年末宴會" }
 ];
@@ -90,7 +90,7 @@ export const cgs = {
     { id: "cg_mirror_her", name: "鏡前的她" },
     { id: "cg_norbert",  name: "破殼的蘿蔔" },
     { id: "cg_tower",    name: "飛向夜空的蘿蔔" },
-    { id: "cg_sleeve",   name: "禁林裡的手" },
+    { id: "cg_sleeve",   name: "禁忌森林裡的手" },
     { id: "cg_shadow",   name: "戴著兜帽的黑影" },
     { id: "cg_tears",    name: "月光下的眼淚" },
     { id: "cg_stone",    name: "魔法石的守護" },

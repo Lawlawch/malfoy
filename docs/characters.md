@@ -178,7 +178,7 @@
 - 圖書館管理員，像禿鷹一樣守著禁書區。第八章初登場，**立繪是黑影**，只有 normal。
 
 ### 翡冷翠（firenze）
-- 禁林裡的人馬：上半身是金髮的青年，下半身是銀白色的馬身，眼睛是淡藍色。第十章初登場，只有 normal。
+- 禁忌森林裡的人馬：上半身是金髮的青年，下半身是銀白色的馬身，眼睛是淡藍色。第十章初登場，只有 normal。
 
 ### 奈威．隆巴頓（neville）
 - 表情：normal、happy、sad、cry、panic（sad、cry 第九章新增，panic 第十章新增，happy 隨正式立繪加入）。兩套服裝：便服（casual，分院前）、葛來分多校服（gryffindor，第二章分院後換上）。劇本用 `@outfit neville gryffindor` 切換。
