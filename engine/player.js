@@ -189,7 +189,7 @@ async function exec(c, token) {
       const read = readMark(s.ch, c.text);
       if (!read && P.skip && cfg().skipRead) {                          // 遇到未讀的句子：停止略過，並提示原因
         setSkip(false);
-        if (!ui.isHidden()) ui.toast("未讀句子不會略過，可在設定更改");
+        if (!ui.isHidden()) ui.toast("※ 未讀句子不會略過，可在設定更改");
       }
       ui.pushLog(c.speaker, c.text);
       stage.focus(st, c.speaker && c.speaker.id);

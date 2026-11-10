@@ -186,7 +186,7 @@
 @choice 她說海格是野人，我該怎麼回應？
 - 「把那句話收回去。」 -> *c1_hagrid_a | bond+3 c1_hagrid=1
 - 「我覺得他很了不起。」 -> *c1_hagrid_b | bond+4 c1_hagrid=2
-- （握緊拳頭） -> *c1_hagrid_c | bond-4 c1_hagrid=3
+- 握緊拳頭 -> *c1_hagrid_c | bond-4 c1_hagrid=3
 
 *c1_hagrid_a
 #哈利
