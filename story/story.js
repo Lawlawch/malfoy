@@ -34,7 +34,7 @@ export const characters = {
   goyle:    { name: "高爾",     faces: ["normal"], outfits: ["casual", "slytherin"], outfit: "casual" },
   mcgonagall:  { name: "麥教授",   faces: ["normal"] },
   sorting_hat: { name: "分類帽",   faces: ["normal"] },
-  neville:     { name: "奈威",     faces: ["normal", "sad", "cry"], outfits: ["casual", "gryffindor"], outfit: "casual" },
+  neville:     { name: "奈威",     faces: ["normal", "sad", "cry", "panic"], outfits: ["casual", "gryffindor"], outfit: "casual" },
   fred:        { name: "弗雷",     faces: ["normal"] },
   george:      { name: "喬治",     faces: ["normal"] },
   dumbledore:  { name: "鄧不利多", faces: ["normal"] },
