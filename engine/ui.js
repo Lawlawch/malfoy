@@ -266,6 +266,13 @@ function bindInput(root) {
     const sel = window.getSelection && window.getSelection();
     if (sel && sel.rangeCount && !sel.isCollapsed && !selOk(sel.anchorNode && (sel.anchorNode.nodeType === 1 ? sel.anchorNode : sel.anchorNode.parentElement))) sel.removeAllRanges();
   });
+  // iOS 快速連點時，系統會把連續的點擊當成「雙擊選字／長按」手勢，跳出選字選單。
+  // 推進劇情的點擊層本身沒有可點的東西，直接取消它的觸控預設動作：系統手勢全部不啟動，
+  // 推進劇情靠的是 pointerup（指標事件先於觸控事件送出，不受影響）。
+  const noGesture = (e) => { if (e.cancelable) e.preventDefault(); };
+  hit.addEventListener("touchstart", noGesture, { passive: false });
+  hit.addEventListener("touchend", noGesture, { passive: false });
+  hit.addEventListener("touchmove", noGesture, { passive: false });
   root.addEventListener("contextmenu", (e) => {
     e.preventDefault();
     if (overlayOpen() || !handlers.inGame || !handlers.inGame()) return;
