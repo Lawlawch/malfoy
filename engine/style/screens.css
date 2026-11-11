@@ -113,7 +113,9 @@
 .vn_slot .thumb { flex: 0 0 200px; height: 112px; border: 1px solid var(--vn-gold-dark); border-radius: 6px; background: #2a1c14 center / cover no-repeat; }
 .vn_slot .thumb.p { background-size: contain; }
 .vn_slot .info { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; }
-.vn_slot .hd { display: flex; justify-content: space-between; gap: 8px; font-size: 16px; color: var(--vn-gold-dark); }
+.vn_slot .hd { display: flex; align-items: center; gap: 10px; font-size: 16px; color: var(--vn-gold-dark); }
+.vn_slot .hd .tm { margin-left: auto; white-space: nowrap; }
+.vn_slot .hd .del { flex: none; }
 .vn_slot .no { font-weight: 700; letter-spacing: 0.1em; }
 .vn_slot .ch { margin-top: 4px; font-size: 18px; font-weight: 700; color: var(--vn-wine); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .vn_slot .ln { margin-top: 4px; font-size: 17px; line-height: 1.4; color: var(--vn-ink); word-break: break-all; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
@@ -168,7 +170,8 @@
 /* 圖鑑：頁碼與翻頁鈕放在底欄，位置固定 */
 .vn_gallery .vn_scr_msg { display: none; }
 .vn_gallery .vn_scr_foot { padding: 8px 10px; }
-.vn_pager { margin-top: 0; display: flex; justify-content: center; align-items: center; gap: 26px; }
+.vn_pager { position: relative; margin-top: 0; display: flex; justify-content: center; align-items: center; gap: 26px; }
+.vn_pager .vn_pg_dots { position: absolute; left: calc(50% + 190px); top: 50%; transform: translateY(-50%); }   /* 頁點不參與置中，頁碼位置不隨頁數改變 */
 .vn_pg_btn {
   cursor: pointer; width: 64px; text-align: center; font-size: 30px; padding: 2px 0; border-radius: 8px; color: var(--vn-parch-1);
   background: linear-gradient(180deg, var(--vn-gold), var(--vn-gold-dark));
@@ -356,14 +359,17 @@
 #vn_end .fin { margin-top: 16px; display: flex; align-items: center; gap: 18px; font-size: 34px; font-weight: 700; letter-spacing: 0.6em; padding-left: 0.6em; color: #f0d99a; text-shadow: 0 0 14px rgba(240, 217, 154, 0.45); }
 #vn_end .fin i { width: 14px; height: 14px; background: #f0d99a; opacity: 0.9; clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%); }
 #vn_end .btns { display: flex; gap: 34px; margin-top: 44px; }
-.se_btn { position: relative; z-index: 0; width: 210px; height: 62px; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 24px; letter-spacing: 0.2em; color: #f0e4c4; cursor: pointer; transition: filter 0.15s ease, transform 0.12s ease; }
+.se_btn { position: relative; z-index: 0; width: 210px; height: 62px; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 24px; letter-spacing: 0.2em; color: #f0e4c4; cursor: pointer; }
 .se_btn span { padding-left: 0.2em; }
 .se_btn > svg.bg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; overflow: visible; }
 .se_btn .ic { width: 22px; height: 22px; flex: none; }
-.se_btn:hover { filter: brightness(1.15); }
-.se_btn:active { transform: scale(0.97); }
+/* 滑鼠移上去：按鈕內疊一層淡白光（不用 filter／transform，避免整個畫面的字重新排版而微跳） */
+.se_btn > svg.bg .hl { opacity: 0; transition: opacity 0.15s ease; }
+.se_btn:hover > svg.bg .hl { opacity: 0.12; }
+.se_btn:active > svg.bg .hl { opacity: 0.2; }
 .se_btn.main { color: #10204a; font-weight: 700; }
-.se_btn.off { color: rgba(200, 210, 230, 0.38); cursor: default; filter: none; transform: none; }
+.se_btn.off { color: rgba(200, 210, 230, 0.38); cursor: default; }
+.se_btn.off > svg.bg .hl { display: none; }
 .se_btn.off .ic { opacity: 0.6; }
 .se_btn .note { position: absolute; left: -20px; right: -20px; top: 100%; margin-top: 8px; font-style: normal; font-size: 17px; letter-spacing: 0.2em; color: rgba(200, 210, 235, 0.6); }
 .port #vn_end .ttl { font-size: 48px; }

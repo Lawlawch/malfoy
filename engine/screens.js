@@ -83,11 +83,10 @@ function openSaveLoad(mode) {
           ui.panelMsg(S, "已刪除 " + label); render();
         });
         slot.append(thumb, el("div.info", {},
-          el("div.hd", {}, el("span.no", { text: label }), el("span.tm", { text: meta.time })),
+          el("div.hd", {}, el("span.no", { text: label }), el("span.tm", { text: meta.time }), del),   // 刪除鈕放在標題列右側，有存檔的格子不會比空格高
           el("div.ch", { text: shortChapter(meta) }),
           note ? el("div.old", { text: note }) : null,
-          el("div.ln", { text: meta.line }),
-          el("div.act", {}, del)));
+          el("div.ln", { text: meta.line })));
       }
       tap(slot, async () => {
         if (mode === "load") {
@@ -305,7 +304,7 @@ function seBtn(act, label, fn, mode) {           // mode：""（深藍）、"mai
   const halo = mode === "main" ? `<path d="M16 1H194L209 31 194 61H16L1 31z" fill="none" stroke="rgba(170,205,255,.45)" stroke-width="7"/>` : "";
   const ic = `<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">${SE_IC[mode === "off" ? "lock" : act]}</svg>`;
   const b = el("div.se_btn" + (mode ? "." + mode : ""), { "data-a": act, html:
-    `<svg class="bg" viewBox="0 0 210 62" preserveAspectRatio="none" aria-hidden="true">${halo}<path d="M16 1H194L209 31 194 61H16L1 31z" fill="${fill}" stroke="${stroke}" stroke-width="1.6"/><path d="M20 5H190L203 31 190 57H20L7 31z" fill="none" stroke="${stroke}" stroke-width=".7" opacity=".5"/></svg>` +
+    `<svg class="bg" viewBox="0 0 210 62" preserveAspectRatio="none" aria-hidden="true">${halo}<path d="M16 1H194L209 31 194 61H16L1 31z" fill="${fill}" stroke="${stroke}" stroke-width="1.6"/><path d="M20 5H190L203 31 190 57H20L7 31z" fill="none" stroke="${stroke}" stroke-width=".7" opacity=".5"/><path class="hl" d="M16 1H194L209 31 194 61H16L1 31z" fill="#fff"/></svg>` +
     (act === "next" && mode !== "off" ? `<span>${label}</span>${ic}` : `${ic}<span>${label}</span>`) + (mode === "off" ? `<em class="note">劇本修葺中</em>` : "") });
   if (mode !== "off") tap(b, fn);
   return b;
