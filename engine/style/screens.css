@@ -129,7 +129,7 @@
 .vn_year_name { font-size: 38px; font-weight: 700; letter-spacing: 0.1em; padding-left: 0.1em; color: var(--vn-wine); }
 .vn_year_arrow { font-size: 48px; cursor: pointer; color: var(--vn-wine); padding: 0 22px; line-height: 1; user-select: none; touch-action: manipulation; }
 .vn_year_arrow.off { opacity: 0.25; cursor: default; }
-.vn_ch_list { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 20px; grid-auto-flow: column; grid-template-rows: repeat(5, auto); }
+.vn_ch_list { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 20px; grid-auto-flow: column; grid-template-rows: repeat(6, auto); }
 .vn_ch_row {
   position: relative; min-height: 74px; display: flex; align-items: center; gap: 18px; padding: 8px 18px;
   border: 2px solid var(--vn-gold-dark); border-radius: 12px; cursor: pointer;
@@ -541,6 +541,12 @@
 .dz_oct.locked > .dz_svg .dz_line { stroke: rgba(78, 46, 18, 0.28); }
 .dz_oct.locked > .dz_svg .dz_stud, .vn_slot.empty > .dz_svg .dz_stud { display: none; }
 .vn_slot.empty > .dz_svg .dz_fill { fill-opacity: 0.55; }
+/* 預算紋理（取代即時濾鏡）：透明度跟著底色，與原本「紋路只疊在底色範圍內」的效果一致 */
+.dz_tex { pointer-events: none; }
+.dz_oct > .dz_svg .dz_tex { opacity: 0.8; }
+.dz_oct.locked > .dz_svg .dz_tex { opacity: 0.5; }
+.vn_slot.empty > .dz_svg .dz_tex { opacity: 0.55; }
+.dz_lock .dz_tex { opacity: 0.55; }
 #game .vn_ch_row { padding: 8px 26px; }
 #game .vn_slot { padding: 12px 20px; }
 #game .vn_scr.vn_sys .vn_slot.empty:hover { filter: none; }
@@ -595,6 +601,6 @@
 /* 翻頁鈕：箭頭放大、上下置中 */
 #game .vn_pg_btn { display: inline-flex; align-items: center; justify-content: center; height: 46px; padding: 0 0 4px; font-size: 40px; line-height: 1; box-sizing: border-box; }
 /* 橫向儲思盆：一年級 10 章一次放得下，不用捲動 */
-.land .vn_ch_list { gap: 12px 20px; }
-#game.land .vn_ch_row { min-height: 0; height: 70px; padding-top: 0; padding-bottom: 0; box-sizing: border-box; }
-#game.land .vn_ch_row .done { width: 54px; height: 54px; flex-basis: 54px; margin: -8px -6px -8px 0; }
+.land .vn_ch_list { gap: 10px 20px; }
+#game.land .vn_ch_row { min-height: 0; height: 60px; padding-top: 0; padding-bottom: 0; box-sizing: border-box; }
+#game.land .vn_ch_row .done { width: 50px; height: 50px; flex-basis: 50px; margin: -6px -6px -6px 0; }

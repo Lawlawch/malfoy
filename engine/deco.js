@@ -13,51 +13,13 @@ const KINDS = [
   ["tag", ".vn_ch_row .no"]
 ];
 
-// 共用的紋理濾鏡與漸層（整份文件只放一次）
+// 共用的紋理與漸層（整份文件只放一次）
+// v0.5.0：紙紋、金屬紋、蠟封原本是即時運算的雜訊濾鏡（feTurbulence），iOS 要用 CPU 以 3 倍解析度計算，
+// 面板會空白約 1 秒才出現。現在改成預先算好的圖（tools/make_textures.js 產生，外觀相同），手機只需貼圖。
 const DEFS = `<svg xmlns="${NS}" width="0" height="0" style="position:absolute;width:0;height:0" aria-hidden="true"><defs>
-  <filter id="dzTex" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
-    <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="4" result="fine"/>
-    <feTurbulence type="fractalNoise" baseFrequency="0.035 0.07" numOctaves="3" seed="11" result="coarse"/>
-    <feColorMatrix in="fine" type="matrix" values="0 0 0 0 0.16  0 0 0 0 0.09  0 0 0 0 0.03  1.2 0 0 0 -0.5" result="fineA"/>
-    <feColorMatrix in="coarse" type="matrix" values="0 0 0 0 0.22  0 0 0 0 0.12  0 0 0 0 0.04  0.9 0 0 0 -0.4" result="coarseA"/>
-    <feColorMatrix in="coarse" type="matrix" values="0 0 0 0 1  0 0 0 0 0.95  0 0 0 0 0.8  -0.8 0 0 0 0.38" result="lightA"/>
-    <feMerge result="m"><feMergeNode in="SourceGraphic"/><feMergeNode in="coarseA"/><feMergeNode in="lightA"/><feMergeNode in="fineA"/></feMerge>
-    <feComposite in="m" in2="SourceGraphic" operator="in"/>
-  </filter>
-  <filter id="dzTexLite" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
-    <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="4" result="fine"/>
-    <feTurbulence type="fractalNoise" baseFrequency="0.03 0.06" numOctaves="2" seed="11" result="coarse"/>
-    <feColorMatrix in="fine" type="matrix" values="0 0 0 0 0.16  0 0 0 0 0.09  0 0 0 0 0.03  0.8 0 0 0 -0.34" result="fineA"/>
-    <feColorMatrix in="coarse" type="matrix" values="0 0 0 0 0.22  0 0 0 0 0.12  0 0 0 0 0.04  0.45 0 0 0 -0.2" result="coarseA"/>
-    <feMerge result="m"><feMergeNode in="SourceGraphic"/><feMergeNode in="coarseA"/><feMergeNode in="fineA"/></feMerge>
-    <feComposite in="m" in2="SourceGraphic" operator="in"/>
-  </filter>
-  <filter id="dzMetal" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB">
-    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="fine"/>
-    <feTurbulence type="fractalNoise" baseFrequency="0.015 0.6" numOctaves="2" seed="3" result="streak"/>
-    <feColorMatrix in="fine" type="matrix" values="0 0 0 0 0.2  0 0 0 0 0.12  0 0 0 0 0.02  1.5 0 0 0 -0.62" result="fineA"/>
-    <feColorMatrix in="streak" type="matrix" values="0 0 0 0 0.25  0 0 0 0 0.15  0 0 0 0 0.04  1.4 0 0 0 -0.55" result="darkA"/>
-    <feColorMatrix in="streak" type="matrix" values="0 0 0 0 1  0 0 0 0 0.96  0 0 0 0 0.8  -1.3 0 0 0 0.55" result="lightA"/>
-    <feMerge result="m"><feMergeNode in="SourceGraphic"/><feMergeNode in="darkA"/><feMergeNode in="lightA"/><feMergeNode in="fineA"/></feMerge>
-    <feComposite in="m" in2="SourceGraphic" operator="in"/>
-  </filter>
-  <filter id="dzWorn" x="-4%" y="-10%" width="108%" height="120%">
-    <feTurbulence type="fractalNoise" baseFrequency="0.55" numOctaves="1" seed="2" result="t"/>
-    <feDisplacementMap in="SourceGraphic" in2="t" scale="1.8" xChannelSelector="R" yChannelSelector="G"/>
-  </filter>
-  <filter id="dzWax" x="-25%" y="-25%" width="150%" height="150%" color-interpolation-filters="sRGB">
-    <feTurbulence type="fractalNoise" baseFrequency="0.07" numOctaves="2" seed="5" result="t"/>
-    <feDisplacementMap in="SourceGraphic" in2="t" scale="7" xChannelSelector="R" yChannelSelector="G" result="d"/>
-    <feGaussianBlur in="d" stdDeviation="2.2" result="b"/>
-    <feTurbulence type="fractalNoise" baseFrequency="0.42" numOctaves="2" seed="9" result="fine"/>
-    <feComposite in="b" in2="fine" operator="arithmetic" k2="1" k3="0.35" result="bump"/>
-    <feDiffuseLighting in="bump" surfaceScale="4" diffuseConstant="1.15" lighting-color="#ffffff" result="dif"><feDistantLight azimuth="235" elevation="48"/></feDiffuseLighting>
-    <feComposite in="d" in2="dif" operator="arithmetic" k1="1.25" result="shaded"/>
-    <feSpecularLighting in="bump" surfaceScale="4" specularConstant="0.9" specularExponent="22" lighting-color="#d8ffe8" result="spec"><feDistantLight azimuth="235" elevation="38"/></feSpecularLighting>
-    <feComposite in="spec" in2="d" operator="in" result="spec2"/>
-    <feComposite in="shaded" in2="d" operator="in" result="sh2"/>
-    <feMerge><feMergeNode in="sh2"/><feMergeNode in="spec2"/></feMerge>
-  </filter>
+  <pattern id="dzPatPaper" patternUnits="userSpaceOnUse" width="512" height="512"><image href="assets/ui/tex_paper.webp" width="512" height="512"/></pattern>
+  <pattern id="dzPatLite" patternUnits="userSpaceOnUse" width="512" height="512"><image href="assets/ui/tex_lite.webp" width="512" height="512"/></pattern>
+  <pattern id="dzPatMetal" patternUnits="userSpaceOnUse" width="512" height="512"><image href="assets/ui/tex_metal.webp" width="512" height="512"/></pattern>
   <filter id="dzEmboss" x="-10%" y="-10%" width="120%" height="120%">
     <feOffset dx="0.8" dy="1" in="SourceAlpha" result="o"/><feFlood flood-color="#03140c" flood-opacity="0.85"/><feComposite in2="o" operator="in" result="sh"/>
     <feMerge><feMergeNode in="sh"/><feMergeNode in="SourceGraphic"/></feMerge>
@@ -74,6 +36,22 @@ const DEFS = `<svg xmlns="${NS}" width="0" height="0" style="position:absolute;w
 const f = (n) => Math.round(n * 10) / 10;
 const hexPts = (w, h, c, i) => `${f(c + i * 0.6)},${i} ${f(w - c - i * 0.6)},${i} ${w - i},${h / 2} ${f(w - c - i * 0.6)},${h - i} ${f(c + i * 0.6)},${h - i} ${i},${h / 2}`;
 const octPts = (w, h, c, i) => { const k = c + i * 0.4; return `${f(k)},${i} ${f(w - k)},${i} ${w - i},${f(k)} ${w - i},${f(h - k)} ${f(w - k)},${h - i} ${f(k)},${h - i} ${i},${f(h - k)} ${i},${f(k)}`; };
+// 磨損邊：沿著外框每隔約 3 像素輕微抖動（取代原本即時運算的 dzWorn 扭曲濾鏡）
+const jit = (i, k) => { const v = Math.sin(i * 12.9898 + k * 78.233) * 43758.5453; return (v - Math.floor(v)) * 2 - 1; };
+function worn(pts, k = 0) {
+  const P = pts.trim().split(/\s+/).map((q) => q.split(",").map(Number));
+  let d = "", n = 0;
+  for (let i = 0; i < P.length; i++) {
+    const [x0, y0] = P[i], [x1, y1] = P[(i + 1) % P.length], L = Math.hypot(x1 - x0, y1 - y0), seg = Math.max(1, Math.round(L / 3));
+    const nx = -(y1 - y0) / (L || 1), ny = (x1 - x0) / (L || 1);
+    for (let j = 0; j < seg; j++) {
+      const t = j / seg, o = j === 0 ? 0 : jit(n++, k) * 0.75;
+      d += (d ? "L" : "M") + f(x0 + (x1 - x0) * t + nx * o) + " " + f(y0 + (y1 - y0) * t + ny * o);
+    }
+  }
+  return d + "Z";
+}
+const tex = (pts, pat, cls = "dz_tex") => `<polygon class="${cls}" points="${pts}" fill="url(#${pat})"/>`;
 const dia = (x, y, r, cls) => `<path class="${cls}" d="M${f(x)} ${f(y - r)}l${r} ${r}-${r} ${r}-${r}-${r}z"/>`;
 
 function draw(elm, kind) {
@@ -85,21 +63,21 @@ function draw(elm, kind) {
   let s = "";
   if (kind === "hex") {
     const c = Math.min(22, h * 0.42), sm = h < 44;
-    s = `<polygon class="dz_fill" points="${hexPts(w, h, c, 1)}" filter="url(#dzTex)"/>
+    s = `<polygon class="dz_fill" points="${hexPts(w, h, c, 1)}"/>${tex(hexPts(w, h, c, 1), "dzPatPaper")}
       <polyline class="dz_hi" points="${f(c + 3)},3 ${f(w - c - 3)},3" />
-      <polygon class="dz_edge" points="${hexPts(w, h, c, 1)}" filter="url(#dzWorn)"/>
+      <path class="dz_edge" d="${worn(hexPts(w, h, c, 1), w)}"/>
       <polygon class="dz_line" points="${hexPts(w, h, c, sm ? 4 : 6)}"/>
       ${sm ? "" : dia(c * 0.55, h / 2, 5, "dz_stud") + dia(w - c * 0.55, h / 2, 5, "dz_stud")}
       ${sm ? "" : `<path class="dz_tick" d="M${f(c + 14)} 6.5h8M${f(w - c - 22)} 6.5h8M${f(c + 14)} ${h - 6.5}h8M${f(w - c - 22)} ${h - 6.5}h8"/>`}`;
   } else if (kind === "oct") {
     const c = Math.min(16, h * 0.2);
-    s = `<polygon class="dz_fill" points="${octPts(w, h, c, 1)}" filter="url(#dzTexLite)"/>
-      <polygon class="dz_edge" points="${octPts(w, h, c, 1)}" filter="url(#dzWorn)"/>
+    s = `<polygon class="dz_fill" points="${octPts(w, h, c, 1)}"/>${tex(octPts(w, h, c, 1), "dzPatLite")}
+      <path class="dz_edge" d="${worn(octPts(w, h, c, 1), w)}"/>
       <polygon class="dz_line" points="${octPts(w, h, c, 6)}"/>
       ${[[c / 2 + 3, c / 2 + 3], [w - c / 2 - 3, c / 2 + 3], [c / 2 + 3, h - c / 2 - 3], [w - c / 2 - 3, h - c / 2 - 3]].map(([x, y]) => `<circle class="dz_stud" cx="${f(x)}" cy="${f(y)}" r="2"/>`).join("")}`;
   } else if (kind === "tag") {
     const c = Math.min(12, h * 0.32);
-    s = `<polygon class="dz_fill" points="${hexPts(w, h, c, 1)}" filter="url(#dzTex)"/>
+    s = `<polygon class="dz_fill" points="${hexPts(w, h, c, 1)}"/>${tex(hexPts(w, h, c, 1), "dzPatPaper")}
       <polygon class="dz_edge" points="${hexPts(w, h, c, 1)}"/>
       <polygon class="dz_line" points="${hexPts(w, h, c, 4)}"/>`;
   }
@@ -135,15 +113,10 @@ export function initDeco() {
 /* ---------- 已讀蠟封、鎖 ---------- */
 let sealSeed = 0;
 export function sealHtml(text = "已讀") {
-  // 邊緣不規則的蠟滴（每枚的形狀略有不同），浮雕光影由 dzWax 濾鏡處理；外圈金環、內圈點線、金字
-  const n = 30, seed = sealSeed++ * 1.7;
-  let d = "";
-  for (let i = 0; i < n; i++) {
-    const a = (i / n) * Math.PI * 2, r = 27 + Math.sin(i * 2.3 + seed) * 1.6 + (i % 4 === 0 ? 1.8 : 0);
-    d += (i ? "L" : "M") + f(32 + r * Math.cos(a)) + " " + f(32 + r * Math.sin(a));
-  }
-  return `<svg class="dz_seal" viewBox="0 0 64 64" aria-hidden="true" style="transform: rotate(${-14 + (sealSeed % 3) * 5}deg)">
-    <path d="${d}Z" fill="url(#dzWaxG)" filter="url(#dzWax)"/>
+  // 邊緣不規則的蠟滴（4 種形狀輪流），浮雕光影預先算好（assets/ui/wax0～3.webp）；外圈金環、內圈點線、金字
+  const k = sealSeed++ % 4;
+  return `<svg class="dz_seal" viewBox="0 0 64 64" aria-hidden="true" style="overflow: visible; transform: rotate(${-14 + (sealSeed % 3) * 5}deg)">
+    <image href="assets/ui/wax${k}.webp" x="-8" y="-8" width="80" height="80"/>
     <circle cx="32" cy="32" r="20" fill="none" stroke="#0b2c1e" stroke-width="2.4" opacity=".55"/>
     <circle cx="32" cy="32" r="19.4" fill="none" stroke="#d9b86a" stroke-width="1.1" opacity=".9" filter="url(#dzEmboss)"/>
     <circle cx="32" cy="32" r="16" fill="none" stroke="#d9b86a" stroke-width=".6" stroke-dasharray="1.4 2" opacity=".75"/>
@@ -151,7 +124,7 @@ export function sealHtml(text = "已讀") {
   </svg>`;
 }
 export const LOCK_HTML = `<svg class="dz_lock" viewBox="0 0 46 46" aria-hidden="true">
-  <path d="M23 2l21 21-21 21L2 23z" class="dz_lock_plate" filter="url(#dzTex)"/><path d="M23 2l21 21-21 21L2 23z" class="dz_lock_edge"/><path d="M23 7l16 16-16 16L7 23z" class="dz_lock_line"/>
+  <path d="M23 2l21 21-21 21L2 23z" class="dz_lock_plate"/><path d="M23 2l21 21-21 21L2 23z" class="dz_tex" fill="url(#dzPatPaper)"/><path d="M23 2l21 21-21 21L2 23z" class="dz_lock_edge"/><path d="M23 7l16 16-16 16L7 23z" class="dz_lock_line"/>
   <path d="M17 22v-4a6 6 0 0 1 12 0v4" fill="none" stroke="#4a2e12" stroke-width="2.4"/><rect x="14.5" y="21.5" width="17" height="13" rx="2" fill="#4a2e12"/>
   <circle cx="23" cy="27" r="1.8" fill="#b8955a"/><path d="M23 28v3" stroke="#b8955a" stroke-width="1.6"/></svg>`;
 
@@ -168,12 +141,14 @@ export function decorateRange(input) {
     const v = (Number(input.value) - Number(input.min || 0)) / ((Number(input.max || 100) - Number(input.min || 0)) || 1);
     const y = h / 2 - 4, x0 = 14, x1 = w - 14, xv = x0 + (x1 - x0) * v;
     svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
-    svg.innerHTML = `<polygon class="dz_rg_track" points="${x0},${y} ${x0 + 12},${y - 6} ${x1 - 12},${y - 6} ${x1},${y} ${x1 - 12},${y + 6} ${x0 + 12},${y + 6}" filter="url(#dzTex)"/>
-      <polygon class="dz_rg_edge" points="${x0},${y} ${x0 + 12},${y - 6} ${x1 - 12},${y - 6} ${x1},${y} ${x1 - 12},${y + 6} ${x0 + 12},${y + 6}" filter="url(#dzWorn)"/>
-      ${xv > x0 + 1 ? `<polygon points="${x0 + 1},${y} ${Math.min(xv, x0 + 12)},${y - 4} ${f(xv)},${y - 4} ${f(xv)},${y + 4} ${Math.min(xv, x0 + 12)},${y + 4}" fill="url(#dzGoldV)" filter="url(#dzMetal)"/>` : ""}
+    const trk = `${x0},${y} ${x0 + 12},${y - 6} ${x1 - 12},${y - 6} ${x1},${y} ${x1 - 12},${y + 6} ${x0 + 12},${y + 6}`;
+    const gauge = `${x0 + 1},${y} ${Math.min(xv, x0 + 12)},${y - 4} ${f(xv)},${y - 4} ${f(xv)},${y + 4} ${Math.min(xv, x0 + 12)},${y + 4}`;
+    svg.innerHTML = `<polygon class="dz_rg_track" points="${trk}"/>${tex(trk, "dzPatPaper")}
+      <path class="dz_rg_edge" d="${worn(trk, 3)}"/>
+      ${xv > x0 + 1 ? `<polygon points="${gauge}" fill="url(#dzGoldV)"/>${tex(gauge, "dzPatMetal")}` : ""}
       ${dia(x0 - 5, y, 5, "dz_rg_cap")}${dia(x1 + 5, y, 5, "dz_rg_cap")}
       ${[0.25, 0.5, 0.75].map((t) => `<circle class="dz_rg_tick" cx="${f(x0 + (x1 - x0) * t)}" cy="${y + 15}" r="2.2"/>`).join("")}
-      <g transform="translate(${f(xv)} ${y})"><path d="M0 -15l13 15-13 15-13-15z" fill="url(#dzBrass)" class="dz_rg_knob" filter="url(#dzMetal)"/><path d="M0 -15l13 15-13 15-13-15z" fill="none" stroke="#4a3008" stroke-width="1.2" filter="url(#dzWorn)"/><path d="M0 -10.5l9 10.5-9 10.5-9-10.5z" fill="none" stroke="#fff2c0" stroke-width=".6" opacity=".45"/>
+      <g transform="translate(${f(xv)} ${y})"><path d="M0 -15l13 15-13 15-13-15z" fill="url(#dzBrass)" class="dz_rg_knob"/><path d="M0 -15l13 15-13 15-13-15z" class="dz_tex" fill="url(#dzPatMetal)"/><path d="M0 -15l13 15-13 15-13-15z" fill="none" stroke="#4a3008" stroke-width="1.2"/><path d="M0 -10.5l9 10.5-9 10.5-9-10.5z" fill="none" stroke="#fff2c0" stroke-width=".6" opacity=".45"/>
         <path d="M0 -6l6 6-6 6-6-6z" fill="url(#dzGem)" stroke="#063a22" stroke-width=".6"/><circle cx="-2" cy="-2.2" r="1.2" fill="#fff" opacity=".8"/></g>`;
   };
   input.addEventListener("input", paint);

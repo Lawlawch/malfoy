@@ -116,6 +116,7 @@ function openChapters() {
   const S = ui.panel("儲思盆");
   sf.unlocked = sf.unlocked || {}; sf.unlocked[story.chapters[0].id] = 1;
   let yi = 0;
+  const CH_SLOTS = 12;   // 每個年級暫定 12 章：沒做好的顯示上鎖格
   function render() {
     const multi = story.years.length > 1;
     S.tabs.innerHTML = "";
@@ -125,7 +126,7 @@ function openChapters() {
       tap(el("span.vn_year_arrow" + (multi ? "" : ".off"), { text: "›" }), () => { if (multi) { yi = (yi + 1) % story.years.length; render(); } })));
     const list = el("div.vn_ch_list");
     const chs = story.chapters.filter((c) => c.year === yi + 1);
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0, n = Math.max(CH_SLOTS, chs.length); i < n; i++) {
       const c = chs[i];
       const open = !!(c && c.ready && sf.unlocked[c.id]);
       if (!open) { list.append(el("div.vn_ch_row.locked", {}, el("span.lock", { html: LOCK_HTML }))); continue; }

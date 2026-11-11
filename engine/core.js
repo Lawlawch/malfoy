@@ -166,7 +166,9 @@ export function outfitOf(f, id) {
   const o = f && f["outfit_" + id];
   return ch.outfits.includes(o) ? o : (ch.outfit || ch.outfits[0]);
 }
-export const NUM_CN = ["", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十"];
+const CN_D = ["", "一", "二", "三", "四", "五", "六", "七", "八", "九"];
+// 中文數字 0～99：十一、二十、二十三……（章號、年級用）
+export const NUM_CN = Array.from({ length: 100 }, (_, n) => n < 10 ? CN_D[n] : (n < 20 ? "" : CN_D[Math.floor(n / 10)]) + "十" + CN_D[n % 10]);
 export function chapterLabel(c) { return `${story.years[c.year - 1] || ""}．第${NUM_CN[c.n] || c.n}章`; }
 export function avatarUrl(key) {
   const file = story.characters[key] ? key : (story.speakers[key] || "harry");
