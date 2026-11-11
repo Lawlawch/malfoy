@@ -259,6 +259,13 @@ function bindInput(root) {
     lastAdvance = Date.now();
     handlers.advance && handlers.advance();
   });
+  // iOS（Safari／Chrome）連點對話框時會選到字，左上角跳出「建立連結」等選單：除了紀錄內文，一律不准選字
+  const selOk = (t) => !!(t && t.closest && t.closest(".log_body, input, textarea"));
+  document.addEventListener("selectstart", (e) => { if (!selOk(e.target)) e.preventDefault(); });
+  document.addEventListener("selectionchange", () => {
+    const sel = window.getSelection && window.getSelection();
+    if (sel && sel.rangeCount && !sel.isCollapsed && !selOk(sel.anchorNode && (sel.anchorNode.nodeType === 1 ? sel.anchorNode : sel.anchorNode.parentElement))) sel.removeAllRanges();
+  });
   root.addEventListener("contextmenu", (e) => {
     e.preventDefault();
     if (overlayOpen() || !handlers.inGame || !handlers.inGame()) return;
@@ -282,8 +289,11 @@ function bindInput(root) {
       if (p) { $(".vn_close_btn", p)?.click(); return; }
       return;
     }
-    if (e.key === "Enter" && !e.repeat) {
-      if (overlayOpen() || e.target.closest?.("input")) return;
+    // Enter、空白鍵：推進對話（按住不放不會連續推進）
+    if (e.key === "Enter" || e.key === " " || e.code === "Space") {
+      if (overlayOpen() || e.target.closest?.("input, textarea, select")) return;   // 開著設定等畫面時，交回瀏覽器原本的行為
+      e.preventDefault();          // 擋掉：剛點過的工具列按鈕還有焦點時被再按一次、頁面捲動
+      if (e.repeat) return;
       lastAdvance = Date.now();
       handlers.advance && handlers.advance();
     }

@@ -41,7 +41,10 @@
 html, body {
   margin: 0; height: 100%; overflow: hidden; background: #000;
   overscroll-behavior: none; -webkit-tap-highlight-color: transparent; -webkit-text-size-adjust: 100%;
+  user-select: none; -webkit-user-select: none; -webkit-touch-callout: none;   /* iOS：連點、長按不選字、不跳出選單 */
 }
+#game *, #game img { -webkit-touch-callout: none; -webkit-user-drag: none; }
+#game .vn_sys .log_body, #game .vn_sys .log_body * { -webkit-user-select: text; user-select: text; }
 #game {
   position: absolute; left: 0; top: 0; transform-origin: 0 0; overflow: hidden;
   background: #000; color: var(--vn-ink);
