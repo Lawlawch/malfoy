@@ -105,6 +105,8 @@
 - 「當……當然知道……」 -> *c1_open_c | c1_open=3
 
 *c1_open_a
+#哈利
+「……不知道。」
 #馬份
 @face draconia surprised
 「……你還真的不知道？」
@@ -120,6 +122,8 @@
 @jump *c1_open_end
 
 *c1_open_b
+#哈利
+「跟妳有什麼關係？」
 #馬份
 @face draconia disdain
 「哼。不懂就老實說，總比不懂裝懂好。」
@@ -128,6 +132,8 @@
 @jump *c1_open_end
 
 *c1_open_c
+#哈利
+「當……當然知道……」
 #
 我腦中浮現的，是某種裹著糖霜的點心。
 @face draconia smug
@@ -224,7 +230,7 @@
 
 *c1_hagrid_c
 #
-我什麼也沒說，只是低下頭，看著自己的鞋尖。
+我握緊拳頭，什麼也沒說，只是低下頭，看著自己的鞋尖。
 #馬份
 @face draconia disdain
 「那種野蠻的傢伙，本來就不值得結交。」
@@ -660,6 +666,8 @@
 @jump *c1_toad_end
 
 *c1_toad_b
+#哈利
+「我們沒看見，抱歉。」
 #妙麗
 @face hermione sad
 「那好吧，我再去別的車廂問問。」
@@ -831,6 +839,8 @@
 - 坐上馬份的船 -> *c1_boat_malfoy | bond+1 c1_boat=2
 
 *c1_boat_malfoy
+#
+我往馬份那條船走了過去。
 @face ron angry
 #榮恩
 「……又是她。」
@@ -904,6 +914,7 @@
 *c1_boat_other
 @hide draconia
 #
+我跟著榮恩一同跳上小船。
 我在船尾坐下，小船緩緩滑離岸邊。
 @show hermione happy
 #妙麗

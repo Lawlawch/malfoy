@@ -259,9 +259,9 @@
 - 俯衝去接記憶球 -> *c4_save_b | bond-4 c4_save=2
 
 *c4_save_a
+@showcg cg_flight
 #
 我什麼都沒想，伸長手臂，一把抓住了她的手。
-@showcg cg_flight
 她的手很涼，抓得很緊。我感覺得到，她在發抖。
 @face draconia shy
 #馬份
