@@ -14,7 +14,7 @@ export const chapters = [
   { id: "ch1_08", year: 1, n: 8,  title: "聖誕節與厄里斯魔鏡", ready: true },
   { id: "ch1_09", year: 1, n: 9,  title: "挪威脊背龍", ready: true },
   { id: "ch1_10", year: 1, n: 10, title: "禁忌森林", ready: true },
-  { id: "ch1_11", year: 1, n: 11, title: "活板門之下" },
+  { id: "ch1_11", year: 1, n: 11, title: "活板門之下", ready: true },
   { id: "ch1_12", year: 1, n: 12, title: "（暫定）醫院廂房與學年末宴會" }
 ];
 
@@ -50,12 +50,12 @@ export const characters = {
   peeves:      { name: "皮皮鬼",   faces: ["normal"] },
   flint:       { name: "弗林",     faces: ["normal"] },   // 黑影立繪
   pince:       { name: "平斯夫人", faces: ["normal"] },   // 黑影立繪
-  lee:         { name: "李．喬丹", faces: ["normal"] },   // 只出聲音、從不 @show；頭像暫用 unknown 的圖
+  lee:         { name: "李‧喬丹", faces: ["normal"] },   // 只出聲音、從不 @show；頭像暫用 unknown 的圖
   unknown:     { name: "？？？",     faces: ["normal"] }   // 刻意隱藏身分的說話者共用：無形黑影立繪（說話者寫 #？？？，用 @show unknown 上台）；頭像 assets/avatar/unknown.png
 };
 
 // 沒有立繪、但會說話的人（#名字 不會被當成打錯字）。值 = 頭像檔名
-export const speakers = { "哈利": "harry", "德思禮姨丈": "unknown" };
+export const speakers = { "哈利": "harry", "德思禮姨丈": "unknown", "佛地魔": "unknown" };
 
 // 圖鑑（圖檔放 assets/cg/<id>.webp，沒有圖時顯示佔位）
 // pos：CG 裁切焦點（"水平% 垂直%"，預設 "50% 50%"）。CG 是方圖，橫向會裁上下、直向會裁左右，焦點決定保留哪一塊；由立繪聊天室量好後填入
@@ -93,6 +93,10 @@ export const cgs = {
     { id: "cg_sleeve",   name: "禁忌森林裡的手" },
     { id: "cg_shadow",   name: "戴著兜帽的黑影" },
     { id: "cg_tears",    name: "月光下的眼淚" },
+    { id: "cg_flute",    name: "笛聲與三頭犬" },
+    { id: "cg_keys",     name: "並肩追逐" },
+    { id: "cg_quirrell", name: "灼燒" },
+    { id: "cg_blur",     name: "朦朧中的金髮" },
     { id: "cg_stone",    name: "魔法石的守護" },
     // 以下暫定（名稱與圖之後再定）
     { id: "cg_21",       name: "（待定）" },
@@ -117,11 +121,7 @@ export const cgs = {
     { id: "cg_40",       name: "（待定）" },
     { id: "cg_41",       name: "（待定）" },
     { id: "cg_42",       name: "（待定）" },
-    { id: "cg_43",       name: "（待定）" },
-    { id: "cg_44",       name: "（待定）" },
-    { id: "cg_45",       name: "（待定）" },
-    { id: "cg_46",       name: "（待定）" },
-    { id: "cg_47",       name: "（待定）" }
+    { id: "cg_43",       name: "（待定）" }
   ],
   ending: [   // line：年級結算頁的結局語句（可用 \n 換行）
     { id: "y1_A", name: "結局：（待定）", line: "" },
