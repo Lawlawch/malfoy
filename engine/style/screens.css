@@ -390,10 +390,10 @@
   outline: 1px solid rgba(217, 184, 106, 0.8); outline-offset: 6px; box-shadow: 0 0 0 1px rgba(217, 184, 106, 0.9), 0 0 30px rgba(120, 160, 240, 0.25);
   color: rgba(200, 215, 245, 0.5); font-size: 20px; letter-spacing: 0.2em;
 }
-#vn_end .txt { width: 420px; display: flex; flex-direction: column; align-items: center; }
+#vn_end .txt { width: 440px; display: flex; flex-direction: column; align-items: center; }
 #vn_end .etag { font-size: 22px; letter-spacing: 0.4em; padding-left: 0.4em; color: #c9b07a; }
 #vn_end .ettl { margin-top: 8px; font-size: 44px; font-style: italic; letter-spacing: 0.12em; color: #eef0f6; text-shadow: 0 0 22px rgba(170, 200, 255, 0.35); }
-#vn_end .eline { margin-top: 14px; font-size: 22px; line-height: 1.8; letter-spacing: 0.12em; color: #c8d6f0; white-space: pre-line; }
+#vn_end .eline { margin-top: 14px; font-size: 20px; line-height: 1.8; letter-spacing: 0.06em; color: #c8d6f0; white-space: pre-line; }
 #vn_end.yrend .btns { margin-top: 40px; }
 .port #vn_end.yrend .in { width: 640px; }
 .port #vn_end .mid { flex-direction: column; gap: 30px; margin-top: 34px; }

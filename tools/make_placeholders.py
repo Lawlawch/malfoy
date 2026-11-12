@@ -30,7 +30,7 @@ COLORS = {"draconia": (120, 140, 190), "ron": (200, 110, 70), "hermione": (150, 
           "mcgonagall": (60, 110, 80), "sorting_hat": (110, 90, 60), "neville": (150, 120, 90), "fred": (200, 100, 60), "george": (190, 95, 65), "dumbledore": (140, 120, 170), "percy": (180, 105, 70), "pansy": (90, 130, 100), "snape": (40, 40, 48),
           "hooch": (150, 140, 100), "wood": (170, 80, 60),
           "flitwick": (18, 18, 22), "quirrell": (110, 70, 140),
-          "unknown": (10, 10, 12), "filch": (100, 110, 90), "peeves": (150, 120, 170), "flint": (18, 18, 22), "lee": (120, 90, 60), "pince": (18, 18, 22), "firenze": (196, 186, 150)}   # flint、pince 黑影立繪
+          "unknown": (10, 10, 12), "filch": (100, 110, 90), "peeves": (150, 120, 170), "flint": (18, 18, 22), "lee": (120, 90, 60), "pince": (18, 18, 22), "firenze": (196, 186, 150), "pomfrey": (200, 200, 210), "narcissa": (215, 205, 175)}   # flint、pince 黑影立繪
 # 黑影立繪（佔位用近黑色）：flitwick、unknown（？？？共用）、malkin、ollivander、hooch
 for _k in ("malkin", "ollivander", "hooch"): COLORS[_k] = (18, 18, 22)
 
@@ -176,5 +176,6 @@ bg("snare_room.webp", "DEVIL'S SNARE", (10, 16, 10), (40, 60, 30))
 bg("key_room.webp", "ROOM OF KEYS", (30, 26, 40), (150, 130, 80))
 bg("chess_room.webp", "CHESS ROOM", (20, 20, 24), (110, 110, 120))
 bg("potion_room.webp", "POTION ROOM", (24, 14, 30), (110, 60, 120))
+bg("hospital_wing.webp", "HOSPITAL WING", (60, 60, 70), (200, 200, 190))
 bg("stone_chamber.webp", "THE LAST CHAMBER", (30, 20, 14), (150, 110, 50))
 print("立繪佔位圖：產生", made, "張")

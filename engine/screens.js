@@ -341,12 +341,15 @@ function showYearEnd(year, endId, next) {
   const it = story.cgs.ending.find((x) => x.id === endId);
   const img = el("div.cg", {}, el("span.ph", { text: "（CG 準備中）" }));
   if (it) tryImg(it.id, (u) => { img.style.backgroundImage = `url(${u})`; img.style.backgroundPosition = cgPos(it.id); img.textContent = ""; });
-  const name = it ? it.name.replace(/^結局：/, "") : "（待定）";
+  // 結局名稱「True End：綠色的學院盃」→ 小標「True End」＋大標「綠色的學院盃」；沒有前綴時小標用「結局」
+  const full = it ? it.name.replace(/^結局：/, "") : "（待定）";
+  const mm = it && it.name.match(/^(.+?)：(.+)$/);
+  const tag = mm && mm[1] !== "結局" ? mm[1] : "結局", name = mm ? mm[2] : full;
   starScreen("yrend", [
     el("div.head", { html: CARD_STAR }, el("span", { text: yearName(year) + "　完結" }), el("span.s2", { html: CARD_STAR })),
     el("div.mid", {}, img,
       el("div.txt", {},
-        el("div.etag", { text: "結局" }),
+        el("div.etag", { text: tag }),
         el("div.ettl", { text: name }),
         el("div.rl", { html: cardRuleHtml(false) }),
         el("div.eline", { text: (it && it.line) || "" })))

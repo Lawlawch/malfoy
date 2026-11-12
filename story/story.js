@@ -15,7 +15,7 @@ export const chapters = [
   { id: "ch1_09", year: 1, n: 9,  title: "挪威脊背龍", ready: true },
   { id: "ch1_10", year: 1, n: 10, title: "禁忌森林", ready: true },
   { id: "ch1_11", year: 1, n: 11, title: "活板門之下", ready: true },
-  { id: "ch1_12", year: 1, n: 12, title: "（暫定）醫院廂房與學年末宴會" }
+  { id: "ch1_12", year: 1, n: 12, title: "學年末宴會", ready: true }
 ];
 
 export const years = ["一年級", "二年級", "三年級", "四年級"];
@@ -39,7 +39,7 @@ export const characters = {
   george:      { name: "喬治",     faces: ["normal"] },
   dumbledore:  { name: "鄧不利多", faces: ["normal"] },
   percy:       { name: "派西",     faces: ["normal"] },
-  pansy:       { name: "潘西",     faces: ["normal", "happy", "angry", "smug", "disdain", "surprised", "panic", "cry"] },
+  pansy:       { name: "潘西",     faces: ["normal", "happy", "sad", "angry", "smug", "disdain", "surprised", "panic", "cry"] },
   snape:       { name: "石內卜",   faces: ["normal", "angry"] },
   hooch:       { name: "胡奇夫人", faces: ["normal"] },   // 黑影立繪
   wood:        { name: "木透",     faces: ["normal"] },
@@ -50,6 +50,8 @@ export const characters = {
   peeves:      { name: "皮皮鬼",   faces: ["normal"] },
   flint:       { name: "弗林",     faces: ["normal"] },   // 黑影立繪
   pince:       { name: "平斯夫人", faces: ["normal"] },   // 黑影立繪
+  pomfrey:     { name: "龐芮夫人", faces: ["normal"] },
+  narcissa:    { name: "水仙", faces: ["normal"] },
   lee:         { name: "李‧喬丹", faces: ["normal"] },   // 只出聲音、從不 @show；頭像暫用 unknown 的圖
   unknown:     { name: "？？？",     faces: ["normal"] }   // 刻意隱藏身分的說話者共用：無形黑影立繪（說話者寫 #？？？，用 @show unknown 上台）；頭像 assets/avatar/unknown.png
 };
@@ -97,7 +99,7 @@ export const cgs = {
     { id: "cg_keys",     name: "並肩追逐" },
     { id: "cg_quirrell", name: "灼燒" },
     { id: "cg_blur",     name: "朦朧中的金髮" },
-    { id: "cg_stone",    name: "魔法石的守護" },
+    { id: "cg_album",    name: "爸媽的相簿" },
     // 以下暫定（名稱與圖之後再定）
     { id: "cg_21",       name: "（待定）" },
     { id: "cg_22",       name: "（待定）" },
@@ -124,12 +126,10 @@ export const cgs = {
     { id: "cg_43",       name: "（待定）" }
   ],
   ending: [   // line：年級結算頁的結局語句（可用 \n 換行）
-    { id: "y1_A", name: "結局：（待定）", line: "" },
-    { id: "y1_B", name: "結局：（待定）", line: "" },
-    { id: "y1_C", name: "結局：（待定）", line: "" },
-    { id: "y1_D", name: "結局：（待定）", line: "" },
-    { id: "y1_E", name: "結局：（待定）", line: "" },
-    { id: "y1_F", name: "結局：（待定）", line: "" }
+    { id: "y1_A", name: "True End：綠色的學院盃", line: "那一年的學院盃是綠色的。\n可是那天晚上，我一點也不覺得自己輸了。" },
+    { id: "y1_B", name: "Good End：紅與綠之間", line: "紅色與綠色的旗幟底下，\n她沒有看著獎盃，只是看著我。" },
+    { id: "y1_C", name: "Good End：隔著人群的約定", line: "隔著月台上的人群，她說：「寫信給我。」\n我們的友情，從這個夏天重新出發。" },
+    { id: "y1_D", name: "Normal End：三個人的歸途", line: "那一年，我們三個一起走出了月台。\n九月一日，還會再來。" }
   ]
 };
 

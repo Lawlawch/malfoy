@@ -24,7 +24,7 @@
 | 摩金夫人 | malkin | normal（黑影立繪） |
 | 克拉 | crabbe | normal（便服、史萊哲林校服兩套） |
 | 高爾 | goyle | normal（便服、史萊哲林校服兩套） |
-| 潘西 | pansy | normal、happy、angry、smug、disdain、surprised、panic、cry（panic、cry 第十章新增，待補圖） |
+| 潘西 | pansy | normal、happy、sad、angry、smug、disdain、surprised、panic、cry（sad 第十二章新增，待補圖） |
 | 石內卜 | snape | normal、angry |
 | 胡奇夫人 | hooch | normal（黑影立繪） |
 | 孚立維教授 | flitwick | normal（黑影立繪） |
@@ -37,6 +37,8 @@
 | 弗林 | flint | normal（黑影立繪） |
 | 平斯夫人 | pince | normal（黑影立繪） |
 | 翡冷翠 | firenze | normal |
+| 龐芮夫人 | pomfrey | normal |
+| 水仙 | narcissa | normal |
 | ？？？ | unknown | normal（無形黑影立繪，所有刻意隱藏身分的說話者共用） |
 | 哈利 | （無立繪） | 第一人稱，只有對話紀錄頭像 |
 

@@ -69,11 +69,11 @@
 | 榮恩 | normal、happy、sad、angry、surprised、disdain、shy、panic（便服、葛來分多校服、冬裝三套都有） |
 | 妙麗 | normal、happy、sad、angry、shy、surprised、cry、panic（便服、葛來分多校服、冬裝三套都有） |
 | 海格 | normal、happy、sad |
-| 潘西 | normal、happy、angry、smug、disdain、surprised、panic、cry |
+| 潘西 | normal、happy、sad、angry、smug、disdain、surprised、panic、cry |
 | 石內卜 | normal、angry |
 | 奈威（便服、葛來分多校服） | normal、happy、sad、cry、panic |
 | 克拉、高爾（便服、史萊哲林校服） | normal |
-| 茉莉、木透、奎若教授、飛七、翡冷翠 | normal |
+| 茉莉、木透、奎若教授、飛七、翡冷翠、龐芮夫人、水仙 | normal |
 | 皮皮鬼 | normal |
 | 孚立維教授、摩金夫人、奧利凡德、胡奇夫人、弗林、平斯夫人（黑影立繪） | normal |
 | 李‧喬丹（只出聲音，不上台） | normal |
