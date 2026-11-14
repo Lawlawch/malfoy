@@ -202,7 +202,7 @@ html, body {
   width: 58px; height: 46px; padding: 0; border: 0; border-radius: 8px; background: none;
   color: #5a3d22; opacity: 0.82; touch-action: manipulation;
 }
-.port #vn_toolbar button { width: 72px; height: 60px; }
+.port #vn_toolbar button { width: 62px; height: 60px; }   /* 9 個圖示：直向收窄，避開對話框左下角的寶石 */
 #vn_toolbar button { flex-direction: column; gap: 2px; }
 #vn_toolbar button svg { width: 25px; height: 25px; fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
 .port #vn_toolbar button svg { width: 32px; height: 32px; }
@@ -370,6 +370,8 @@ html, body {
 #vn_toolbar button { color: var(--g-gold); opacity: 0.85; border-radius: 0; }
 #vn_toolbar button:hover { opacity: 1; color: var(--g-gold-light); background: rgba(217, 184, 106, 0.14); }
 #vn_toolbar button.active { opacity: 1; color: var(--g-deep-2); background: linear-gradient(180deg, var(--g-gold-light), var(--g-gold)); }
+#vn_toolbar button.off, #vn_toolbar button.off:hover { opacity: 0.35; background: none; cursor: default; }   /* 沒有可回溯的選擇 */
+#game.choosing #vn_toolbar button.off { opacity: 0.35; }
 #game.choosing #vn_toolbar button { color: var(--g-gold-light); }
 
 /* ================= 選項：較淺的墨綠長方形＋金框 ================= */

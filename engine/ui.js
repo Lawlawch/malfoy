@@ -140,10 +140,11 @@ export function choicesOpen() { return choicesBox.classList.contains("on"); }
    ============================================================= */
 /* 工具列：放在對話框內側底部、靠右的一排圖示（SVG 線條圖示，墨褐色）。滑鼠移過去會顯示名稱。
    跟著對話框一起顯示、隱藏（右鍵或「隱藏」把對話框收起時，工具列也收起）。 */
-const TOOLS = [["auto", "自動"], ["skip", "略過"], ["log", "紀錄"], ["hide", "隱藏"], ["save", "存檔"], ["load", "讀檔"], ["config", "設定"], ["title", "標題"]];
+const TOOLS = [["auto", "自動"], ["skip", "略過"], ["rewind", "回溯"], ["log", "紀錄"], ["hide", "隱藏"], ["save", "存檔"], ["load", "讀檔"], ["config", "設定"], ["title", "標題"]];
 const ICONS = {
  "auto": "<path d=\"M8 5.5v13l10.5-6.5z\" fill=\"currentColor\" stroke=\"none\"/>",
  "skip": "<path d=\"M4 6v12l8-6zM12 6v12l8-6z\" fill=\"currentColor\" stroke=\"none\"/>",
+ "rewind": "<path d=\"M4 4.5v5h5\"/><path d=\"M4.6 9.5A8 8 0 1 1 4.3 14.5\"/><path d=\"M12 8v4.5l3 2\"/>",   // 逆時針箭頭＋時鐘指針
  "log": "<path d=\"M8 4h9a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H8\"/><path d=\"M8 4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2 2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z\"/><path d=\"M12.5 9h4M12.5 12.5h4M12.5 16h2.5\"/>",
  "hide": "<path d=\"M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6z\"/><circle cx=\"12\" cy=\"12\" r=\"2.6\"/><path d=\"M4 20 20 4\"/>",
  "save": "<path d=\"M5 6.5v12.5a1.5 1.5 0 0 0 1.5 1.5H19V8\"/><path d=\"M5 19a1.5 1.5 0 0 1 1.5-1.5H19\"/><path d=\"M12 2.5v9\"/><path d=\"M8.5 8.2 12 11.7l3.5-3.5\"/><path d=\"M15.5 4.5H19v3.5\"/>",   // 書＋往裡放的箭頭
@@ -165,6 +166,9 @@ function syncToolbar() { if (toolbar && msg) toolbar.classList.toggle("hid", !ms
 export function toolbarOn(on) { toolbar.classList.toggle("on", !!on); syncToolbar(); }
 export function toolbarState(s) {
   for (const k in s) { const b = $(`[data-act="${k}"]`, toolbar); if (b) b.classList.toggle("active", !!s[k]); }
+}
+export function toolbarOff(s) {   // 暫時不能按的按鈕（例：沒有可回溯的選擇）
+  for (const k in s) { const b = $(`[data-act="${k}"]`, toolbar); if (b) { b.classList.toggle("off", !!s[k]); b.setAttribute("aria-disabled", s[k] ? "true" : "false"); } }
 }
 
 /* =============================================================

@@ -5,7 +5,7 @@ import { G, $, el, tap, sf, saveSf, db, cfg, fontPx, story, chapterById, chapter
 import * as ui from "./ui.js";
 import * as audio from "./audio.js";
 import { sealHtml, LOCK_HTML, decorateRange, cardFrameHtml, CARD_STAR, cardRuleHtml, cardMotes } from "./deco.js";
-import { P, hooks, preloadChapter, startChapter, hasContinue, doContinue, makeSave, loadSnap, saveStatus, quitToTitle, setAuto, setSkip, toggleHide, stopAutoSkip, syncTools } from "./player.js";
+import { P, hooks, preloadChapter, startChapter, hasContinue, doContinue, makeSave, loadSnap, saveStatus, quitToTitle, setAuto, setSkip, toggleHide, stopAutoSkip, syncTools, rewindTarget, rewind } from "./player.js";
 
 /* =============================================================
    首頁
@@ -390,6 +390,11 @@ ui.handlers.tool = async (act) => {
   if (act === "auto") setAuto(!P.auto);
   else if (act === "skip") setSkip(!P.skip);
   else if (act === "hide") toggleHide();
+  else if (act === "rewind") {
+    stopAutoSkip();
+    if (!rewindTarget()) { ui.toast("沒有可回溯的選擇"); return; }
+    if (await ui.confirm({ title: "回到上一個選擇？", sub: "之後的進度不會保留。", ok: "回溯", cancel: "取消" }) && P.inGame) await rewind();
+  }
   else if (act === "log") { stopAutoSkip(); ui.openLog(); }
   else if (act === "title") {
     stopAutoSkip();

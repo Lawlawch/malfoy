@@ -89,7 +89,21 @@ function freshFlags(from) {
 export function setAuto(on) { P.auto = !!on; if (on) P.skip = false; syncTools(); }
 export function setSkip(on) { P.skip = !!on; if (on) { P.auto = false; ui.finishTyping(); } else flushAutosave(); syncTools(); }
 export function stopAutoSkip() { P.auto = P.skip = false; flushAutosave(); syncTools(); }
-export function syncTools() { ui.toolbarState({ auto: P.auto, skip: P.skip, hide: ui.isHidden() }); }
+export function syncTools() { ui.toolbarState({ auto: P.auto, skip: P.skip, hide: ui.isHidden() }); ui.toolbarOff({ rewind: !rewindTarget() }); }
+
+/* ---------- 回溯（只退一步）----------
+   台詞中：回到最近一次選擇；停在選項上：回到前一個選擇（選項快照裡帶著的 lc）。
+   回溯到的快照不帶 lc，所以要再做一次選擇才能再回溯；每章開始時清空，不會退回上一章。 */
+export function rewindTarget() {
+  if (!P.inGame) return null;
+  if (P.atChoice) return (P.snap && P.snap.lc) || null;
+  return P.lastChoice || null;
+}
+export async function rewind() {
+  const t = rewindTarget();
+  if (!t) return false;
+  return loadSnap(clone(t));
+}
 
 // 玩家點擊／Enter／滾輪向下
 export function advance() {
@@ -206,13 +220,16 @@ async function exec(c, token) {
     case "choice": {
       capture(P.pc, ui.currentLine());
       P.lastChoice = noLc(P.snap);
-      stopAutoSkip();
+      P.atChoice = true;
+      stopAutoSkip();                                                    // （同時更新「回溯」按鈕）
       commitAutosave();                                                  // 進入選項：寫入自動存檔
       saveSf();
       const i = await ui.showChoices(c.opts, c.title);
       if (token !== P.token) return "stop";
+      P.atChoice = false;
       const o = c.opts[i];
       applyFx(o.fx);
+      syncTools();
       ui.clearLine();
       return P.script.labels[o.target];
     }
@@ -286,7 +303,7 @@ function enterGame() {
 }
 export function leaveGame() {
   stopAutoSkip();                                  // 略過中離開：先補寫自動存檔
-  P.token++; P.waiting = null; P.inGame = false;
+  P.token++; P.waiting = null; P.inGame = false; P.atChoice = false;
   ui.hideChoices(); ui.clearLine(); ui.msgVisible(false);
   ui.toolbarOn(false); ui.hitOn(false);
   audio.stopAll();
