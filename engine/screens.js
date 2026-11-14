@@ -153,7 +153,9 @@ function openChapters() {
 function openGallery() {
   const S = ui.panel("圖鑑");
   S.root.classList.add("vn_gallery");
-  const cats = [{ name: "一般 CG", list: story.cgs.normal, flag: "cgsSeen", base: 0 }, { name: "結局 CG", list: story.cgs.ending, flag: "endings", base: 900 }];   // 結局 CG 編號從 #901 起算
+  // 終結結局的圖（cg 欄位）只放在「結局 CG」，不在一般 CG 重複出現
+  const termCg = new Set(story.cgs.ending.filter((x) => x.cg).map((x) => x.cg));
+  const cats = [{ name: "一般 CG", list: story.cgs.normal.filter((x) => !termCg.has(x.id)), flag: "cgsSeen", base: 0 }, { name: "結局 CG", list: story.cgs.ending, flag: "endings", base: 900 }];   // 結局 CG 編號從 #901 起算
   let cat = 0, page = 0;
   function render() {
     tabs(S, cats.map((c) => c.name), cat, (i) => { cat = i; page = 0; render(); });
@@ -163,7 +165,7 @@ function openGallery() {
     C.list.slice(page * 6, page * 6 + 6).forEach((it, ix) => {
       const no = C.base + page * 6 + ix + 1, got = !!(sf[C.flag] && sf[C.flag][it.id]);
       const th = el("div.thumb");
-      if (got) { const ph = el("span.ph", { text: it.name }); th.append(ph); tryImg(it.id, (u) => { th.style.backgroundImage = `url(${u})`; th.style.backgroundPosition = cgPos(it.id); ph.remove(); }); }
+      if (got) { const ph = el("span.ph", { text: it.name }); th.append(ph); tryImg(imgId(it), (u) => { th.style.backgroundImage = `url(${u})`; th.style.backgroundPosition = cgPos(imgId(it)); ph.remove(); }); }
       else th.append(el("span.q", { text: "？" }));
       const item = el("div.vn_cg_item" + (got ? "" : ".locked"), {}, th, el("div.nm", { text: "#" + no + " " + (got ? it.name : "？？？") }));
       if (got) tap(item, () => viewCG(it, no));
@@ -188,6 +190,7 @@ function openGallery() {
   render();
 }
 // 圖鑑與年級結算的 CG 縮圖：載入成功後套上圖檔與焦點（story.js cgs 的 pos）
+const imgId = (it) => it.cg || it.id;   // 結局項目可用 cg 欄位指定要顯示的圖（終結結局）
 function tryImg(id, ok) { const u = `./assets/cg/${id}.webp`, im = new Image(); im.onload = () => ok(u); im.src = u; }
 function cgPos(id) { const c = [...story.cgs.normal, ...story.cgs.ending].find((x) => x.id === id); return (c && c.pos) || "50% 50%"; }
 function viewCG(it, no) {
@@ -195,7 +198,7 @@ function viewCG(it, no) {
   const ph = el("span", { text: it.name });
   const img = el("div.img", {}, ph);
   const v = el("div#vn_cgview.vn_overlay", {}, img, el("div.cap", { text: "#" + no + " " + it.name }));
-  tryImg(it.id, (u) => { img.style.backgroundImage = `url(${u})`; img.style.backgroundPosition = cgPos(it.id); ph.remove(); });
+  tryImg(imgId(it), (u) => { img.style.backgroundImage = `url(${u})`; img.style.backgroundPosition = cgPos(imgId(it)); ph.remove(); });
   tap(v, () => v.remove());
   G.root.append(v);
 }
@@ -276,14 +279,15 @@ function showCard(c) {
 // 星空：上深下淺的漸層＋藍白星點（部分閃爍）＋四芒小星；不用 CSS 模糊（iPhone 會出黑框）
 const SKY_BLUE = { dot: ["#cfe0ff", "#a9c6ff", "#ffffff"], spark: ["#e4eeff", "#bcd4ff"] };
 const SKY_GOLD = { dot: ["#f6e6bc", "#e8cf8a", "#fff8e8"], spark: ["#fff4d0", "#f0d99a"] };   // 章名畫面：配合墨綠底與金框
+const SKY_EMBER = { dot: ["#c0503c", "#e08a5a", "#f2c9a0"], spark: ["#e0a080", "#c97a6a"], n: 170, sparks: 10 };   // 終結頁：稀疏的暗紅餘燼
 function starSky(W, H, pal = SKY_BLUE) {
   const R = Math.random;
   let s = `<svg class="sky" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true">`;
-  for (let i = 0; i < 520; i++) {
+  for (let i = 0, N = pal.n || 520; i < N; i++) {
     const x = R() * W, y = R() * H, r = R() < 0.9 ? R() * 0.9 + 0.3 : R() * 1.4 + 1, c = R() < 0.55 ? pal.dot[0] : (R() < 0.5 ? pal.dot[1] : pal.dot[2]);
     s += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r.toFixed(2)}" fill="${c}" opacity="${(R() * 0.6 + 0.3).toFixed(2)}"${R() < 0.25 ? ` class="tw" style="animation-delay:${(-R() * 3).toFixed(1)}s"` : ""}/>`;
   }
-  for (let i = 0; i < 26; i++) {
+  for (let i = 0, N = pal.sparks || 26; i < N; i++) {
     const x = R() * W, y = R() * H, k = R() * 7 + 4, q = k * 0.18;
     s += `<path class="tw" style="animation-delay:${(-R() * 3).toFixed(1)}s" transform="translate(${x.toFixed(0)} ${y.toFixed(0)})" d="M0 ${-k}L${q} ${-q} ${k} 0 ${q} ${q} 0 ${k} ${-q} ${q} ${-k} 0 ${-q} ${-q}z" fill="${R() < 0.5 ? pal.spark[0] : pal.spark[1]}"/>`;
   }
@@ -291,17 +295,21 @@ function starSky(W, H, pal = SKY_BLUE) {
 }
 const SE_DEFS = `<svg class="se_defs" width="0" height="0" aria-hidden="true"><defs>
   <linearGradient id="seNavy" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="rgba(40,64,120,.78)"/><stop offset="1" stop-color="rgba(10,20,48,.88)"/></linearGradient>
-  <linearGradient id="seIce" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e6f1ff"/><stop offset=".5" stop-color="#b4d0f6"/><stop offset="1" stop-color="#86a9dc"/></linearGradient></defs></svg>`;
+  <linearGradient id="seIce" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e6f1ff"/><stop offset=".5" stop-color="#b4d0f6"/><stop offset="1" stop-color="#86a9dc"/></linearGradient>
+  <linearGradient id="seWine" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="rgba(84,22,30,.85)"/><stop offset="1" stop-color="rgba(36,8,12,.92)"/></linearGradient>
+  <linearGradient id="seRose" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6dcd6"/><stop offset=".5" stop-color="#e6bdb3"/><stop offset="1" stop-color="#c9958a"/></linearGradient></defs></svg>`;
 const SE_IC = {
   home: '<path d="M3 11l9-7 9 7v9h-6v-6H9v6H3z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>',
   pensieve: '<path d="M3 10h18c0 5-4 8-9 8s-9-3-9-8zM8 21h8M12 18v3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M9 7c1-2 5-2 6 0" fill="none" stroke="currentColor" stroke-width="1.4"/>',
   next: '<path d="M5 12h12M12 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>',
+  rewind: '<path d="M9 6L4 11l5 5M4 11h10a6 6 0 0 1 0 12h-2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" transform="translate(0 -2.5)"/>',
   lock: '<rect x="5" y="11" width="14" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 11V8a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="1.8"/>'
 };
-function seBtn(act, label, fn, mode) {           // mode：""（深藍）、"main"（淺藍，可按的下一章）、"off"（鎖住）
-  const fill = mode === "main" ? "url(#seIce)" : mode === "off" ? "rgba(20,30,60,.5)" : "url(#seNavy)";
-  const stroke = mode === "main" ? "#eef5ff" : mode === "off" ? "rgba(170,180,210,.35)" : "#d9b86a";
-  const halo = mode === "main" ? `<path d="M16 1H194L209 31 194 61H16L1 31z" fill="none" stroke="rgba(170,205,255,.45)" stroke-width="7"/>` : "";
+function seBtn(act, label, fn, mode, pal = "") {   // mode：""（深色）、"main"（淺色主按鈕）、"off"（鎖住）；pal："term"＝終結頁的暗紅配色
+  const T = pal === "term";
+  const fill = mode === "main" ? (T ? "url(#seRose)" : "url(#seIce)") : mode === "off" ? "rgba(20,30,60,.5)" : (T ? "url(#seWine)" : "url(#seNavy)");
+  const stroke = mode === "main" ? (T ? "#fff1ec" : "#eef5ff") : mode === "off" ? "rgba(170,180,210,.35)" : (T ? "#b07a5a" : "#d9b86a");
+  const halo = mode === "main" ? `<path d="M16 1H194L209 31 194 61H16L1 31z" fill="none" stroke="${T ? "rgba(255,200,190,.4)" : "rgba(170,205,255,.45)"}" stroke-width="7"/>` : "";
   const ic = `<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">${SE_IC[mode === "off" ? "lock" : act]}</svg>`;
   const b = el("div.se_btn" + (mode ? "." + mode : ""), { "data-a": act, html:
     `<svg class="bg" viewBox="0 0 210 62" preserveAspectRatio="none" aria-hidden="true">${halo}<path d="M16 1H194L209 31 194 61H16L1 31z" fill="${fill}" stroke="${stroke}" stroke-width="1.6"/><path d="M20 5H190L203 31 190 57H20L7 31z" fill="none" stroke="${stroke}" stroke-width=".7" opacity=".5"/><path class="hl" d="M16 1H194L209 31 194 61H16L1 31z" fill="#fff"/></svg>` +
@@ -309,16 +317,18 @@ function seBtn(act, label, fn, mode) {           // mode：""（深藍）、"mai
   if (mode !== "off") tap(b, fn);
   return b;
 }
-function starScreen(kind, inner, nextOk, onNext) {
+function starScreen(kind, inner, nextOk, onNext, opts = {}) {
   $("#vn_end")?.remove();
   const go = (fn) => () => { e.remove(); fn(); };
+  const pal = opts.pal || "";
+  const third = opts.third ? seBtn(opts.third.act, opts.third.label, go(opts.third.fn), "main", pal) : seBtn("next", "下一章", go(onNext), nextOk ? "main" : "off", pal);
   const e = el("div#vn_end." + kind, {},
-    el("div.deco", { html: SE_DEFS + starSky(G.L.w, G.L.h) + cardFrameHtml(G.L.w, G.L.h) }),
+    el("div.deco", { html: SE_DEFS + starSky(G.L.w, G.L.h, opts.sky) + cardFrameHtml(G.L.w, G.L.h) }),
     el("div.in", {}, ...inner,
       el("div.btns", {},
-        seBtn("home", "返回標題", go(() => showHome())),
-        seBtn("pensieve", "儲思盆", go(() => showHome("chapters"))),
-        seBtn("next", "下一章", go(onNext), nextOk ? "main" : "off"))));
+        seBtn("home", "返回標題", go(() => showHome()), "", pal),
+        seBtn("pensieve", "儲思盆", go(() => showHome("chapters")), "", pal),
+        third)));
   G.root.append(e);
 }
 
@@ -340,7 +350,7 @@ function showChapterEnd(c, next, toYearEnd) {
 function showYearEnd(year, endId, next) {
   const it = story.cgs.ending.find((x) => x.id === endId);
   const img = el("div.cg", {}, el("span.ph", { text: "（CG 準備中）" }));
-  if (it) tryImg(it.id, (u) => { img.style.backgroundImage = `url(${u})`; img.style.backgroundPosition = cgPos(it.id); img.textContent = ""; });
+  if (it) tryImg(imgId(it), (u) => { img.style.backgroundImage = `url(${u})`; img.style.backgroundPosition = cgPos(imgId(it)); img.textContent = ""; });
   // 結局名稱「True End：綠色的學院盃」→ 小標「True End」＋大標「綠色的學院盃」；沒有前綴時小標用「結局」
   const full = it ? it.name.replace(/^結局：/, "") : "（待定）";
   const mm = it && it.name.match(/^(.+?)：(.+)$/);
@@ -354,6 +364,22 @@ function showYearEnd(year, endId, next) {
         el("div.rl", { html: cardRuleHtml(false) }),
         el("div.eline", { text: (it && it.line) || "" })))
   ], !!(next && next.ready && next.year === year + 1), () => startChapter(next.id));
+}
+
+// 終結結局：暗紅色調；結局的 CG（cg 欄位）、小標「終結」、結局名、語句；按鈕：返回標題、儲思盆、回到上一個選擇
+function showTerminal(c, it, rewind) {
+  const img = el("div.cg", {}, el("span.ph", { text: "（CG 準備中）" }));
+  tryImg(imgId(it), (u) => { img.style.backgroundImage = `url(${u})`; img.style.backgroundPosition = cgPos(imgId(it)); img.textContent = ""; });
+  const mm = it.name.match(/^(.+?)：(.+)$/);
+  starScreen("yrend.term", [
+    el("div.head", { html: CARD_STAR }, el("span", { text: c ? yearName(c.year) + "．第" + (NUM_CN[c.n] || c.n) + "章" : "" }), el("span.s2", { html: CARD_STAR })),
+    el("div.mid", {}, img,
+      el("div.txt", {},
+        el("div.etag", { text: mm ? mm[1] : "終結" }),
+        el("div.ettl", { text: mm ? mm[2] : it.name }),
+        el("div.rl", { html: cardRuleHtml(false) }),
+        el("div.eline", { text: it.line || "" })))
+  ], false, null, { pal: "term", sky: SKY_EMBER, third: { act: "rewind", label: "回到上一個選擇", fn: rewind } });
 }
 
 /* =============================================================
@@ -375,5 +401,6 @@ ui.handlers.tool = async (act) => {
 hooks.card = showCard;
 hooks.yearEnd = showYearEnd;
 hooks.chapterEnd = showChapterEnd;
+hooks.terminal = showTerminal;
 hooks.home = () => showHome();
 hooks.leaveHome = () => { hideHome(); $("#vn_end")?.remove(); };

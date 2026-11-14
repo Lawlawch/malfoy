@@ -400,6 +400,23 @@
 .port #vn_end .cg { width: 600px; height: 338px; }
 .port #vn_end .txt { width: 600px; }
 .port #vn_end.yrend .btns { margin-top: 70px; }
+/* 終結頁：暗紅色調（上暗下紅、餘燼、暗玫瑰金框），一眼看出不是通關 */
+#vn_end.term { background: radial-gradient(ellipse 80% 50% at 50% 110%, rgba(150, 30, 40, 0.35), transparent 70%), linear-gradient(to top, #4a0f17 0%, #330a10 25%, #1e060a 55%, #0e0305 85%, #050102 100%); }
+#vn_end.term .head { color: #c98a7a; }
+#vn_end.term .head svg path, #vn_end.term .head svg polygon { fill: #c97a6a; }
+#vn_end.term .vn_card_frame * { stroke: #8a4a3a; }
+#vn_end.term .vn_card_frame [fill]:not([fill="none"]) { fill: #a05a48; }
+#vn_end.term .cg { outline-color: rgba(170, 90, 70, 0.75); box-shadow: 0 0 0 1px rgba(170, 90, 70, 0.85), 0 0 34px rgba(160, 30, 40, 0.35); background-color: #1a0609; background-image: linear-gradient(135deg, #2a0b10, #120406); color: rgba(220, 170, 160, 0.45); }
+#vn_end.term .etag { color: #c98a7a; letter-spacing: 0.6em; padding-left: 0.6em; }
+#vn_end.term .ettl { color: #f1e2df; text-shadow: 0 0 22px rgba(220, 80, 80, 0.35); }
+#vn_end.term .eline { color: #dcbcb6; }
+#vn_end.term .rl svg * { stroke: #a05a48; }
+#vn_end.term .rl svg [fill]:not([fill="none"]) { fill: #c97a6a; }
+#vn_end.term .se_btn { color: #ecd6c8; }
+#vn_end.term .se_btn.main { color: #3a0a10; width: 250px; letter-spacing: 0.08em; }
+.port #vn_end.term .btns { flex-wrap: wrap; justify-content: center; gap: 22px 20px; max-width: 460px; }   /* 直向：主按鈕獨佔第一行，其餘兩個並排在下 */
+.port #vn_end.term .se_btn { width: 220px; flex: none; }
+.port #vn_end.term .se_btn.main { width: 320px; order: -1; }
 
 /* ---------- 過渡畫面：每章開始前的章名 ---------- */
 #vn_card {

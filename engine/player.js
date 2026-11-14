@@ -25,7 +25,7 @@ export const P = {
   autoPending: false,    // 略過期間沒寫的自動存檔，略過停下時補寫
   inGame: false
 };
-export const hooks = {};  // 由 screens.js 填入：card(chapter) 過渡畫面、chapterEnd(chapter, next, toYearEnd)、yearEnd(year, endingId, next)、home()、leaveHome()
+export const hooks = {};  // 由 screens.js 填入：card(chapter) 過渡畫面、chapterEnd(chapter, next, toYearEnd)、yearEnd(year, endingId, next)、terminal(chapter, ending, rewind)、home()、leaveHome()
 
 /* ---------- 劇本載入（同一章只抓一次）---------- */
 const cache = {};
@@ -125,8 +125,11 @@ async function run(token) {
 
 function capture(idx, line) {
   const s = P.state;
-  P.snap = { fmt: SAVE_FORMAT, sig: P.script.sig, pc: idx, ch: s.ch, f: clone(s.f), stage: clone(s.stage), scene: s.scene, sceneF: clone(s.sceneF), chstart: clone(s.chstart), line: line || null, fp: fingerprint(P.script, idx, s.scene) };
+  P.snap = { fmt: SAVE_FORMAT, sig: P.script.sig, pc: idx, ch: s.ch, f: clone(s.f), stage: clone(s.stage), scene: s.scene, sceneF: clone(s.sceneF), chstart: clone(s.chstart), line: line || null, fp: fingerprint(P.script, idx, s.scene),
+    lc: P.lastChoice || null };   // 最近一次選擇的快照：手動存檔、自動存檔都帶著，讀檔後照樣能「回到上一個選擇」
 }
+// 終結結局用：每次進入 @choice 記下當時的狀態（只留最近一次）
+const noLc = (snap) => { const x = clone(snap); delete x.lc; return x; };
 
 /* ---------- 精準定位：劇本改過時，在新劇本裡找回存檔那一句 ----------
    指紋 fp = { scene, op, key（這句文字／這組選項文字）, nth（場景內第幾次出現）, prev（前面最多 3 句） }
@@ -202,6 +205,7 @@ async function exec(c, token) {
     }
     case "choice": {
       capture(P.pc, ui.currentLine());
+      P.lastChoice = noLc(P.snap);
       stopAutoSkip();
       commitAutosave();                                                  // 進入選項：寫入自動存檔
       saveSf();
@@ -234,12 +238,20 @@ async function exec(c, token) {
     case "voice": if (!fast()) audio.playVoice(c.name, c.vol); return;
     case "fx": applyFx(c.fx); return;
     case "jump": return P.script.labels[c.target];
-    case "jf": return evalCond(c.cond, s.f) ? undefined : c.to;
+    case "jf": {
+      const r = evalCond(c.cond, s.f);
+      if (DEBUG) (window.VN_TRACE = window.VN_TRACE || []).push({ ch: s.ch, line: c.line, r, f: clone(s.f) });   // 測試模式：記下每個條件判斷的結果
+      return r ? undefined : c.to;
+    }
     case "j": return c.to;
     case "unlock": {
       const key = c.kind === "ending" ? "endings" : "cgsSeen";
       sf[key] = sf[key] || {}; sf[key][c.id] = 1; saveSf();
-      if (c.kind === "ending") { const ch = chapterById(s.ch); if (ch) s.f["end_y" + ch.year] = c.id; }   // 年級結算頁顯示這一輪的結局
+      if (c.kind === "ending") {
+        const it = story.cgs.ending.find((x) => x.id === c.id);
+        if (it && it.terminal) { await terminal(it); return "stop"; }   // 終結結局：故事在這裡結束，後面的 @jump 不再執行
+        const ch = chapterById(s.ch); if (ch) s.f["end_y" + ch.year] = c.id;   // 年級結算頁顯示這一輪的結局
+      }
       return;
     }
     case "hint": ui.toast(c.text); return;
@@ -301,11 +313,12 @@ export async function startChapter(id, opt = {}) {
   const f = freshFlags(opt.fresh ? null : sf.chStart[id]);
   P.script = script;
   P.state = { ch: id, f, stage: { bg: "", charas: [], bgm: "" }, scene: "", sceneF: clone(f), chstart: clone(f) };
+  P.lastChoice = null;
   // 抵達這一章：記下當時的數值（儲思盆用，每次抵達都更新）與時間線位置
   sf.unlocked[id] = 1;
   sf.chStart[id] = clone(f);
   sf.head = c.n;
-  delete sf.cont;
+  delete sf.cont; delete sf.endScr;
   await clearAutosave();
   saveSf();
   ui.resetLog();
@@ -316,23 +329,62 @@ export async function startChapter(id, opt = {}) {
   run(token);
 }
 
+/* ---------- 終結結局 ----------
+   不解鎖下一章、不寫年級結局旗標、不改儲思盆的進度；自動存檔改回觸發終結的那個選擇，
+   之後不論「回到上一個選擇」、返回標題或直接關掉網頁，「繼續」都會回到那個選擇前。 */
+async function terminal(it) {
+  const s = P.state, c = chapterById(s.ch), back = P.lastChoice ? clone(P.lastChoice) : null;
+  stopAutoSkip();
+  P.autoPending = false;
+  if (back) { await db.put("snap", "auto", back); sf.auto = { fmt: SAVE_FORMAT }; } else await clearAutosave();
+  delete sf.cont;
+  sf.endScr = { k: "term", ch: s.ch, id: it.id };   // 離開後「繼續」重開終結畫面
+  saveSf();
+  leaveGame();
+  openEndScreen(sf.endScr, back);
+}
+
 /* ---------- 章節結束 ---------- */
 function endChapter() {
   const s = P.state, id = s.ch;
   const i = story.chapters.findIndex((c) => c.id === id), next = story.chapters[i + 1];
   if (DEBUG) console.log("[章節結束] 羈絆", s.f.bond);
+  P.autoPending = false;   // 章節已完成：之後由完結畫面接手「繼續」
   sf.done = sf.done || {}; sf.unlocked = sf.unlocked || {}; sf.chStart = sf.chStart || {};
   sf.done[id] = 1;
   // 不論下一章做好了沒有，都記下通關時的數值並解鎖；之後章節上線，儲思盆就能直接進入
   if (next) { sf.unlocked[next.id] = 1; sf.chStart[next.id] = clone(s.f); sf.head = next.n; }
-  // 「繼續」：下一章已做好 → 從下一章開頭；還沒做好 → 保留自動存檔（回到這一章最後一句）
-  if (next && next.ready) sf.cont = next.id; else delete sf.cont;
+  // 「繼續」：重開章節完結畫面（進入年級結算後改為年級結算畫面），直到開始玩下一句為止
+  delete sf.cont;
+  const c = chapterById(id);
+  sf.endScr = { k: "ch", ch: id, end: s.f["end_y" + c.year] || null };
   saveSf();
   leaveGame();
-  const c = chapterById(id);
+  openEndScreen(sf.endScr);
+}
+
+/* ---------- 完結／結算／終結畫面：完成時與「繼續」重開時共用 ----------
+   e：{ k: "ch"|"yr"|"term", ch, end?, id? }；back：終結當下觸發的選擇快照（重開時改讀自動存檔） */
+function openEndScreen(e, back) {
+  const c = chapterById(e.ch);
+  if (!c) return false;
+  const i = story.chapters.findIndex((x) => x.id === e.ch), next = story.chapters[i + 1];
+  if (e.k === "term") {
+    const it = story.cgs.ending.find((x) => x.id === e.id);
+    if (!it) return false;
+    const rewind = async () => {
+      const snap = back ? clone(back) : await db.get("snap", "auto");
+      if (!snap || !(await loadSnap(snap))) startChapter(e.ch);
+    };
+    hooks.terminal && hooks.terminal(c, it, rewind);
+    return true;
+  }
+  const toYear = () => { sf.endScr = { k: "yr", ch: e.ch, end: e.end }; saveSf(); hooks.yearEnd && hooks.yearEnd(c.year, e.end, next); };
+  if (e.k === "yr") { toYear(); return true; }
   // 一律先出章節完結畫面；年級最後一章按「下一章」進入年級結算
-  const lastOfYear = !next || next.year !== c.year, endF = s.f["end_y" + c.year];
-  hooks.chapterEnd && hooks.chapterEnd(c, next, lastOfYear ? () => hooks.yearEnd(c.year, endF, next) : null);
+  const lastOfYear = !next || next.year !== c.year;
+  hooks.chapterEnd && hooks.chapterEnd(c, next, lastOfYear ? toYear : null);
+  return true;
 }
 
 /* ---------- 自動存檔 ---------- */
@@ -342,15 +394,20 @@ async function commitAutosave() {
   const snap = clone(P.snap);
   const ok = await db.put("snap", "auto", snap);
   // 系統變數只在狀態改變時才寫（避免每句都重寫整份已讀記錄）
-  if (ok && (!sf.auto || sf.auto.fmt !== SAVE_FORMAT || sf.cont)) { sf.auto = { fmt: SAVE_FORMAT }; delete sf.cont; saveSf(); }
+  if (!ok) return;
+  // 寫入期間若已到了完結／終結畫面（已離開遊戲），不可清掉剛記下的畫面
+  const clr = P.inGame && (sf.cont || sf.endScr);
+  if (!sf.auto || sf.auto.fmt !== SAVE_FORMAT || clr) { sf.auto = { fmt: SAVE_FORMAT }; if (clr) { delete sf.cont; delete sf.endScr; } saveSf(); }
 }
 function flushAutosave() { if (P.autoPending) commitAutosave(); }
 async function clearAutosave() { delete sf.auto; await db.del("snap", "auto"); }
 export function hasContinue() {
+  if (sf.endScr && chapterById(sf.endScr.ch)) return true;
   if (sf.cont) { const c = chapterById(sf.cont); if (c && c.ready) return true; }
   return !!(sf.auto && sf.auto.fmt === SAVE_FORMAT);
 }
 export async function doContinue() {
+  if (sf.endScr) { hooks.leaveHome && hooks.leaveHome(); if (openEndScreen(sf.endScr)) return; delete sf.endScr; saveSf(); hooks.home && hooks.home(); return; }
   if (sf.cont) { const c = chapterById(sf.cont); if (c && c.ready) return startChapter(c.id); }
   const snap = await db.get("snap", "auto");
   if (snap) return loadSnap(snap);
@@ -401,6 +458,7 @@ export async function loadSnap(snap) {
   if (compat && !(await ui.confirm({ title: "劇本已更新", sub: "將從該段落開頭繼續。", ok: "繼續", cancel: "取消" }))) return false;
 
   leaveGame();
+  if (sf.endScr) { delete sf.endScr; saveSf(); }   // 讀檔／回到上一個選擇：不再停在完結畫面
   const token = P.token;
   ui.closeOverlays();
   hooks.leaveHome && hooks.leaveHome();
@@ -419,6 +477,7 @@ export async function loadSnap(snap) {
     P.pc = sceneOk ? script.scenes[snap.scene] : 0;
   }
   P.snap = null;
+  P.lastChoice = snap.lc ? clone(snap.lc) : null;
   await stage.rebuild(P.state.stage);
   if (token !== P.token) return false;
   audio.playBgm(P.state.stage.bgm || "", 600);
