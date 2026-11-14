@@ -12,6 +12,14 @@ import { P, hooks, preloadChapter, startChapter, hasContinue, doContinue, makeSa
    ============================================================= */
 const CASTLE = '<svg viewBox="0 0 1600 600" preserveAspectRatio="xMidYMax slice"><defs><linearGradient id="vnh" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0c1022"/><stop offset="1" stop-color="#05060d"/></linearGradient></defs><path fill="url(#vnh)" d="M0 600V470l60-20 40 30 70-60 50 40 90-30V600zM560 600V420h30v-50h20v-60l15-35 15 35v60h20v50h35v-90h24l16-40 16 40h24v90h30V330l18-70 18 70v90h44v60h60V400h22l14-60 14 60h22v-40h40v240zM1120 600V380l25-30v-60l20-50 20 50v60l25 30v220zM1260 600V450l50-30 50 30v-70l20-40 20 40v70l40-20 40 40 70-30V600z"/><path fill="#05060d" d="M0 600V540l180-30 200 40 220-20 240 30 260-40 300 30 200-20V600z"/><g fill="#f3c26b" opacity=".85"><rect x="612" y="395" width="5" height="9"/><rect x="760" y="330" width="5" height="9"/><rect x="842" y="380" width="5" height="9"/><rect x="1150" y="330" width="5" height="9"/><rect x="1146" y="420" width="5" height="9"/><rect x="1328" y="400" width="5" height="9"/><rect x="940" y="410" width="5" height="9"/></g></svg>';
 
+// 標題下方的金色筆尖劃痕（簽名的收筆）
+function swash() {
+  const NS = "http://www.w3.org/2000/svg", svg = document.createElementNS(NS, "svg");
+  svg.setAttribute("class", "swash"); svg.setAttribute("viewBox", "0 0 420 40");
+  svg.innerHTML = '<defs><linearGradient id="vn_sw"><stop offset="0" stop-color="#f1d98a" stop-opacity="0"/><stop offset=".4" stop-color="#f1d98a"/><stop offset="1" stop-color="#fff3c4"/></linearGradient></defs>' +
+    '<path d="M6 26 C90 40 180 8 260 20 C320 28 360 34 414 10" fill="none" stroke="url(#vn_sw)" stroke-width="2.2" stroke-linecap="round"/><path d="M402 6 l12 4 -9 9z" fill="#f1d98a"/>';
+  return svg;
+}
 export function showHome(panelName) {
   hideHome();
   ui.closeOverlays();
@@ -26,7 +34,7 @@ export function showHome(panelName) {
     el("div.veil"),
     el("div.frame", {}, el("i.tl"), el("i.tr"), el("i.bl"), el("i.br")),
     el("div.col", {},
-      el("div.ttl", {}, el("div.t1", { text: "鉑金色的馬份" }), el("div.orn", {}, el("span"), el("i"), el("span")), el("div.t2", { text: "蛇與獅之歌" })),
+      el("div.ttl", {}, el("div.t1", { text: "鉑金色的馬份" }), el("div"), el("div.sig", { text: "Draconia's Story" }), swash()),
       menu));
   G.root.append(h);
   preloadChapter(story.chapters[0].id);
