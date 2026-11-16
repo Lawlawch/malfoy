@@ -73,9 +73,12 @@
 | 石內卜 | normal、angry |
 | 奈威（便服、葛來分多校服） | normal、happy、sad、cry、panic |
 | 克拉、高爾（便服、史萊哲林校服） | normal |
-| 茉莉、木透、奎若教授、飛七、翡冷翠、龐芮夫人、水仙 | normal |
+| 麥教授 | normal、angry |
+| 鄧不利多 | normal、happy |
+| 奎若教授 | normal、evil、angry、panic（evil＝露出真面目後的邪惡表情） |
+| 茉莉、派西、弗雷、喬治、分類帽、木透、飛七、翡冷翠、龐芮夫人、水仙 | normal |
 | 皮皮鬼 | normal |
-| 孚立維教授、摩金夫人、奧利凡德、胡奇夫人、弗林、平斯夫人（黑影立繪） | normal |
+| 孚立維教授、摩金夫人、奧利凡德、胡奇夫人、弗林、平斯夫人 | normal |
 | 李‧喬丹（只出聲音，不上台） | normal |
 | ？？？（unknown，刻意隱藏身分的人共用的無形黑影） | normal |
 | 哈利 | 無立繪（第一人稱） |

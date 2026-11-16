@@ -28,8 +28,8 @@ export const characters = {
   hermione: { name: "妙麗",     faces: ["normal", "happy", "sad", "angry", "shy", "surprised", "cry", "panic"], outfits: ["casual", "gryffindor", "winter"], outfit: "casual" },   // casual 便服（分院前）、gryffindor 葛來分多校服、winter 冬裝（校服＋頸巾）
   hagrid:   { name: "海格",     faces: ["normal", "happy", "sad"], scale: 1 },   // scale：立繪縮放倍率（預設 1），高大的角色往上長（原 1.15，頭會被裁切，暫時改回 1）
   molly:    { name: "茉莉", faces: ["normal"] },
-  ollivander: { name: "奧利凡德", faces: ["normal"] },   // 黑影立繪
-  malkin:   { name: "摩金夫人", faces: ["normal"] },   // 黑影立繪
+  ollivander: { name: "奧利凡德", faces: ["normal"] },
+  malkin:   { name: "摩金夫人", faces: ["normal"] },
   crabbe:   { name: "克拉",     faces: ["normal"], outfits: ["casual", "slytherin"], outfit: "casual" },   // casual 便服（分院前）、slytherin 史萊哲林校服
   goyle:    { name: "高爾",     faces: ["normal"], outfits: ["casual", "slytherin"], outfit: "casual" },
   mcgonagall:  { name: "麥教授",   faces: ["normal", "angry"] },
@@ -41,15 +41,15 @@ export const characters = {
   percy:       { name: "派西",     faces: ["normal"] },
   pansy:       { name: "潘西",     faces: ["normal", "happy", "sad", "angry", "smug", "disdain", "surprised", "panic", "cry"] },
   snape:       { name: "石內卜",   faces: ["normal", "angry"] },
-  hooch:       { name: "胡奇夫人", faces: ["normal"] },   // 黑影立繪
+  hooch:       { name: "胡奇夫人", faces: ["normal"] },
   wood:        { name: "木透",     faces: ["normal"] },
-  flitwick:    { name: "孚立維教授", faces: ["normal"] },   // 黑影立繪
+  flitwick:    { name: "孚立維教授", faces: ["normal"] },
   quirrell:    { name: "奎若教授",   faces: ["normal", "evil", "angry", "panic"] },   // evil＝暴露陰謀後的邪惡表情
   filch:       { name: "飛七",     faces: ["normal"] },
   firenze:     { name: "翡冷翠",   faces: ["normal"] },   // 人馬
   peeves:      { name: "皮皮鬼",   faces: ["normal"] },
-  flint:       { name: "弗林",     faces: ["normal"] },   // 黑影立繪
-  pince:       { name: "平斯夫人", faces: ["normal"] },   // 黑影立繪
+  flint:       { name: "弗林",     faces: ["normal"] },
+  pince:       { name: "平斯夫人", faces: ["normal"] },
   pomfrey:     { name: "龐芮夫人", faces: ["normal"] },
   narcissa:    { name: "水仙", faces: ["normal"] },
   lee:         { name: "李‧喬丹", faces: ["normal"] },   // 只出聲音、從不 @show；頭像暫用 unknown 的圖
