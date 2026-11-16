@@ -182,9 +182,22 @@
 .vn_pg_no { font-size: 24px; font-weight: 700; color: var(--vn-ink); letter-spacing: 0.1em; min-width: 90px; text-align: center; }
 .vn_debug { margin-top: 18px; text-align: center; font-size: 16px; color: rgba(59, 42, 26, 0.5); }
 .vn_debug span { cursor: pointer; text-decoration: underline; }
-#vn_cgview { position: absolute; left: 0; top: 0; width: 100%; height: 100%; z-index: 60; background: rgba(8, 5, 3, 0.94); display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: var(--vn-serif); }
-#vn_cgview .img { width: 92%; aspect-ratio: 16 / 9; max-height: 80%; background: linear-gradient(135deg, #6c5a3a, #3b2a1a) center / contain no-repeat; border: 3px double var(--vn-gold); display: flex; align-items: center; justify-content: center; color: var(--vn-parch-1); font-size: 34px; letter-spacing: 0.2em; }
-#vn_cgview .cap { margin-top: 16px; color: var(--vn-parch-1); font-size: 26px; letter-spacing: 0.2em; }
+#vn_cgview { position: absolute; left: 0; top: 0; width: 100%; height: 100%; z-index: 60; background: radial-gradient(ellipse at 50% 45%, rgba(20, 14, 8, 0.96), rgba(4, 3, 2, 0.99)); display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: var(--vn-serif); }
+#vn_cgview .fr { position: relative; margin-top: 30px; transition: width 0.35s ease, height 0.35s ease; }
+#vn_cgview .fr::before { content: ""; position: absolute; inset: -9px; border: 1px solid rgba(241, 217, 138, 0.85); pointer-events: none; }
+#vn_cgview .fr::after { content: ""; position: absolute; inset: -4px; border: 2px solid rgba(201, 162, 74, 0.9); box-shadow: 0 0 18px rgba(0, 0, 0, 0.8); pointer-events: none; }
+#vn_cgview .fr i { position: absolute; z-index: 2; width: 12px; height: 12px; background: #f1d98a; transform: rotate(45deg); box-shadow: 0 0 8px rgba(241, 217, 138, 0.8); }
+#vn_cgview .fr i.tl { left: -15px; top: -15px; } #vn_cgview .fr i.tr { right: -15px; top: -15px; }
+#vn_cgview .fr i.bl { left: -15px; bottom: -15px; } #vn_cgview .fr i.br { right: -15px; bottom: -15px; }
+#vn_cgview .img { position: absolute; inset: 0; background: linear-gradient(135deg, #6c5a3a, #3b2a1a) 50% 50% / cover no-repeat; transition: background-position 0.35s ease; display: flex; align-items: center; justify-content: center; color: var(--vn-parch-1); font-size: 34px; letter-spacing: 0.2em; }
+#vn_cgview .bar { display: flex; align-items: center; justify-content: center; gap: 22px; margin-top: 22px; }
+#vn_cgview .cap { color: #f6ead0; font-size: 26px; letter-spacing: 0.18em; text-shadow: 0 2px 0 rgba(0, 0, 0, 0.8); }
+#vn_cgview .tg { display: flex; align-items: center; gap: 8px; padding: 7px 16px 7px 12px; border-radius: 999px; border: 1.5px solid #c9a24a; cursor: pointer; white-space: nowrap;
+  background: linear-gradient(180deg, rgba(60, 40, 18, 0.85), rgba(28, 18, 8, 0.85)); color: #f1d98a; font-size: 20px; letter-spacing: 0.2em;
+  box-shadow: inset 0 1px 0 rgba(255, 230, 180, 0.25), 0 2px 6px rgba(0, 0, 0, 0.6); }
+#vn_cgview .tg:hover { filter: brightness(1.15); }
+#vn_cgview .tg svg { width: 22px; height: 22px; }
+#vn_cgview .x { position: absolute; right: 22px; top: 18px; }
 
 /* ---------- 設定 ---------- */
 .vn_cfg_wrap { display: flex; gap: 22px; align-items: flex-start; }

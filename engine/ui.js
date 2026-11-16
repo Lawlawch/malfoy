@@ -298,7 +298,7 @@ function bindInput(root) {
     if (e.key === "Escape") {
       const c = $("#vn_confirm");
       if (c) { $(".vn_cf_no", c)?.click(); return; }
-      if ($("#vn_cgview")) { $("#vn_cgview").remove(); return; }
+      if ($("#vn_cgview")) { $("#vn_cgview .vn_close_btn")?.click(); return; }
       const p = $$(".vn_scr", root).pop();
       if (p) { $(".vn_close_btn", p)?.click(); return; }
       return;

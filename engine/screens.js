@@ -204,13 +204,39 @@ function openGallery() {
 const imgId = (it) => it.cg || it.id;   // 結局項目可用 cg 欄位指定要顯示的圖（終結結局）
 function tryImg(id, ok) { const u = `./assets/cg/${id}.webp`, im = new Image(); im.onload = () => ok(u); im.src = u; }
 function cgPos(id) { const c = [...story.cgs.normal, ...story.cgs.ending].find((x) => x.id === id); return (c && c.pos) || "50% 50%"; }
+/* CG 檢視：預設「遊戲畫面」（橫向 16:9、直向 9:16，依焦點裁切，跟劇情中一致），可切換「原圖」（方框完整原圖）
+   每次打開都從遊戲畫面開始。關閉：✕、Esc、點圖框外的暗處；點圖片本身不關閉 */
+const CG_ICON_ORIG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="5" width="14" height="14" rx="1"/></svg>';
+const CG_ICON_GAME = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2.5" y="6" width="19" height="12" rx="1"/></svg>';
+const CLOSE_SVG = '<svg viewBox="0 0 24 24"><g fill="none" stroke-linecap="round"><path d="M5 5L19 19M19 5L5 19" stroke="currentColor" stroke-width="2.8" stroke-dasharray="7 0.9 5 0.7 9"/><path d="M6.5 5.5L9 8M16 16.5L18 18.4" stroke="#fff6dc" stroke-opacity=".5" stroke-width="0.9"/></g></svg>';
 function viewCG(it, no) {
   $("#vn_cgview")?.remove();
-  const ph = el("span", { text: it.name });
+  const id = imgId(it), ph = el("span.ph", { text: it.name });
   const img = el("div.img", {}, ph);
-  const v = el("div#vn_cgview.vn_overlay", {}, img, el("div.cap", { text: "#" + no + " " + it.name }));
-  tryImg(imgId(it), (u) => { img.style.backgroundImage = `url(${u})`; img.style.backgroundPosition = cgPos(imgId(it)); ph.remove(); });
-  tap(v, () => v.remove());
+  const fr = el("div.fr", {}, img, el("i.tl"), el("i.tr"), el("i.bl"), el("i.br"));
+  const tg = el("span.tg");
+  const x = el("span.vn_close_btn.x", { "aria-label": "關閉", html: CLOSE_SVG });
+  const v = el("div#vn_cgview.vn_overlay", {}, fr, el("div.bar", {}, el("span.cap", { text: "#" + no + " " + it.name }), tg), x);
+  let orig = false;
+  function size() {
+    const { w: W, h: H } = G.L;
+    let fw, fh;
+    if (G.land) { fh = Math.min(H - 160, (W - 220) * 9 / 16); fw = fh * 16 / 9; }      // 橫向：16:9 橫框
+    else { fw = Math.min(W - 160, (H - 300) * 9 / 16); fh = fw * 16 / 9; }             // 直向：9:16 直框
+    if (orig) fw = fh = G.land ? fh : fw;                                                 // 原圖：方框（取短邊）
+    fr.style.width = fw + "px"; fr.style.height = fh + "px";
+    img.style.backgroundPosition = orig ? "50% 50%" : cgPos(id);
+    tg.innerHTML = orig ? CG_ICON_GAME + "遊戲畫面" : CG_ICON_ORIG + "原圖";
+  }
+  const close = () => { audio.uiSfx("ui_close"); v.remove(); };
+  tap(tg, () => { orig = !orig; size(); });
+  tap(x, close);
+  tap(v, (e) => { if (e.target.closest(".fr, .bar")) { audio.uiCancel(); return; } close(); });   // 點圖片／說明文字：不關閉、不出聲
+  tryImg(id, (u) => { img.style.backgroundImage = `url(${u})`; ph.remove(); });
+  // 轉向時重算圖框；檢視已關閉就移除自己（延後移除：不能在 onResize 逐一呼叫的途中改動陣列，會跳過下一個）
+  const onResize = () => { if (v.isConnected) { size(); return; } setTimeout(() => { const i = G.onResize.indexOf(onResize); if (i >= 0) G.onResize.splice(i, 1); }, 0); };
+  G.onResize.push(onResize);
+  size();
   G.root.append(v);
 }
 function debugUnlock(on) {
