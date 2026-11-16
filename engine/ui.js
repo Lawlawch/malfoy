@@ -246,7 +246,7 @@ export function openLog() {
   if (!log.length) body.append(el("div.vn_empty", { text: "（目前沒有紀錄）" }));
   log.forEach((r) => {
     body.append(el("div.vn_log_row", {},
-      el("div.vn_log_av", {}, r.name ? el("img", { alt: "", src: avatarUrl(r.key) }) : null),
+      el("div.vn_log_av", {}, r.name && avatarUrl(r.key) ? el("img", { alt: "", src: avatarUrl(r.key) }) : null),
       el("div.vn_log_main", {}, r.name ? el("div.vn_log_name", { text: r.name }) : null, el("div.vn_log_text", { text: r.text }))));
   });
   body.scrollTop = body.scrollHeight;

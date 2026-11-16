@@ -170,9 +170,12 @@ const CN_D = ["", "一", "二", "三", "四", "五", "六", "七", "八", "九"]
 // 中文數字 0～99：十一、二十、二十三……（章號、年級用）
 export const NUM_CN = Array.from({ length: 100 }, (_, n) => n < 10 ? CN_D[n] : (n < 20 ? "" : CN_D[Math.floor(n / 10)]) + "十" + CN_D[n % 10]);
 export function chapterLabel(c) { return `${story.years[c.year - 1] || ""}．第${NUM_CN[c.n] || c.n}章`; }
+// 對話紀錄的頭像。角色設了 avatar: false（哈利）或不在角色表／說話者表裡：回傳 null，頭像留空
 export function avatarUrl(key) {
-  const file = story.characters[key] ? key : (story.speakers[key] || "harry");
-  return `./assets/avatar/${file}.png`;
+  const ch = story.characters[key];
+  if (ch) return ch.avatar === false ? null : `./assets/avatar/${key}.png`;
+  const file = story.speakers[key];
+  return file ? `./assets/avatar/${file}.png` : null;
 }
 
 /* ---------- 已讀記錄（逐句）：用「章節＋句子文字」算短代碼，劇本改動後只有改過的句子變回未讀 ---------- */

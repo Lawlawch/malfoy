@@ -48,7 +48,7 @@
 | 魯休思 | lucius | normal、smug、angry（劇本目前未用到） |
 | 詹姆、莉莉 | james、lily | normal（主要當意若思鏡、相簿 CG 的參考） |
 | ？？？ | unknown | normal（無形黑影立繪，所有刻意隱藏身分的說話者共用；唯一的黑影立繪） |
-| 哈利 | harry | normal（便服、葛來分多、球隊服 quidditch、冬季 winter 四套）。第一人稱，劇本裡不上台；立繪當 CG 參考，對話紀錄用頭像 |
+| 哈利 | harry | normal（便服、葛來分多、球隊服 quidditch、冬季 winter 四套）。第一人稱：劇本裡不上台，立繪只當 CG 參考；對話紀錄不顯示頭像（`story.js` 設 `avatar: false`） |
 
 服裝：冬裝（winter＝學院校服＋頸巾）只有馬份、榮恩、妙麗在劇本裡使用，其他學生冬天照穿校服（哈利的冬季立繪只當 CG 參考）。
 

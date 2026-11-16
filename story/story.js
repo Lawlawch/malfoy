@@ -55,46 +55,46 @@ export const characters = {
   lucius:      { name: "魯休思", faces: ["normal", "smug", "angry"] },   // 馬份的父親；smug＝囂張挑釁的閉嘴冷笑、angry＝冷漠沉著的狂怒
   james:       { name: "詹姆", faces: ["normal"] },   // 哈利的父親；主要當 CG 參考（cg_mirror、cg_album）
   lily:        { name: "莉莉", faces: ["normal"] },   // 哈利的母親；同上
-  harry:       { name: "哈利", faces: ["normal"], outfits: ["casual", "gryffindor", "quidditch", "winter"], outfit: "casual" },   // 主角，第一人稱、劇本裡不上台；立繪當 CG 參考。quidditch 球隊服、winter 校服＋頸巾（不戴手套）
+  harry:       { name: "哈利", faces: ["normal"], outfits: ["casual", "gryffindor", "quidditch", "winter"], outfit: "casual", avatar: false },   // 主角，第一人稱：劇本裡不上台，對話紀錄不顯示頭像（avatar: false）；立繪只當 CG 參考。quidditch 球隊服、winter 校服＋頸巾（不戴手套）
   lee:         { name: "李‧喬丹", faces: ["normal"] },   // 只出聲音、從不 @show；頭像 assets/avatar/lee.png
   unknown:     { name: "？？？",     faces: ["normal"] }   // 刻意隱藏身分的說話者共用：無形黑影立繪（說話者寫 #？？？，用 @show unknown 上台）；頭像 assets/avatar/unknown.png
 };
 
 // 沒有立繪、但會說話的人（#名字 不會被當成打錯字）。值 = 頭像檔名
-export const speakers = { "德思禮姨丈": "unknown", "佛地魔": "unknown" };   // 哈利已登記在 characters（頭像同樣是 harry.png）
+export const speakers = { "德思禮姨丈": "unknown", "佛地魔": "unknown" };   // 哈利已登記在 characters（不顯示頭像）
 
 // 圖鑑（圖檔放 assets/cg/<id>.webp，沒有圖時顯示佔位）
 // pos：CG 裁切焦點（"水平% 垂直%"，預設 "50% 50%"）。CG 是方圖，橫向會裁上下、直向會裁左右，焦點決定保留哪一塊；由 Claude Code 決定，原則是橫向、直向都盡可能保持人物完整
 export const cgs = {
   normal: [
     { id: "cg_robeshop", name: "長袍店的初遇", pos: "50% 4%" },
-    { id: "cg_wandshop", name: "魔杖店．落下的盒子", pos: "50% 40%" },
-    { id: "cg_handshake", name: "伸出的手" },
-    { id: "cg_hat",      name: "分類帽下的她" },
-    { id: "cg_song",     name: "星空下的校歌" },
+    { id: "cg_wandshop", name: "魔杖店．落下的盒子", pos: "50% 25%" },
+    { id: "cg_handshake", name: "伸出的手", pos: "50% 25%" },
+    { id: "cg_hat",      name: "分類帽下的她", pos: "50% 15%" },
+    { id: "cg_song",     name: "星空下的校歌", pos: "50% 70%" },
     { id: "cg_library",  name: "書本後的臉", pos: "50% 8%" },
-    { id: "cg_mouth",    name: "地窖裡的嘴型", pos: "50% 14%" },
+    { id: "cg_mouth",    name: "地窖裡的嘴型", pos: "58% 14%" },
     { id: "cg_flight",   name: "空中握住的手", pos: "50% 6%" },
     { id: "cg_remembrall", name: "草地上的記憶球", pos: "50% 40%" },
-    { id: "cg_duel",     name: "午夜的月光", pos: "50% 18%" },
+    { id: "cg_duel",     name: "午夜的月光", pos: "50% 11%" },
     { id: "cg_closet",   name: "櫃子裡", pos: "50% 25%" },
-    { id: "cg_fluffy",   name: "緊抓袍角的手" },
-    { id: "cg_fluffy_b", name: "身後的同伴" },
-    { id: "cg_broom",    name: "捧著光輪的她" },
-    { id: "cg_pitch_solo", name: "夕陽下的光輪" },
-    { id: "cg_pitch_duo",  name: "並肩的晚霞" },
-    { id: "cg_troll",      name: "山怪背上" },
-    { id: "cg_shield",     name: "護在身後的人" },
-    { id: "cg_candy",      name: "掌心裡的糖" },
-    { id: "cg_stands",     name: "看台上的她" },
-    { id: "cg_handkerchief", name: "手帕" },
-    { id: "cg_gift_hall", name: "走廊上的禮物" },
-    { id: "cg_cracker",  name: "拉炮裡的花帽子" },
+    { id: "cg_fluffy",   name: "緊抓袍角的手", pos: "45% 40%" },
+    { id: "cg_fluffy_b", name: "身後的同伴", pos: "82% 45%" },
+    { id: "cg_broom",    name: "捧著光輪的她", pos: "45% 30%" },
+    { id: "cg_pitch_solo", name: "夕陽下的光輪", pos: "45% 6%" },
+    { id: "cg_pitch_duo",  name: "並肩的晚霞", pos: "55% 0%" },
+    { id: "cg_troll",      name: "山怪背上", pos: "55% 55%" },
+    { id: "cg_shield",     name: "護在身後的人", pos: "50% 40%" },
+    { id: "cg_candy",      name: "掌心裡的糖", pos: "50% 3%" },
+    { id: "cg_stands",     name: "看台上的她", pos: "45% 54%" },
+    { id: "cg_handkerchief", name: "手帕", pos: "50% 20%" },
+    { id: "cg_gift_hall", name: "走廊上的禮物", pos: "50% 25%" },
+    { id: "cg_cracker",  name: "拉炮裡的花帽子", pos: "50% 10%" },
     { id: "cg_xmas",     name: "聖誕節早晨的禮物" },
     { id: "cg_mirror",   name: "意若思鏡" },
     { id: "cg_cloak",    name: "斗篷下的兩人" },
     { id: "cg_mirror_her", name: "鏡前的她" },
-    { id: "cg_norbert",  name: "破殼的蘿蔔" },
+    { id: "cg_norbert",  name: "破殼的蘿蔔", pos: "50% 73%" },
     { id: "cg_tower",    name: "飛向夜空的蘿蔔" },
     { id: "cg_sleeve",   name: "禁忌森林裡的手" },
     { id: "cg_shadow",   name: "戴著兜帽的黑影" },
@@ -151,4 +151,4 @@ export const flagRange = { bond: [0, 100] };
 
 // 每個年級開始時重設的數值（目前只有羈絆）。進入新年級的第一章時，bond 換成這裡的值，其他旗標全部保留。
 // 沒寫的年級用 initialFlags 的 bond。起始值由 Lawch 決定（寫在該年級劇本的總覽分頁），例：{ 2: { bond: 50 } }
-export const yearStart = {};
+export const yearStart = { 2: { bond: 50 } };

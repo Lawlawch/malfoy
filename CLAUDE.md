@@ -170,8 +170,8 @@
 - 立繪：`assets/chara/<角色>/[<服裝>/]<表情>.webp`，1008×1792（9:16）透明 WebP；學生切在大腿中段、不見膝頭，大人切在臀部附近。其他尺寸收到時轉成 1008×1792。規格見 `docs/sprite_spec.md`。
   - 服裝資料夾名稱要跟 `story.js` 的 `outfits` 一致。曾經發生過壓縮檔裡叫 `slytherin_winter`，但 `story.js` 是 `winter` 的情況。
   - 缺圖時可以用 `tools/make_placeholders.py` 補佔位圖（已存在的檔案會跳過）。
-- CG：`assets/cg/<id>.webp`，1408×1408（Grok 方形最高解析度，不放大）。現有 8 張還是 1920×1920，Lawch 會上傳 1408 的新版覆蓋（不要自行縮圖）。`story.js` 設 `pos`（例如 `"50% 4%"`）作為裁切焦點，橫向、直向共用同一個焦點；由 Claude Code 決定，原則是盡可能保持人物完整。
-- 背景：`assets/bg/<名稱>.webp`，1408×1408。現有 36 張還是 1920×1920，Lawch 會上傳 1408 的新版覆蓋（不要自行縮圖）。暫代背景產生器（`tools/make_placeholders.py`、`tools/make_scenes.js`）也輸出 1408。
+- CG：`assets/cg/<id>.webp`，1408×1408（Grok 方形最高解析度，不放大）。（一年級 24 張已是 1408×1408。）`story.js` 設 `pos`（例如 `"50% 4%"`）作為裁切焦點，橫向、直向共用同一個焦點；由 Claude Code 決定，原則是盡可能保持人物完整。
+- 背景：`assets/bg/<名稱>.webp`，1408×1408。（一年級 35 張已是 1408×1408；`hospital_wing` 還是暫代圖。收到不是 1408 的圖不要自行縮放。）暫代背景產生器（`tools/make_placeholders.py`、`tools/make_scenes.js`）也輸出 1408。
 - 字型：思源宋體分片。新增字之後用 `tools/make_font.py` 重做；`fonts.css` 是產生出來的，請勿手改。
 
 ---

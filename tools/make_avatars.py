@@ -19,11 +19,5 @@ for name, ch, c1, c2 in (("draconia","D",(188,196,214),(96,106,138)), ("hagrid",
     im = base(c1, c2); d = ImageDraw.Draw(im)
     f = ImageFont.truetype(FONT, 300, index=3); b = d.textbbox((0,0), ch, font=f)
     d.text(((S*2-(b[2]-b[0]))/2-b[0], (S*2-(b[3]-b[1]))/2-b[1]), ch, font=f, fill=(255,255,255,235)); ring(im); save(im, name)
-# 哈利：陰影剪影（第一人稱，無立繪）
-if os.path.exists(os.path.join(OUT, "harry.png")): print("ok"); raise SystemExit
-im = base((70,62,78),(24,20,30)); d = ImageDraw.Draw(im); sil=(12,10,16,255)
-d.ellipse([S-110, 150, S+110, 370], fill=sil)                 # 頭
-d.pieslice([S-230, 330, S+230, 800], 180, 360, fill=sil)       # 肩
-d.rectangle([S-60, 340, S+60, 420], fill=sil)                  # 頸
-ring(im); save(im, "harry")
+# 哈利：第一人稱，對話紀錄不顯示頭像（story.js 的 avatar: false），不產生 harry.png
 print("ok")
