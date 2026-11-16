@@ -68,7 +68,7 @@ export const speakers = { "德思禮姨丈": "unknown", "佛地魔": "unknown" }
 export const cgs = {
   normal: [
     { id: "cg_robeshop", name: "長袍店的初遇", pos: "50% 4%" },
-    { id: "cg_wandshop", name: "魔杖店．落下的盒子", pos: "50% 25%" },
+    { id: "cg_wandshop", name: "魔杖店．落下的盒子", pos: "50% 36%" },
     { id: "cg_handshake", name: "伸出的手", pos: "50% 25%" },
     { id: "cg_hat",      name: "分類帽下的她", pos: "50% 15%" },
     { id: "cg_song",     name: "星空下的校歌", pos: "50% 70%" },
@@ -79,10 +79,10 @@ export const cgs = {
     { id: "cg_duel",     name: "午夜的月光", pos: "50% 11%" },
     { id: "cg_closet",   name: "櫃子裡", pos: "50% 25%" },
     { id: "cg_fluffy",   name: "緊抓袍角的手", pos: "45% 40%" },
-    { id: "cg_fluffy_b", name: "身後的同伴", pos: "82% 45%" },
+    { id: "cg_fluffy_b", name: "身後的同伴", pos: "66% 45%" },
     { id: "cg_broom",    name: "捧著光輪的她", pos: "45% 30%" },
-    { id: "cg_pitch_solo", name: "夕陽下的光輪", pos: "45% 6%" },
-    { id: "cg_pitch_duo",  name: "並肩的晚霞", pos: "55% 0%" },
+    { id: "cg_pitch_solo", name: "夕陽下的光輪", pos: "45% 17%" },
+    { id: "cg_pitch_duo",  name: "並肩的晚霞", pos: "55% 12%" },
     { id: "cg_troll",      name: "山怪背上", pos: "55% 55%" },
     { id: "cg_shield",     name: "護在身後的人", pos: "50% 40%" },
     { id: "cg_candy",      name: "掌心裡的糖", pos: "50% 3%" },
