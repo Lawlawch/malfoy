@@ -2,6 +2,7 @@
    ui.js  遊戲中的介面：對話框、名牌、選項、工具列、紀錄、確認視窗、提示、輸入
    ============================================================= */
 import { G, $, $$, el, tap, sleep, esc, fontPx, avatarUrl, story } from "./core.js";
+import { uiSfx, uiCancel } from "./audio.js";
 
 let msg, txt, plate, frame, hit, dim, choicesBox, toolbar, toastEl;
 export const handlers = {};                        // 由 player.js 填入：advance、toggleHide、openLog、toolbar 動作……
@@ -110,8 +111,9 @@ export function showChoices(opts, title) {
     opts.forEach((o, i) => {
       const b = el("div.vn_opt", { text: o.text });
       tap(b, () => {
-        if (Date.now() - shownAt < 350) return;    // 剛出現的 0.35 秒內不接受（避免同一下點擊直接選到）
+        if (Date.now() - shownAt < 350) { uiCancel(); return; }    // 剛出現的 0.35 秒內不接受（避免同一下點擊直接選到），也不出聲
         hideChoices();
+        uiSfx("ui_choice");
         resolve(i);
       });
       choicesBox.append(b);
@@ -222,8 +224,9 @@ export function panel(title, id) {
       el("div.vn_sys_head", {}, el("span.vn_sys_title", { text: title }), el("span.vn_close_btn", { "aria-label": "關閉", html: '<svg viewBox="0 0 24 24"><g fill="none" stroke-linecap="round"><path d="M5 5L19 19M19 5L5 19" stroke="currentColor" stroke-width="2.8" stroke-dasharray="7 0.9 5 0.7 9"/><path d="M6.5 5.5L9 8M16 16.5L18 18.4" stroke="#fff6dc" stroke-opacity=".5" stroke-width="0.9"/></g></svg>' })),
       el("div.vn_tabs"), el("div.vn_scr_body"), el("div.vn_scr_foot", {}, el("span.vn_scr_msg"))));
   const S = { root: r, tabs: $(".vn_tabs", r), body: $(".vn_scr_body", r), foot: $(".vn_scr_foot", r), close: () => { r.remove(); $("#vn_cgview")?.remove(); } };
-  tap($(".vn_close_btn", r), S.close);
+  tap($(".vn_close_btn", r), () => { uiSfx("ui_close"); S.close(); });   // 按 ✕ 或 Esc；closeOverlays() 換面板時不出聲
   G.root.append(r);
+  uiSfx("ui_open");
   return S;
 }
 export function panelMsg(S, text) {

@@ -64,7 +64,7 @@ export function openPanel(name) {
    ============================================================= */
 function tabs(S, names, active, onPick) {
   S.tabs.innerHTML = "";
-  names.forEach((t, i) => S.tabs.append(tap(el("span.vn_tab" + (i === active ? ".on" : ""), { text: t }), () => onPick(i))));
+  names.forEach((t, i) => S.tabs.append(tap(el("span.vn_tab" + (i === active ? ".on" : ""), { text: t }), () => { if (i === active) { audio.uiCancel(); return; } audio.uiSfx("ui_page"); onPick(i); })));
 }
 function shortChapter(meta) { const c = chapterById(meta.ch); return c ? chapterLabel(c) : ""; }
 
@@ -97,6 +97,7 @@ function openSaveLoad(mode) {
           el("div.ln", { text: meta.line })));
       }
       tap(slot, async () => {
+        if (mode === "save" && !meta) audio.uiCancel();   // 空格直接存檔：等寫入成功才出聲（ui_save），點擊當下不出聲
         if (mode === "load") {
           if (!meta) return;
           const snap = await db.get("snap", id);
@@ -104,9 +105,11 @@ function openSaveLoad(mode) {
           return;
         }
         if (meta && !(await ui.confirm({ title: "覆蓋這個存檔？", sub: "原有的存檔內容將被取代，無法復原。", ok: "覆蓋", cancel: "取消" }))) return;
+        audio.uiCancel();                               // 按「覆蓋」也不出聲，等存檔結果
         const data = await makeSave();
         if (!data) { ui.panelMsg(S, "現在無法存檔，請稍候再試"); return; }
         const ok = (await db.put("snap", id, data.snap)) && (await db.put("meta", id, data.meta));
+        if (ok) audio.uiSfx("ui_save");
         ui.panelMsg(S, ok ? "已存入 " + label : "存檔失敗（瀏覽器容量不足？）");
         render();
       });
@@ -128,9 +131,9 @@ function openChapters() {
     const multi = story.years.length > 1;
     S.tabs.innerHTML = "";
     S.tabs.append(el("div.vn_year", {},
-      tap(el("span.vn_year_arrow" + (multi ? "" : ".off"), { text: "‹" }), () => { if (multi) { yi = (yi + story.years.length - 1) % story.years.length; render(); } }),
+      tap(el("span.vn_year_arrow" + (multi ? "" : ".off"), { text: "‹" }), () => { if (multi) { yi = (yi + story.years.length - 1) % story.years.length; audio.uiSfx("ui_page"); render(); } }),
       el("span.vn_year_name", { text: story.years[yi] }),
-      tap(el("span.vn_year_arrow" + (multi ? "" : ".off"), { text: "›" }), () => { if (multi) { yi = (yi + 1) % story.years.length; render(); } })));
+      tap(el("span.vn_year_arrow" + (multi ? "" : ".off"), { text: "›" }), () => { if (multi) { yi = (yi + 1) % story.years.length; audio.uiSfx("ui_page"); render(); } })));
     const list = el("div.vn_ch_list");
     const chs = story.chapters.filter((c) => c.year === yi + 1);
     for (let i = 0, n = Math.max(CH_SLOTS, chs.length); i < n; i++) {
@@ -182,9 +185,9 @@ function openGallery() {
     // 不滿 6 張時補空格，縮圖區永遠是一整頁的高度，頁碼位置不會跳動
     while (grid.children.length < 6) grid.append(el("div.vn_cg_item.blank", {}, el("div.thumb"), el("div.nm", { text: "　" })));
     const pager = el("div.vn_pager", {},
-      tap(el("span.vn_pg_btn" + (page === 0 ? ".off" : ""), { text: "‹" }), () => { if (page > 0) { page--; render(); } }),
+      tap(el("span.vn_pg_btn" + (page === 0 ? ".off" : ""), { text: "‹" }), () => { if (page > 0) { page--; audio.uiSfx("ui_page"); render(); } }),
       el("span.vn_pg_no", { text: `${page + 1} / ${pages}` }),
-      tap(el("span.vn_pg_btn" + (page >= pages - 1 ? ".off" : ""), { text: "›" }), () => { if (page < pages - 1) { page++; render(); } }),
+      tap(el("span.vn_pg_btn" + (page >= pages - 1 ? ".off" : ""), { text: "›" }), () => { if (page < pages - 1) { page++; audio.uiSfx("ui_page"); render(); } }),
       el("span.vn_pg_dots", { html: Array.from({ length: pages }, (_, i) => `<i${i === page ? ' class="on"' : ""}></i>`).join("") }));
     S.body.innerHTML = ""; S.body.append(grid);
     S.foot.querySelector(".vn_pager")?.remove();
