@@ -84,6 +84,24 @@ function freshFlags(from) {
   for (const k in story.flagRange) if (f[k] !== undefined) { const r = story.flagRange[k]; f[k] = Math.max(r[0], Math.min(r[1], Number(f[k]))); }
   return f;
 }
+// 進入新年級：羈絆重設成該年級的起始值（story.yearStart，沒寫就用 initialFlags），其他旗標全部保留
+function yearEntry(f, year) {
+  const g = clone(f);
+  g.bond = story.initialFlags.bond;
+  Object.assign(g, clone((story.yearStart && story.yearStart[year]) || {}));
+  return g;
+}
+// 進入某一章時用的數值：一律用 chStart（最近一次抵達這一章時的數值）。
+// 沒有 chStart（玩家讀完上一章時，這一章還沒上線）：改用上一章結束時的數值 chEnd；
+// 更舊的系統檔沒有 chEnd，退而用上一章開始時的數值。跨年級時再套用 yearEntry。
+function entryFlags(id) {
+  if (sf.chStart[id]) return sf.chStart[id];
+  const i = story.chapters.findIndex((c) => c.id === id), c = story.chapters[i], prev = story.chapters[i - 1];
+  if (!c || !prev) return null;
+  const from = (sf.chEnd && sf.chEnd[prev.id]) || sf.chStart[prev.id];
+  if (!from) return null;
+  return prev.year !== c.year ? yearEntry(from, c.year) : clone(from);
+}
 
 /* ---------- 自動／略過 ---------- */
 export function setAuto(on) { P.auto = !!on; if (on) P.skip = false; syncTools(); }
@@ -327,7 +345,7 @@ export async function startChapter(id, opt = {}) {
   if (card) await card.ready;
   if (token !== P.token) return;
   sf.chStart = sf.chStart || {}; sf.unlocked = sf.unlocked || {};
-  const f = freshFlags(opt.fresh ? null : sf.chStart[id]);
+  const f = freshFlags(opt.fresh ? null : entryFlags(id));
   P.script = script;
   P.state = { ch: id, f, stage: { bg: "", charas: [], bgm: "" }, scene: "", sceneF: clone(f), chstart: clone(f) };
   P.lastChoice = null;
@@ -367,13 +385,15 @@ function endChapter() {
   const i = story.chapters.findIndex((c) => c.id === id), next = story.chapters[i + 1];
   if (DEBUG) console.log("[章節結束] 羈絆", s.f.bond);
   P.autoPending = false;   // 章節已完成：之後由完結畫面接手「繼續」
-  sf.done = sf.done || {}; sf.unlocked = sf.unlocked || {}; sf.chStart = sf.chStart || {};
+  sf.done = sf.done || {}; sf.unlocked = sf.unlocked || {}; sf.chStart = sf.chStart || {}; sf.chEnd = sf.chEnd || {};
   sf.done[id] = 1;
-  // 不論下一章做好了沒有，都記下通關時的數值並解鎖；之後章節上線，儲思盆就能直接進入
-  if (next) { sf.unlocked[next.id] = 1; sf.chStart[next.id] = clone(s.f); sf.head = next.n; }
+  const c = chapterById(id);
+  // 讀完這一章時的數值（下一章還沒上線時，之後進入下一章就用這份）
+  sf.chEnd[id] = clone(s.f);
+  // 不論下一章做好了沒有，都記下通關時的數值並解鎖；之後章節上線，儲思盆就能直接進入。跨年級時羈絆重設、旗標保留
+  if (next) { sf.unlocked[next.id] = 1; sf.chStart[next.id] = next.year !== c.year ? yearEntry(s.f, next.year) : clone(s.f); sf.head = next.n; }
   // 「繼續」：重開章節完結畫面（進入年級結算後改為年級結算畫面），直到開始玩下一句為止
   delete sf.cont;
-  const c = chapterById(id);
   sf.endScr = { k: "ch", ch: id, end: s.f["end_y" + c.year] || null };
   saveSf();
   leaveGame();

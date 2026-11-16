@@ -52,15 +52,19 @@ export const characters = {
   pince:       { name: "平斯夫人", faces: ["normal"] },
   pomfrey:     { name: "龐芮夫人", faces: ["normal"] },
   narcissa:    { name: "水仙", faces: ["normal"] },
-  lee:         { name: "李‧喬丹", faces: ["normal"] },   // 只出聲音、從不 @show；頭像暫用 unknown 的圖
+  lucius:      { name: "魯休思", faces: ["normal", "smug", "angry"] },   // 馬份的父親；smug＝囂張挑釁的閉嘴冷笑、angry＝冷漠沉著的狂怒
+  james:       { name: "詹姆", faces: ["normal"] },   // 哈利的父親；主要當 CG 參考（cg_mirror、cg_album）
+  lily:        { name: "莉莉", faces: ["normal"] },   // 哈利的母親；同上
+  harry:       { name: "哈利", faces: ["normal"], outfits: ["casual", "gryffindor", "quidditch", "winter"], outfit: "casual" },   // 主角，第一人稱、劇本裡不上台；立繪當 CG 參考。quidditch 球隊服、winter 校服＋頸巾（不戴手套）
+  lee:         { name: "李‧喬丹", faces: ["normal"] },   // 只出聲音、從不 @show；頭像 assets/avatar/lee.png
   unknown:     { name: "？？？",     faces: ["normal"] }   // 刻意隱藏身分的說話者共用：無形黑影立繪（說話者寫 #？？？，用 @show unknown 上台）；頭像 assets/avatar/unknown.png
 };
 
 // 沒有立繪、但會說話的人（#名字 不會被當成打錯字）。值 = 頭像檔名
-export const speakers = { "哈利": "harry", "德思禮姨丈": "unknown", "佛地魔": "unknown" };
+export const speakers = { "德思禮姨丈": "unknown", "佛地魔": "unknown" };   // 哈利已登記在 characters（頭像同樣是 harry.png）
 
 // 圖鑑（圖檔放 assets/cg/<id>.webp，沒有圖時顯示佔位）
-// pos：CG 裁切焦點（"水平% 垂直%"，預設 "50% 50%"）。CG 是方圖，橫向會裁上下、直向會裁左右，焦點決定保留哪一塊；由立繪聊天室量好後填入
+// pos：CG 裁切焦點（"水平% 垂直%"，預設 "50% 50%"）。CG 是方圖，橫向會裁上下、直向會裁左右，焦點決定保留哪一塊；由 Claude Code 決定，原則是橫向、直向都盡可能保持人物完整
 export const cgs = {
   normal: [
     { id: "cg_robeshop", name: "長袍店的初遇", pos: "50% 4%" },
@@ -144,3 +148,7 @@ export const cgs = {
 export const initialFlags = { bond: 50 };
 // 數值上下限（自動夾住）
 export const flagRange = { bond: [0, 100] };
+
+// 每個年級開始時重設的數值（目前只有羈絆）。進入新年級的第一章時，bond 換成這裡的值，其他旗標全部保留。
+// 沒寫的年級用 initialFlags 的 bond。起始值由 Lawch 決定（寫在該年級劇本的總覽分頁），例：{ 2: { bond: 50 } }
+export const yearStart = {};

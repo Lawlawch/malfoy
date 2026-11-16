@@ -1,13 +1,14 @@
 // 【已停用】這 5 個場景已有正式背景（assets/bg/*.webp）；此工具只保留作參考，輸出的 .jpg 引擎不會讀。
-// 用程式（SVG）畫出 5 個暫代場景背景，輸出到 assets/bg/*.jpg（1920x1920，重點內容放中央）。
+// 用程式（SVG）畫出 5 個暫代場景背景，輸出到 assets/bg/*.jpg（1408x1408，重點內容放中央；用 1920 座標繪圖，輸出時縮成 1408）。
 // 會覆蓋同名檔案！換上正式背景圖之後不要再跑這支。
 // 用法：node tools/make_scenes.js   （需要 playwright + chromium）
 const { chromium } = require('playwright');
 const path = require('path');
 const OUT = path.join(__dirname, '..', 'assets', 'bg');
 
-const W = 1920;
-const wrap = (defs, body) => `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${W}" viewBox="0 0 ${W} ${W}"><defs>
+const W = 1920;        // 繪圖座標
+const OUT_S = 1408;    // 輸出尺寸
+const wrap = (defs, body) => `<svg xmlns="http://www.w3.org/2000/svg" width="${OUT_S}" height="${OUT_S}" viewBox="0 0 ${W} ${W}"><defs>
 <filter id="blur8"><feGaussianBlur stdDeviation="8"/></filter><filter id="blur24"><feGaussianBlur stdDeviation="24"/></filter><filter id="blur60"><feGaussianBlur stdDeviation="60"/></filter>
 <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="5"/><feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .5 -.12"/></filter>
 ${defs}</defs>${body}<rect width="${W}" height="${W}" filter="url(#grain)" opacity=".5"/>
@@ -154,7 +155,7 @@ function hogsmeade() {
 
 const scenes = { 'diagon_alley.jpg': diagon, 'malkin_shop.jpg': malkin, 'kings_cross.jpg': kings, 'train_compartment.jpg': train, 'hogsmeade_station.jpg': hogsmeade };
 (async () => {
-  const br = await chromium.launch(); const pg = await br.newPage({ viewport: { width: W, height: W } });
+  const br = await chromium.launch(); const pg = await br.newPage({ viewport: { width: OUT_S, height: OUT_S } });
   for (const [f, fn] of Object.entries(scenes)) {
     await pg.setContent(`<body style="margin:0;background:#000">${fn()}</body>`);
     await pg.screenshot({ path: path.join(OUT, f), type: 'jpeg', quality: 86 });

@@ -3,7 +3,7 @@
 #   python3 tools/make_placeholders.py --redo-chara   重畫「所有」立繪佔位圖（會覆蓋！只在還沒有正式立繪時使用）
 # 立繪：1008x1792（9:16 長立繪）透明 WebP，assets/chara/<角色id>/<表情>.webp（多套服裝：<角色id>/<服裝>/<表情>.webp），規格見 docs/sprite_spec.md
 #       角色與表情清單直接讀 story/story.js，新增角色或表情後重跑即可。
-# 背景：1920x1920 WebP，assets/bg/<名稱>.webp（已存在的不覆蓋，正式背景放進來後可放心重跑）
+# 背景：1408x1408 WebP，assets/bg/<名稱>.webp（已存在的不覆蓋，正式背景放進來後可放心重跑）
 from PIL import Image, ImageDraw, ImageFont
 import os, re, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -139,11 +139,11 @@ for cid, name, faces, outfits in load_characters():
 def bg(name, label, c1, c2):
     p = os.path.join(ROOT, "bg", name)
     if os.path.exists(p): return
-    S = 1920; im = Image.new("RGB", (S, S)); d = ImageDraw.Draw(im)
+    S = 1408; im = Image.new("RGB", (S, S)); d = ImageDraw.Draw(im)
     for y in range(S):
         t = y / S; d.line([(0, y), (S, y)], fill=tuple(int(c1[i] * (1 - t) + c2[i] * t) for i in range(3)))
-    d.rectangle([480, 480, 1440, 1440], outline=(255, 255, 255), width=6)
-    center(d, S, 900, label, font(110), (255, 255, 255)); center(d, S, 1060, "safe area: keep key content in the centre square", font(44), (240, 240, 240)); im.save(p, "WEBP", quality=85, method=6)
+    d.rectangle([S // 4, S // 4, S * 3 // 4, S * 3 // 4], outline=(255, 255, 255), width=5)
+    center(d, S, 660, label, font(81), (255, 255, 255)); center(d, S, 777, "safe area: keep key content in the centre square", font(32), (240, 240, 240)); im.save(p, "WEBP", quality=85, method=6)
 bg("kings_cross.webp", "PLATFORM 9 3/4", (92, 76, 68), (176, 150, 120))
 bg("train_compartment.webp", "TRAIN COMPARTMENT", (78, 50, 52), (170, 126, 96))
 bg("hogsmeade_station.webp", "HOGSMEADE STATION", (24, 32, 62), (90, 100, 128))
