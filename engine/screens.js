@@ -10,15 +10,26 @@ import { P, hooks, preloadChapter, startChapter, hasContinue, doContinue, makeSa
 /* =============================================================
    首頁
    ============================================================= */
-const CASTLE = '<svg viewBox="0 0 1600 600" preserveAspectRatio="xMidYMax slice"><defs><linearGradient id="vnh" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0c1022"/><stop offset="1" stop-color="#05060d"/></linearGradient></defs><path fill="url(#vnh)" d="M0 600V470l60-20 40 30 70-60 50 40 90-30V600zM560 600V420h30v-50h20v-60l15-35 15 35v60h20v50h35v-90h24l16-40 16 40h24v90h30V330l18-70 18 70v90h44v60h60V400h22l14-60 14 60h22v-40h40v240zM1120 600V380l25-30v-60l20-50 20 50v60l25 30v220zM1260 600V450l50-30 50 30v-70l20-40 20 40v70l40-20 40 40 70-30V600z"/><path fill="#05060d" d="M0 600V540l180-30 200 40 220-20 240 30 260-40 300 30 200-20V600z"/><g fill="#f3c26b" opacity=".85"><rect x="612" y="395" width="5" height="9"/><rect x="760" y="330" width="5" height="9"/><rect x="842" y="380" width="5" height="9"/><rect x="1150" y="330" width="5" height="9"/><rect x="1146" y="420" width="5" height="9"/><rect x="1328" y="400" width="5" height="9"/><rect x="940" y="410" width="5" height="9"/></g></svg>';
+const HOME = "./assets/ui/home/";
+const HOME_IMGS = ["home_bg_land", "home_bg_port", "home_fg_land", "draconia_home", "draconia_home_half", "draconia_home_blink", "title_frame"];
+let homeTimers = [], homeOff = null;
+const reduceMotion = () => window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+HOME_IMGS.forEach((n) => { const i = new Image(); i.src = HOME + n + ".webp"; });   // 預載：避免眨眼閃白
 
-// 標題下方的金色筆尖劃痕（簽名的收筆）
-function swash() {
-  const NS = "http://www.w3.org/2000/svg", svg = document.createElementNS(NS, "svg");
-  svg.setAttribute("class", "swash"); svg.setAttribute("viewBox", "0 0 420 40");
-  svg.innerHTML = '<defs><linearGradient id="vn_sw"><stop offset="0" stop-color="#f1d98a" stop-opacity="0"/><stop offset=".4" stop-color="#f1d98a"/><stop offset="1" stop-color="#fff3c4"/></linearGradient></defs>' +
-    '<path d="M6 26 C90 40 180 8 260 20 C320 28 360 34 414 10" fill="none" stroke="url(#vn_sw)" stroke-width="2.2" stroke-linecap="round"/><path d="M402 6 l12 4 -9 9z" fill="#f1d98a"/>';
-  return svg;
+// 眨眼：半閉 → 閉 → 半閉 → 原圖，各約 50ms；每 4–7 秒一次，偶爾連眨兩下
+function blinkLoop(ch) {
+  const set = (e) => { ch.dataset.e = e; };
+  const once = (t0) => [[0, "1"], [50, "2"], [100, "1"], [150, "0"]].forEach(([d, e]) => homeTimers.push(setTimeout(() => set(e), t0 + d)));
+  const next = () => homeTimers.push(setTimeout(() => { once(0); if (Math.random() < 0.25) once(260); next(); }, 4000 + Math.random() * 3000));
+  next();
+}
+function leaves(n) {
+  const frag = [];
+  for (let i = 0; i < n; i++) {
+    const s = 0.6 + Math.random() * 0.8;
+    frag.push(el("i.leaf", { style: `left:${5 + Math.random() * 90}%;--dx:${(Math.random() * 2 - 1) * 60}px;scale:${s};animation-duration:${14 + Math.random() * 12}s,${1.5 + Math.random() * 2}s;animation-delay:${-Math.random() * 26}s,${-Math.random() * 3}s` }));
+  }
+  return frag;
 }
 export function showHome(panelName) {
   hideHome();
@@ -29,26 +40,44 @@ export function showHome(panelName) {
   items.push(["new", "新遊戲"], ["load", "讀檔"], ["chapters", "儲思盆"], ["gallery", "圖鑑"], ["config", "設定"]);
   const menu = el("div.menu");
   items.forEach(([a, label]) => menu.append(tap(el("div.item", { "data-a": a, text: label }), () => homeAction(a))));
+  const img = (n, c) => el("img" + (c ? "." + c : ""), { src: HOME + n + ".webp", alt: "", draggable: "false" });
+  const still = reduceMotion();
+  const ch = el("div.hch", { "data-e": "0" }, img("draconia_home", "e0"), img("draconia_home_half", "e1"), img("draconia_home_blink", "e2"), still ? null : el("div.shine"));
+  const lv = still ? [] : leaves(8);
   const h = el("div#vn_home", {},
-    el("div.bg", { html: '<div class="stars"></div><div class="moon"></div>' + CASTLE }),
-    el("div.veil"),
-    el("div.frame", {}, el("i.tl"), el("i.tr"), el("i.bl"), el("i.br")),
-    el("div.col", {},
-      el("div.ttl", {}, el("div.t1", { text: "鉑金色的馬份" }), el("div"), el("div.sig", { text: "Draconia's Story" }), swash()),
-      menu));
+    el("div.hl.hbg", {}, img("home_bg_land", "l"), img("home_bg_port", "p")),
+    ...lv.slice(0, 3),                                                 // 立繪後方的光葉
+    ch,
+    el("div.hl.hfg", {}, img("home_fg_land")),
+    el("div.hl.hvig"),
+    ...lv.slice(3),                                                    // 立繪前方的光葉
+    el("div.ttl", {}, el("div.fr", {}, img("title_frame"), el("div.t1", { text: "鉑金色的馬份" })), el("div.sub", { text: "DRACONIA'S STORY" })),
+    menu);
   G.root.append(h);
+  blinkLoop(ch);
+  if (!still) {                                                        // 視差：滑鼠／裝置傾斜
+    const setP = (x, y) => { h.style.setProperty("--px", Math.max(-1, Math.min(1, x)).toFixed(3)); h.style.setProperty("--py", Math.max(-1, Math.min(1, y)).toFixed(3)); };
+    const mm = (e) => { const r = h.getBoundingClientRect(); setP((e.clientX - r.left) / r.width * 2 - 1, (e.clientY - r.top) / r.height * 2 - 1); };
+    const ori = (e) => { if (e.gamma != null) setP(e.gamma / 30, (e.beta - 45) / 30); };
+    h.addEventListener("pointermove", mm);
+    window.addEventListener("deviceorientation", ori);
+    homeOff = () => window.removeEventListener("deviceorientation", ori);
+  }
   preloadChapter(story.chapters[0].id);
   if (sf.cont) preloadChapter(sf.cont);
   if (panelName) openPanel(panelName);
 }
-export function hideHome() { $("#vn_home")?.remove(); }
+export function hideHome() {
+  homeTimers.forEach(clearTimeout); homeTimers = [];
+  homeOff?.(); homeOff = null;
+  $("#vn_home")?.remove();
+}
 
 async function homeAction(a) {
   if (a === "continue") { await doContinue(); return; }
   if (a === "new") {
     if (hasContinue() && !(await ui.confirm({ title: "開始新遊戲？", sub: "目前的自動存檔會被取代。手動存檔不受影響。", ok: "開始", cancel: "取消" }))) return;
-    hideHome();
-    startChapter(story.chapters[0].id, { fresh: true });
+    startChapter(story.chapters[0].id, { fresh: true });   // 首頁由 startChapter 在章名畫面蓋滿後才移除
     return;
   }
   openPanel(a);

@@ -260,7 +260,10 @@ async function exec(c, token) {
     case "hidecg": await stage.hideCg(st, dur(c.fade)); return;
     case "bg":                                                           // 換成不同的背景：先全員退場（防劇本漏寫）
       ui.quillOff();
-      if (c.name !== st.bg) await Promise.all([stage.hideAll(st, dur(c.fade)), stage.setBg(st, c.name, dur(c.fade))]);
+      if (c.name !== st.bg) {                                            // 先讓人物退場（淡出＋輕微下沉），退完再換背景，避免人物疊在新背景上才消失
+        if (st.charas.length) await stage.hideAll(st, Math.min(dur(c.fade), 350), true);
+        await stage.setBg(st, c.name, dur(c.fade));
+      }
       else await stage.setBg(st, c.name, dur(c.fade));
       return;
     case "show": await stage.show(st, c.id, c.face, c.slot, dur(c.fade), outfitOf(s.f, c.id)); return;
@@ -338,7 +341,8 @@ export async function startChapter(id, opt = {}) {
   leaveGame();
   ui.closeOverlays();
   const card = hooks.card ? hooks.card(c) : null;  // 過渡畫面（章名），先蓋住畫面，再在後面準備場景
-  hooks.leaveHome && hooks.leaveHome();
+  // 首頁等章名畫面淡入（0.5 秒）蓋滿之後才移除，否則淡入期間會露出舞台上前一次留下的背景
+  if (card) setTimeout(() => hooks.leaveHome && hooks.leaveHome(), 550); else hooks.leaveHome && hooks.leaveHome();
   const token = P.token;
   let script;
   try { script = await loadScript(id); } catch (e) { card && card.close(); ui.toast("讀取劇本失敗"); hooks.home && hooks.home(); return; }

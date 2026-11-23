@@ -316,6 +316,7 @@
 「試試這根。櫻桃木，龍心弦，九英寸半。」
 #
 @face draconia surprised
+@se thud
 她揮了一下。窗邊的花瓶應聲而碎。
 #奧利凡德
 「不是它。再來。」
@@ -336,6 +337,7 @@
 #
 梯子晃了一下。
 @face draconia panic
+@se item_drop
 下一秒，整排盒子像山崩一樣，朝她頭頂砸了下來。
 
 ;--- 選擇四（關鍵，僅路線 A）：盒子砸下來的瞬間 ----------------
@@ -691,6 +693,7 @@
 *c1_toad_end
 @face ron normal
 #
+@se door_slam
 車廂安靜了不到一分鐘，門猛地被人推開。這次連敲門都沒有。
 @show draconia happy
 #馬份

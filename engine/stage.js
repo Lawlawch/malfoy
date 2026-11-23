@@ -131,19 +131,23 @@ export function setOutfit(state, id, outfit) {
   if (img) swapSrc(id, img, urlOf(c), 0);
 }
 
-export async function hide(state, id, fade) {
+export async function hide(state, id, fade, sink) {
   const i = state.charas.findIndex((c) => c.id === id);
   if (i < 0) return;
   state.charas.splice(i, 1);
   const img = charaEls[id]; delete charaEls[id]; dropGhost(id);
-  if (img) { img.style.transition = `opacity ${fade}ms ease`; img.style.opacity = "0"; setTimeout(() => img.remove(), fade + 30); }
+  if (img) {
+    img.style.transition = `opacity ${fade}ms ease, translate ${fade}ms ease-in`; img.style.opacity = "0";
+    if (sink && fade > 0) img.style.translate = "0 2.5%";
+    setTimeout(() => img.remove(), fade + 30);
+  }
   relayout(state, fade);
   if (fade > 0) await sleep(fade);
 }
 
-export async function hideAll(state, fade) {
+export async function hideAll(state, fade, sink) {
   const ids = state.charas.map((c) => c.id);
-  await Promise.all(ids.map((id) => hide(state, id, fade)));
+  await Promise.all(ids.map((id) => hide(state, id, fade, sink)));
 }
 
 /* ---------- 劇情 CG：蓋住背景與立繪，對話框在上面。沒有圖檔時顯示佔位畫面與 CG 名稱 ---------- */
