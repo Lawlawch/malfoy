@@ -262,7 +262,7 @@ function openConfig() {
   function slider(T, label, key) {
     const val = el("span.val", { text: c[key] });
     const input = el("input", { type: "range", min: 0, max: 100, step: 1, value: c[key] });
-    input.addEventListener("input", () => { c[key] = Number(input.value); val.textContent = c[key]; audio.applyVolumes(); });
+    input.addEventListener("input", () => { c[key] = Number(input.value); val.textContent = c[key]; audio.applyVolumes(); audio.uiSlide(); });
     input.addEventListener("change", saveSf);
     T.append(el("div.vn_cfg_row", {}, el("span.lb", { text: label }), el("span.ctl", {}, decorateRange(input), val)));
   }
@@ -290,6 +290,7 @@ const yearName = (y) => story.years[y - 1] || (NUM_CN[y] || y) + "年級";
 // 過渡畫面：每章開始前顯示章名，約 2.5 秒；點一下可提早結束。回傳 { ready, close }
 function showCard(c) {
   $("#vn_card")?.remove();
+  if (!P.skip) audio.uiChapter();                  // 章節入場的效果音（略過模式不播；讀檔不經過這裡）
   const first = c.n === 1;                         // 每個年級第一章：年級名放大
   const e = el("div#vn_card" + (first ? ".first" : ""), {},
     el("div.deco", { html: starSky(G.L.w, G.L.h, SKY_GOLD) + cardFrameHtml(G.L.w, G.L.h) + cardMotes() }),
@@ -334,7 +335,9 @@ const SE_DEFS = `<svg class="se_defs" width="0" height="0" aria-hidden="true"><d
   <linearGradient id="seNavy" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="rgba(40,64,120,.78)"/><stop offset="1" stop-color="rgba(10,20,48,.88)"/></linearGradient>
   <linearGradient id="seIce" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e6f1ff"/><stop offset=".5" stop-color="#b4d0f6"/><stop offset="1" stop-color="#86a9dc"/></linearGradient>
   <linearGradient id="seWine" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="rgba(84,22,30,.85)"/><stop offset="1" stop-color="rgba(36,8,12,.92)"/></linearGradient>
-  <linearGradient id="seRose" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6dcd6"/><stop offset=".5" stop-color="#e6bdb3"/><stop offset="1" stop-color="#c9958a"/></linearGradient></defs></svg>`;
+  <linearGradient id="seRose" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f6dcd6"/><stop offset=".5" stop-color="#e6bdb3"/><stop offset="1" stop-color="#c9958a"/></linearGradient>
+  <linearGradient id="seAmber" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="rgba(96,66,18,.82)"/><stop offset="1" stop-color="rgba(42,26,6,.9)"/></linearGradient>
+  <linearGradient id="seGold" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff3c8"/><stop offset=".5" stop-color="#f0cf78"/><stop offset="1" stop-color="#c99a3c"/></linearGradient></defs></svg>`;
 const SE_IC = {
   home: '<path d="M3 11l9-7 9 7v9h-6v-6H9v6H3z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>',
   pensieve: '<path d="M3 10h18c0 5-4 8-9 8s-9-3-9-8zM8 21h8M12 18v3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M9 7c1-2 5-2 6 0" fill="none" stroke="currentColor" stroke-width="1.4"/>',
@@ -343,10 +346,10 @@ const SE_IC = {
   lock: '<rect x="5" y="11" width="14" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 11V8a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="1.8"/>'
 };
 function seBtn(act, label, fn, mode, pal = "") {   // mode：""（深色）、"main"（淺色主按鈕）、"off"（鎖住）；pal："term"＝終結頁的暗紅配色
-  const T = pal === "term";
-  const fill = mode === "main" ? (T ? "url(#seRose)" : "url(#seIce)") : mode === "off" ? "rgba(20,30,60,.5)" : (T ? "url(#seWine)" : "url(#seNavy)");
-  const stroke = mode === "main" ? (T ? "#fff1ec" : "#eef5ff") : mode === "off" ? "rgba(170,180,210,.35)" : (T ? "#b07a5a" : "#d9b86a");
-  const halo = mode === "main" ? `<path d="M16 1H194L209 31 194 61H16L1 31z" fill="none" stroke="${T ? "rgba(255,200,190,.4)" : "rgba(170,205,255,.45)"}" stroke-width="7"/>` : "";
+  const T = pal === "term", Y = pal === "gold";   // Y：年級結算的金色配色
+  const fill = mode === "main" ? (T ? "url(#seRose)" : Y ? "url(#seGold)" : "url(#seIce)") : mode === "off" ? "rgba(20,30,60,.5)" : (T ? "url(#seWine)" : Y ? "url(#seAmber)" : "url(#seNavy)");
+  const stroke = mode === "main" ? (T ? "#fff1ec" : Y ? "#fff6dc" : "#eef5ff") : mode === "off" ? "rgba(170,180,210,.35)" : (T ? "#b07a5a" : "#e6c36a");
+  const halo = mode === "main" ? `<path d="M16 1H194L209 31 194 61H16L1 31z" fill="none" stroke="${T ? "rgba(255,200,190,.4)" : Y ? "rgba(255,220,140,.5)" : "rgba(170,205,255,.45)"}" stroke-width="7"/>` : "";
   const ic = `<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">${SE_IC[mode === "off" ? "lock" : act]}</svg>`;
   const b = el("div.se_btn" + (mode ? "." + mode : ""), { "data-a": act, html:
     `<svg class="bg" viewBox="0 0 210 62" preserveAspectRatio="none" aria-hidden="true">${halo}<path d="M16 1H194L209 31 194 61H16L1 31z" fill="${fill}" stroke="${stroke}" stroke-width="1.6"/><path d="M20 5H190L203 31 190 57H20L7 31z" fill="none" stroke="${stroke}" stroke-width=".7" opacity=".5"/><path class="hl" d="M16 1H194L209 31 194 61H16L1 31z" fill="#fff"/></svg>` +
@@ -360,7 +363,7 @@ function starScreen(kind, inner, nextOk, onNext, opts = {}) {
   const pal = opts.pal || "";
   const third = opts.third ? seBtn(opts.third.act, opts.third.label, go(opts.third.fn), "main", pal) : seBtn("next", "下一章", go(onNext), nextOk ? "main" : "off", pal);
   const e = el("div#vn_end." + kind, {},
-    el("div.deco", { html: SE_DEFS + starSky(G.L.w, G.L.h, opts.sky) + cardFrameHtml(G.L.w, G.L.h) }),
+    el("div.deco", { html: SE_DEFS + starSky(G.L.w, G.L.h, opts.sky) + cardFrameHtml(G.L.w, G.L.h) + (opts.motes ? cardMotes() : "") }),
     el("div.in", {}, ...inner,
       el("div.btns", {},
         seBtn("home", "返回標題", go(() => showHome()), "", pal),
@@ -392,7 +395,7 @@ function showYearEnd(year, endId, next) {
   const full = it ? it.name.replace(/^結局：/, "") : "（待定）";
   const mm = it && it.name.match(/^(.+?)：(.+)$/);
   const tag = mm && mm[1] !== "結局" ? mm[1] : "結局", name = mm ? mm[2] : full;
-  starScreen("yrend", [
+  starScreen("yrend.gold", [
     el("div.head", { html: CARD_STAR }, el("span", { text: yearName(year) + "　完結" }), el("span.s2", { html: CARD_STAR })),
     el("div.mid", {}, img,
       el("div.txt", {},
@@ -400,7 +403,7 @@ function showYearEnd(year, endId, next) {
         el("div.ettl", { text: name }),
         el("div.rl", { html: cardRuleHtml(false) }),
         el("div.eline", { text: (it && it.line) || "" })))
-  ], !!(next && next.ready && next.year === year + 1), () => startChapter(next.id));
+  ], !!(next && next.ready && next.year === year + 1), () => startChapter(next.id), { pal: "gold", sky: SKY_GOLD, motes: true });
 }
 
 // 終結結局：暗紅色調；結局的 CG（cg 欄位）、小標「終結」、結局名、語句；按鈕：返回標題、儲思盆、回到上一個選擇

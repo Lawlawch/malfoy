@@ -171,7 +171,7 @@ html, body {
 /* 選項題目：淺羊皮紙色的字，下方金色細線＋中間小菱形 */
 #choices .vn_q {
   position: relative; flex: 0 0 auto; box-sizing: border-box; width: 700px; padding: 0 1em 0.55em; margin-bottom: -2px;
-  text-align: center; color: var(--vn-parch-1); font-size: 0.86em; font-weight: 700; letter-spacing: 0.08em; line-height: 1.4;
+  text-align: center; color: var(--vn-parch-1); font-size: 1em; font-weight: 700; letter-spacing: 0.08em; line-height: 1.4;
   text-shadow: 0 2px 6px rgba(0, 0, 0, 0.9);
 }
 /* 直向：題目區比選項寬，字距與左右留白收小，20 字放得下一行；萬一換行，兩行平均分（較新的瀏覽器支援） */

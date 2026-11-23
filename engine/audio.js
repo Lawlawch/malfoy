@@ -16,7 +16,7 @@ const url = (dir, name, ext = "mp3") => `./assets/${dir}/${name}.${ext}`;
 /* ---------- Web Audio：效果音 ---------- */
 let ctx = null;
 const bufs = new Map(), loading = new Map();
-const UI_SFX = ["ui_click", "ui_choice", "ui_open", "ui_close", "ui_page", "ui_save"];
+const UI_SFX = ["ui_click", "ui_choice", "ui_open", "ui_close", "ui_page", "ui_save", "ui_slide", "ui_chapter"];
 function getCtx() {
   if (!ctx) { const C = window.AudioContext || window.webkitAudioContext; if (C) { try { ctx = new C(); } catch (e) { ctx = null; } } }
   return ctx;
@@ -70,6 +70,10 @@ export function uiSfx(name) {
 }
 // 取消這次點擊已收集的聲音（例：存檔要等寫入成功才出聲，點擊當下不出聲）
 export function uiCancel() { pend = null; }
+// 不經點擊收集、直接播放的介面音效：拉條（拖動中最多每 70 毫秒一聲）、章節入場
+let slideT = 0;
+export function uiSlide() { const now = performance.now(); if (now - slideT < 70 || !unlocked) return; slideT = now; playBuf(url("sound", "ui_slide", "wav"), Math.min(1, cfg().se / 100) * 0.7); }
+export function uiChapter() { if (DEBUG) (window.VN_SFX = window.VN_SFX || []).push("ui_chapter"); if (unlocked) playBuf(url("sound", "ui_chapter", "wav"), Math.min(1, cfg().se / 100)); }
 function flushUi() {
   const n = pend; pend = null; pendT = 0;
   if (DEBUG && n) (window.VN_SFX = window.VN_SFX || []).push(n);   // 測試用：記錄播放了哪個介面音效

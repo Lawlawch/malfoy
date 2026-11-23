@@ -230,8 +230,6 @@ async function exec(c, token) {
       stage.focus(st, c.speaker && c.speaker.id);
       await ui.showLine(c.speaker, c.text, P.skip ? 0 : TEXT_SPEED[cfg().text]);
       if (token !== P.token) return "stop";
-      const nx = P.script.cmds[idx + 1];
-      if (nx && nx.op === "choice") return;                              // 選項前的最後一句：打完字直接出選項
       await waitAdvance(c.text, token);
       return;
     }
@@ -254,14 +252,17 @@ async function exec(c, token) {
     case "scene":
       s.scene = c.id; s.sceneF = clone(s.f);
       stage.setTag(st, "");                                              // 進入新場景：角標自動收起
-      await stage.hideCg(st, 0);
-      await stage.hideAll(st, 0);
+      await stage.hideCg(st, 0);                                         // 換場景不清立繪：背景沒變就留著（換背景時才全員退場）
       return;
     case "showcg":                                                       // 劇情中顯示 CG，同時解鎖圖鑑
       sf.cgsSeen = sf.cgsSeen || {}; sf.cgsSeen[c.id] = 1; saveSf();
       ui.quillOff(); await stage.showCg(st, c.id, dur(c.fade)); return;
     case "hidecg": await stage.hideCg(st, dur(c.fade)); return;
-    case "bg": ui.quillOff(); await stage.setBg(st, c.name, dur(c.fade)); return;
+    case "bg":                                                           // 換成不同的背景：先全員退場（防劇本漏寫）
+      ui.quillOff();
+      if (c.name !== st.bg) await Promise.all([stage.hideAll(st, dur(c.fade)), stage.setBg(st, c.name, dur(c.fade))]);
+      else await stage.setBg(st, c.name, dur(c.fade));
+      return;
     case "show": await stage.show(st, c.id, c.face, c.slot, dur(c.fade), outfitOf(s.f, c.id)); return;
     case "outfit": s.f["outfit_" + c.id] = c.outfit; stage.setOutfit(st, c.id, c.outfit); return;   // 換裝：之後一直沿用（跨場景、跨章節）
     case "face": stage.setFace(st, c.id, c.face, dur(150)); return;   // 換表情 0.15 秒交叉淡化

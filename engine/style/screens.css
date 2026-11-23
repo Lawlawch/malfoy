@@ -415,6 +415,16 @@
 .port #vn_end .cg { width: 600px; height: 338px; }
 .port #vn_end .txt { width: 600px; }
 .port #vn_end.yrend .btns { margin-top: 70px; }
+/* 年級結算：金黃色調（上暗下金、金色星點與上升光點、標題流光） */
+#vn_end.gold { background: radial-gradient(ellipse 80% 55% at 50% 108%, rgba(240, 190, 80, 0.38), transparent 70%), linear-gradient(to top, #5a3c0c 0%, #3e2806 28%, #241604 58%, #120a02 88%, #080401 100%); }
+#vn_end.gold .head { color: #f0cf78; }
+#vn_end.gold .etag { color: #e8c470; }
+#vn_end.gold .ettl { color: #fff4d6; background: linear-gradient(100deg, #f6dc94 0%, #fff8e6 40%, #f0c460 55%, #fff4d6 70%, #e8c470 100%); background-size: 250% 100%; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; text-shadow: none; filter: drop-shadow(0 0 14px rgba(255, 210, 120, 0.45)); animation: vn_goldflow 5s linear infinite; }
+#vn_end.gold .eline { color: #f2e2bc; }
+#vn_end.gold .cg { background-color: #2a1c06; background-image: linear-gradient(135deg, #4a3410, #1c1204); color: rgba(240, 210, 140, 0.55); outline-color: rgba(240, 200, 110, 0.9); box-shadow: 0 0 0 1px rgba(240, 200, 110, 0.95), 0 0 34px rgba(255, 200, 90, 0.35); }
+#vn_end.gold .se_btn.main { color: #3a2406; }
+#vn_end.gold .se_btn { color: #fbeccb; }
+@keyframes vn_goldflow { from { background-position: 0% 0; } to { background-position: 250% 0; } }
 /* 終結頁：暗紅色調（上暗下紅、餘燼、暗玫瑰金框），一眼看出不是通關 */
 #vn_end.term { background: radial-gradient(ellipse 80% 50% at 50% 110%, rgba(150, 30, 40, 0.35), transparent 70%), linear-gradient(to top, #4a0f17 0%, #330a10 25%, #1e060a 55%, #0e0305 85%, #050102 100%); }
 #vn_end.term .head { color: #c98a7a; }

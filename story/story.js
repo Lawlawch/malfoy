@@ -44,7 +44,7 @@ export const characters = {
   hooch:       { name: "胡奇夫人", faces: ["normal"] },
   wood:        { name: "木透",     faces: ["normal"] },
   flitwick:    { name: "孚立維教授", faces: ["normal"] },
-  quirrell:    { name: "奎若教授",   faces: ["normal", "evil", "angry", "panic"] },   // evil＝暴露陰謀後的邪惡表情
+  quirrell:    { name: "奎若",   faces: ["normal", "evil", "angry", "panic"] },   // evil＝暴露陰謀後的邪惡表情
   filch:       { name: "飛七",     faces: ["normal"] },
   firenze:     { name: "翡冷翠",   faces: ["normal"] },   // 人馬
   peeves:      { name: "皮皮鬼",   faces: ["normal"] },
@@ -78,8 +78,8 @@ export const cgs = {
     { id: "cg_remembrall", name: "草地上的記憶球", pos: "50% 40%" },
     { id: "cg_duel",     name: "午夜的月光", pos: "50% 11%" },
     { id: "cg_closet",   name: "櫃子裡", pos: "50% 25%" },
-    { id: "cg_fluffy",   name: "緊抓袍角的手", pos: "45% 40%" },
-    { id: "cg_fluffy_b", name: "身後的同伴", pos: "66% 45%" },
+    { id: "cg_fluffy",   name: "緊抓袍角的手", pos: "45% 45%" },
+    { id: "cg_fluffy_b", name: "身後的同伴", pos: "70% 40%" },
     { id: "cg_broom",    name: "捧著光輪的她", pos: "45% 30%" },
     { id: "cg_pitch_solo", name: "夕陽下的光輪", pos: "45% 17%" },
     { id: "cg_pitch_duo",  name: "並肩的晚霞", pos: "55% 12%" },
@@ -90,23 +90,23 @@ export const cgs = {
     { id: "cg_handkerchief", name: "手帕", pos: "50% 20%" },
     { id: "cg_gift_hall", name: "走廊上的禮物", pos: "50% 25%" },
     { id: "cg_cracker",  name: "拉炮裡的花帽子", pos: "50% 10%" },
-    { id: "cg_xmas",     name: "聖誕節早晨的禮物" },
-    { id: "cg_mirror",   name: "意若思鏡" },
-    { id: "cg_cloak",    name: "斗篷下的兩人" },
-    { id: "cg_mirror_her", name: "鏡前的她" },
+    { id: "cg_xmas",     name: "聖誕節早晨的禮物", pos: "50% 95%" },
+    { id: "cg_mirror",   name: "意若思鏡", pos: "50% 20%" },
+    { id: "cg_cloak",    name: "斗篷下的兩人", pos: "40% 15%" },
+    { id: "cg_mirror_her", name: "鏡前的她", pos: "40% 3%" },
     { id: "cg_norbert",  name: "破殼的蘿蔔", pos: "50% 73%" },
-    { id: "cg_tower",    name: "飛向夜空的蘿蔔" },
-    { id: "cg_sleeve",   name: "禁忌森林裡的手" },
-    { id: "cg_shadow",   name: "戴著兜帽的黑影" },
-    { id: "cg_tears",    name: "月光下的眼淚" },
-    { id: "cg_flute",    name: "笛聲與三頭犬" },
-    { id: "cg_keys",     name: "並肩追逐" },
-    { id: "cg_quirrell", name: "灼燒" },
-    { id: "cg_blur",     name: "朦朧中的金髮" },
-    { id: "cg_album",    name: "爸媽的相簿" },
-    { id: "cg_end_ward",    name: "缺席的一年" },   // 終結結局（重傷）；畫面：病房的天花板
-    { id: "cg_end_glasses", name: "沒有活下來的男孩" },   // 終結結局（死亡）；畫面：碎裂的眼鏡
-    { id: "cg_end_mirror",  name: "沉淪鏡中" },   // 終結結局（意若思鏡）
+    { id: "cg_tower",    name: "飛向夜空的蘿蔔", pos: "50% 30%" },
+    { id: "cg_sleeve",   name: "禁忌森林裡的手", pos: "62% 19%" },
+    { id: "cg_shadow",   name: "戴著兜帽的黑影", pos: "50% 30%" },
+    { id: "cg_tears",    name: "月光下的眼淚", pos: "50% 12%" },
+    { id: "cg_flute",    name: "笛聲與三頭犬", pos: "50% 55%" },
+    { id: "cg_keys",     name: "並肩追逐", pos: "35% 40%" },
+    { id: "cg_quirrell", name: "灼燒", pos: "50% 30%" },
+    { id: "cg_blur",     name: "朦朧中的金髮", pos: "50% 20%" },
+    { id: "cg_album",    name: "爸媽的相簿", pos: "50% 50%" },
+    { id: "cg_end_ward",    name: "缺席的一年", pos: "50% 40%" },   // 終結結局（重傷）；畫面：病房的天花板
+    { id: "cg_end_glasses", name: "沒有活下來的男孩", pos: "46% 50%" },   // 終結結局（死亡）；畫面：碎裂的眼鏡
+    { id: "cg_end_mirror",  name: "沉淪鏡中", pos: "50% 30%" },   // 終結結局（意若思鏡）
     // 以下暫定（名稱與圖之後再定）
     { id: "cg_21",       name: "（待定）" },
     { id: "cg_22",       name: "（待定）" },
@@ -133,10 +133,10 @@ export const cgs = {
     { id: "cg_43",       name: "（待定）" }
   ],
   ending: [   // line：年級結算頁的結局語句（可用 \n 換行）
-    { id: "y1_A", name: "一年級結局：綠色的學院盃", line: "那一年的學院盃是綠色的。\n可是那天晚上，我一點也不覺得自己輸了。" },
-    { id: "y1_B", name: "一年級結局：紅與綠之間", line: "紅色與綠色的旗幟底下，\n她沒有看著獎盃，只是看著我。" },
-    { id: "y1_C", name: "一年級結局：隔著人群的約定", line: "隔著月台上的人群，她說：「寫信給我。」\n我們的友情，從這個夏天重新出發。" },
-    { id: "y1_D", name: "一年級結局：三個人的歸途", line: "那一年，我們三個一起走出了月台。\n九月一日，還會再來。" },
+    { id: "y1_A", name: "一年級結局：綠色的學院盃", pos: "45% 8%", line: "那一年的學院盃是綠色的。\n可是那天晚上，我一點也不覺得自己輸了。" },
+    { id: "y1_B", name: "一年級結局：紅與綠之間", pos: "45% 28%", line: "紅色與綠色的旗幟底下，\n她沒有看著獎盃，只是看著我。" },
+    { id: "y1_C", name: "一年級結局：隔著人群的約定", pos: "45% 12%", line: "隔著月台上的人群，她說：「寫信給我。」\n我們的友情，從這個夏天重新出發。" },
+    { id: "y1_D", name: "一年級結局：三個人的歸途", pos: "50% 25%", line: "那一年，我們三個一起走出了月台。\n九月一日，還會再來。" },
     // 終結結局（三種：重傷、死亡、沉淪鏡中；id 不分年級，名稱與 CG 同名）：terminal＝不解鎖下一章；cg＝結算頁與圖鑑要用的圖（共用一般 CG）。需引擎支援，見 terminal_ending_spec.md
     { id: "end_ward",   cg: "cg_end_ward",    name: "終結：缺席的一年", terminal: true, line: "等我能再握住魔杖的時候，\n這一年已經過完了。" },
     { id: "end_death",  cg: "cg_end_glasses", name: "終結：沒有活下來的男孩", terminal: true, line: "那道閃電形的疤，\n再也不會痛了。" },
