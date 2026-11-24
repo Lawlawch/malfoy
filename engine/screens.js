@@ -321,7 +321,7 @@ function showCard(c) {
   if (!P.skip) audio.uiChapter();                  // 章節入場的效果音（略過模式不播；讀檔不經過這裡）
   const first = true;                              // v0.8.2：每一章都用「年級（大）／第X章（小）」的寫法
   const e = el("div#vn_card.first", {},
-    el("div.deco", { html: starSky(G.L.w, G.L.h, SKY_GOLD_CARD) + cardMotes(34) }),
+    el("div.deco", { html: starSky(G.L.w, G.L.h, SKY_GOLD_CARD) + cardMotes(70) }),
     el("div.in", {},
       el("div.star", { html: CARD_STAR }),
       el("div.small", { text: first ? yearName(c.year) : chapterLabel(c).replace("．", "・") }),
@@ -346,7 +346,7 @@ function showCard(c) {
 const SKY_BLUE = { dot: ["#cfe0ff", "#a9c6ff", "#ffffff"], spark: ["#e4eeff", "#bcd4ff"] };
 const SKY_GOLD = { dot: ["#f6e6bc", "#e8cf8a", "#fff8e8"], spark: ["#fff4d0", "#f0d99a"] };   // 章名畫面：配合墨綠底與金框
 const SKY_GOLD_THIN = { ...SKY_GOLD, n: 140, sparks: 14 };   // 背景圖已有星空：只疊少量閃爍星點
-const SKY_GOLD_CARD = { ...SKY_GOLD, n: 90, sparks: 30 };   // 章名畫面：背景已有細星，多疊閃爍星芒
+const SKY_GOLD_CARD = { ...SKY_GOLD, n: 120, sparks: 60 };   // 章名畫面：背景已有細星，多疊閃爍星芒
 const SKY_BLUE_THIN = { ...SKY_BLUE, n: 160, sparks: 18 };
 const SKY_EMBER = { dot: ["#c0503c", "#e08a5a", "#f2c9a0"], spark: ["#e0a080", "#c97a6a"], n: 170, sparks: 10 };   // 終結頁：稀疏的暗紅餘燼
 // 終結頁：從下方緩緩升起、忽明忽暗的火灰餘燼
@@ -399,7 +399,8 @@ function seBtn(act, label, fn, mode, pal = "") {   // mode：""（深色）、"m
 }
 function starScreen(kind, inner, nextOk, onNext, opts = {}) {
   $("#vn_end")?.remove();
-  const go = (fn) => () => { e.remove(); fn(); };
+  // 按下一章時，章名畫面要 0.5 秒才淡入蓋滿：這段時間先留著本頁，否則會露出舞台上的舊場景
+  const go = (fn) => () => { fn(); if ($("#vn_card")) setTimeout(() => e.remove(), 600); else e.remove(); };
   const pal = opts.pal || "";
   const third = opts.third ? seBtn(opts.third.act, opts.third.label, go(opts.third.fn), "main", pal) : seBtn("next", "下一章", go(onNext), nextOk ? "main" : "off", pal);
   const e = el("div#vn_end." + kind, {},

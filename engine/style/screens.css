@@ -693,3 +693,11 @@
 #vn_end .fin { padding-left: 0; }
 /* 年級完結／終結：只寫年級，字放大一點 */
 #vn_end .head { font-size: 36px; }
+
+/* ---------- v0.9.1：面板標題深棕、內文淺一階的棕色 ---------- */
+.vn_slot .ln, .vn_ch_row .nm, .vn_cfg_row .lb, .vn_cfg_row .val, .vn_pg_no, .vn_log_text, .vn_cg_item .nm, .vn_cfg_note { color: #4e3018; }
+.vn_slot .hd, .vn_slot .no { color: #6a4626; }
+.vn_slot_empty { color: #6a4626 !important; }
+.vn_cg_item .q { color: rgba(90, 58, 30, 0.8); }
+/* 標題維持深棕：面板標題、年級名、對話紀錄的人名 */
+.vn_sys_title, .vn_year_name, .vn_year_arrow, .vn_log_name { color: #2e170a !important; }
