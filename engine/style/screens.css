@@ -15,9 +15,7 @@
 #vn_home .hl { position: absolute; inset: 0; pointer-events: none; }
 #vn_home .hl > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 #vn_home .hbg { translate: calc(var(--px) * -4px) calc(var(--py) * -4px); scale: 1.012; }
-#vn_home .hfg { translate: calc(var(--px) * -12px) calc(var(--py) * -12px); }
-#vn_home .hfg > img { transform-origin: 50% 100%; animation: vn_hsway 6s ease-in-out infinite; }
-#vn_home .hbg .p, .port #vn_home .hbg .l, .port #vn_home .hfg { display: none; }
+#vn_home .hbg .p, .port #vn_home .hbg .l { display: none; }
 .port #vn_home .hbg .p { display: block; }
 /* 立繪：三張疊在同一位置，眨眼切 opacity；呼吸以底邊為支點 */
 #vn_home .hch {
@@ -47,12 +45,11 @@
   animation: vn_hleaf linear infinite, vn_hflicker ease-in-out infinite alternate;
 }
 @keyframes vn_hbreath { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(1.005); } }
-@keyframes vn_hsway { 0%, 100% { transform: rotate(-0.6deg); } 50% { transform: rotate(0.6deg); } }
 @keyframes vn_hshine { 0% { background-position: 0 100%; } 45%, 100% { background-position: 0 -100%; } }
 @keyframes vn_hleaf { 0% { transform: translate(0, 0) rotate(0deg); } 50% { transform: translate(var(--dx), 56vh) rotate(160deg); } 100% { transform: translate(calc(var(--dx) * -0.4), 112vh) rotate(320deg); } }
 @keyframes vn_hflicker { 0% { opacity: 0.25; } 100% { opacity: 0.9; } }
 @media (prefers-reduced-motion: reduce) {
-  #vn_home .hfg > img, #vn_home .hch .shine, #vn_home .leaf { animation: none; }
+  #vn_home .hch .shine, #vn_home .leaf { animation: none; }
   #vn_home .leaf, #vn_home .hch .shine { display: none; }
 }
 /* 標題：框＋網頁字 */
@@ -62,16 +59,23 @@
 #vn_home .ttl .fr { position: relative; }
 #vn_home .ttl .fr img { display: block; width: 100%; }
 #vn_home .t1 {
-  position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-58%);
+  position: absolute; left: 0; right: 0; top: 50%; transform: translateY(-52%);
+  display: flex; align-items: center; justify-content: center; gap: 0.32em;
   font-weight: 700; color: #eed69e; letter-spacing: 0.06em; white-space: nowrap;
   text-shadow: 0 3px 3px rgba(0, 0, 0, 0.8), 0 0 18px rgba(255, 200, 120, 0.55);
 }
 .land #vn_home .t1 { font-size: 52px; } .port #vn_home .t1 { font-size: 62px; }
+/* 標題兩側的祖母綠菱形 */
+#vn_home .t1::before, #vn_home .t1::after {
+  content: ""; flex: none; width: 0.2em; height: 0.2em; transform: rotate(45deg);
+  background: linear-gradient(135deg, #9ff0c4 0%, #2fae6e 45%, #0f5a38 100%);
+  box-shadow: 0 0 0.18em rgba(80, 220, 150, 0.75), 0 1px 2px rgba(0, 0, 0, 0.8);
+}
 #vn_home .sub {
-  margin-top: 4px; font-size: 14px; font-weight: 700; letter-spacing: 0.42em; color: #cebc8c;
+  margin-top: 4px; font-size: 16px; font-weight: 700; letter-spacing: 0.42em; color: #cebc8c;
   text-shadow: 0 1px 2px #000, 0 0 10px rgba(0, 0, 0, 0.9), 0 0 14px rgba(255, 205, 130, 0.45);
 }
-.port #vn_home .sub { font-size: 16px; }
+.port #vn_home .sub { font-size: 18px; }
 /* 選單 */
 #vn_home .menu { position: absolute; display: flex; flex-direction: column; align-items: flex-start; isolation: isolate; }
 .land #vn_home .menu { left: 11.7%; top: 49%; gap: 9px; }
@@ -239,8 +243,9 @@
    ============================================================= */
 /* ================= 面板：深色多層羊皮紙、方角、破紙邊 ================= */
 .vn_sys_panel, #vn_confirm .vn_cf_box, .vn_endcard {
-  border: 0; border-radius: 0; background: var(--p-paper);
-  background-blend-mode: multiply, multiply, multiply, normal, normal, normal, normal, normal, normal;
+  border: 0; border-radius: 0;
+  /* v0.8.2：紙紋改用圖片（深棕羊皮紙 960×960），上面疊一層淡淡的提亮讓深棕字看得清楚 */
+  background: linear-gradient(rgba(255, 240, 210, 0.08), rgba(255, 240, 210, 0.08)), url("../../assets/ui/parchment.webp") center / cover no-repeat;
   box-shadow: var(--p-burn); clip-path: var(--torn); color: var(--p-ink);
 }
 #vn_confirm .vn_cf_box { position: relative; }
@@ -432,9 +437,9 @@
 #vn_end.term .rl svg [fill]:not([fill="none"]) { fill: #c97a6a; }
 #vn_end.term .se_btn { color: #ecd6c8; }
 #vn_end.term .se_btn.main { color: #3a0a10; width: 250px; letter-spacing: 0.08em; }
-.port #vn_end.term .btns { flex-wrap: wrap; justify-content: center; gap: 22px 20px; max-width: 460px; }   /* 直向：主按鈕獨佔第一行，其餘兩個並排在下 */
+.port #vn_end.term .btns { flex-wrap: wrap; justify-content: center; gap: 22px 20px; max-width: 460px; }   /* 直向：返回標題、儲思盆並排在上，主按鈕獨佔最下一行 */
 .port #vn_end.term .se_btn { width: 220px; flex: none; }
-.port #vn_end.term .se_btn.main { width: 320px; order: -1; }
+.port #vn_end.term .se_btn.main { width: 320px; order: 1; }
 
 /* ---------- 過渡畫面：每章開始前的章名 ---------- */
 #vn_card {
@@ -540,8 +545,7 @@
 }
 .vn_sys_panel::before, #vn_confirm .vn_cf_box::before, .vn_endcard::before {
   content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
-  background: var(--p-paper);
-  background-blend-mode: multiply, multiply, multiply, normal, normal, normal, normal, normal, normal;
+  background: url("../../assets/ui/parchment.webp") center / cover no-repeat;
   box-shadow: var(--p-burn);
   clip-path: var(--torn-a);
 }
@@ -647,3 +651,45 @@
 .land .vn_ch_list { gap: 10px 20px; }
 #game.land .vn_ch_row { min-height: 0; height: 60px; padding-top: 0; padding-bottom: 0; box-sizing: border-box; }
 #game.land .vn_ch_row .done { width: 50px; height: 50px; flex-basis: 50px; margin: -6px -6px -6px 0; }
+
+/* ---------- v0.8.2：圖片紙紋上的字色加深（避免與紙色撞色）---------- */
+.vn_slot .hd, .vn_slot .no { color: #4a2a10; font-weight: 700; }
+.vn_slot_empty { color: #4a2c14 !important; font-weight: 700; opacity: 0.85; }
+.vn_cg_item .q { color: rgba(48, 26, 8, 0.82); text-shadow: 0 1px 0 rgba(255, 236, 200, 0.35); }
+.vn_cg_item .nm { color: #2e1a0a; font-weight: 800; }
+.vn_pg_dots i { background: rgba(58, 32, 10, 0.55); box-shadow: 0 0 0 1px rgba(255, 236, 200, 0.25); }
+.vn_pg_dots i.on { background: #3a200a; box-shadow: 0 0 0 2px rgba(255, 228, 170, 0.75); }
+.vn_cfg_note { color: #2e1a0a; font-weight: 700; }
+.vn_debug { color: #3a220e; }
+
+/* ---------- v0.8.2：章名、章節完結、年級完結、終結畫面改用背景圖 ---------- */
+#vn_card, #vn_end { background-size: cover; background-position: center; background-repeat: no-repeat; }
+#vn_card { background-image: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(4, 14, 10, 0.35), rgba(4, 14, 10, 0) 75%), url("../../assets/ui/scr/card.webp"); }
+#vn_end { background-image: radial-gradient(ellipse 58% 52% at 50% 50%, rgba(6, 14, 40, 0.45), rgba(6, 14, 40, 0) 78%), url("../../assets/ui/scr/chend.webp"); }
+#vn_end.gold { background-image: radial-gradient(ellipse 56% 54% at 50% 50%, rgba(40, 24, 4, 0.62), rgba(40, 24, 4, 0.15) 70%, rgba(40, 24, 4, 0) 90%), url("../../assets/ui/scr/yrend.webp"); }
+#vn_end.term { background-image: radial-gradient(ellipse 60% 52% at 50% 50%, rgba(10, 2, 3, 0.35), rgba(10, 2, 3, 0) 80%), url("../../assets/ui/scr/term.webp"); }
+#vn_end .ttl { text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6), 0 0 22px rgba(170, 200, 255, 0.35); }
+#vn_end.gold .ettl { filter: drop-shadow(0 2px 3px rgba(40, 20, 0, 0.75)) drop-shadow(0 0 14px rgba(255, 210, 120, 0.45)); }
+#vn_end.gold .head, #vn_end.gold .etag, #vn_end.gold .eline { text-shadow: 0 1px 3px rgba(30, 16, 0, 0.85); }
+/* 火灰餘燼 */
+.vn_embers { position: absolute; inset: 0; overflow: hidden; }
+.vn_embers i { position: absolute; bottom: -10px; border-radius: 50%; background: #ff9a4a; box-shadow: 0 0 6px 2px rgba(255, 110, 40, 0.7);
+  animation: vn_ember linear infinite, vn_emberflk ease-in-out infinite alternate; }
+@keyframes vn_ember { 0% { transform: translate(0, 0); opacity: 0; } 10% { opacity: 1; } 100% { transform: translate(var(--dx), -105vh); opacity: 0; } }
+@keyframes vn_emberflk { 0% { filter: brightness(0.6); } 100% { filter: brightness(1.4); } }
+@media (prefers-reduced-motion: reduce) { .vn_embers { display: none; } }
+/* 章節完結：年級大字、章號小字（同章名畫面） */
+#vn_end .yr.big { font-size: 46px; font-weight: 700; letter-spacing: 0.3em; padding-left: 0.3em; color: #f0d99a; text-shadow: 0 0 14px rgba(240, 217, 154, 0.35), 0 2px 4px rgba(0, 0, 0, 0.5); }
+#vn_end .yr.big + .chn { margin-top: 10px; color: #e6c97e; }
+/* 直向背景圖 */
+.port #vn_card { background-image: radial-gradient(ellipse 60% 40% at 50% 50%, rgba(4, 14, 10, 0.35), rgba(4, 14, 10, 0) 75%), url("../../assets/ui/scr/card_p.webp"); }
+.port #vn_end { background-image: radial-gradient(ellipse 70% 40% at 50% 45%, rgba(6, 14, 40, 0.45), rgba(6, 14, 40, 0) 78%), url("../../assets/ui/scr/chend_p.webp"); }
+.port #vn_end.gold { background-image: radial-gradient(ellipse 70% 46% at 50% 45%, rgba(40, 24, 4, 0.62), rgba(40, 24, 4, 0.15) 70%, rgba(40, 24, 4, 0) 90%), url("../../assets/ui/scr/yrend_p.webp"); }
+.port #vn_end.term { background-image: radial-gradient(ellipse 70% 44% at 50% 45%, rgba(10, 2, 3, 0.35), rgba(10, 2, 3, 0) 80%), url("../../assets/ui/scr/term_p.webp"); }
+/* 章名、章節完結：「第X章」放大一點 */
+#vn_card.first .sub, #vn_end .yr.big + .chn { font-size: 30px; }
+/* 「完結」兩側星星對稱：抵銷最後一個字後面的字距 */
+#vn_end .fin span { margin-right: -0.6em; }
+#vn_end .fin { padding-left: 0; }
+/* 年級完結／終結：只寫年級，字放大一點 */
+#vn_end .head { font-size: 36px; }

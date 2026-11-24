@@ -109,7 +109,7 @@ export function showChoices(opts, title) {
     if (title) choicesBox.append(el("div.vn_q", { text: title }));
     const shownAt = Date.now();
     opts.forEach((o, i) => {
-      const b = el("div.vn_opt", { text: o.text });
+      const b = el("div.vn_opt", {}, el("i.l"), el("span", { text: o.text }), el("i.r"));   // i.l／i.r：菱形向內的淡出短線
       tap(b, () => {
         if (Date.now() - shownAt < 350) { uiCancel(); return; }    // 剛出現的 0.35 秒內不接受（避免同一下點擊直接選到），也不出聲
         hideChoices();

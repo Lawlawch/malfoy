@@ -11,7 +11,7 @@ import { P, hooks, preloadChapter, startChapter, hasContinue, doContinue, makeSa
    首頁
    ============================================================= */
 const HOME = "./assets/ui/home/";
-const HOME_IMGS = ["home_bg_land", "home_bg_port", "home_fg_land", "draconia_home", "draconia_home_half", "draconia_home_blink", "title_frame"];
+const HOME_IMGS = ["home_bg_land", "home_bg_port", "draconia_home", "draconia_home_half", "draconia_home_blink", "title_frame"];
 let homeTimers = [], homeOff = null;
 const reduceMotion = () => window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
 HOME_IMGS.forEach((n) => { const i = new Image(); i.src = HOME + n + ".webp"; });   // 預載：避免眨眼閃白
@@ -48,7 +48,6 @@ export function showHome(panelName) {
     el("div.hl.hbg", {}, img("home_bg_land", "l"), img("home_bg_port", "p")),
     ...lv.slice(0, 3),                                                 // 立繪後方的光葉
     ch,
-    el("div.hl.hfg", {}, img("home_fg_land")),
     el("div.hl.hvig"),
     ...lv.slice(3),                                                    // 立繪前方的光葉
     el("div.ttl", {}, el("div.fr", {}, img("title_frame"), el("div.t1", { text: "鉑金色的馬份" })), el("div.sub", { text: "DRACONIA'S STORY" })),
@@ -320,9 +319,9 @@ const yearName = (y) => story.years[y - 1] || (NUM_CN[y] || y) + "年級";
 function showCard(c) {
   $("#vn_card")?.remove();
   if (!P.skip) audio.uiChapter();                  // 章節入場的效果音（略過模式不播；讀檔不經過這裡）
-  const first = c.n === 1;                         // 每個年級第一章：年級名放大
-  const e = el("div#vn_card" + (first ? ".first" : ""), {},
-    el("div.deco", { html: starSky(G.L.w, G.L.h, SKY_GOLD) + cardFrameHtml(G.L.w, G.L.h) + cardMotes() }),
+  const first = true;                              // v0.8.2：每一章都用「年級（大）／第X章（小）」的寫法
+  const e = el("div#vn_card.first", {},
+    el("div.deco", { html: starSky(G.L.w, G.L.h, SKY_GOLD_CARD) + cardMotes(34) }),
     el("div.in", {},
       el("div.star", { html: CARD_STAR }),
       el("div.small", { text: first ? yearName(c.year) : chapterLabel(c).replace("．", "・") }),
@@ -346,7 +345,19 @@ function showCard(c) {
 // 星空：上深下淺的漸層＋藍白星點（部分閃爍）＋四芒小星；不用 CSS 模糊（iPhone 會出黑框）
 const SKY_BLUE = { dot: ["#cfe0ff", "#a9c6ff", "#ffffff"], spark: ["#e4eeff", "#bcd4ff"] };
 const SKY_GOLD = { dot: ["#f6e6bc", "#e8cf8a", "#fff8e8"], spark: ["#fff4d0", "#f0d99a"] };   // 章名畫面：配合墨綠底與金框
+const SKY_GOLD_THIN = { ...SKY_GOLD, n: 140, sparks: 14 };   // 背景圖已有星空：只疊少量閃爍星點
+const SKY_GOLD_CARD = { ...SKY_GOLD, n: 90, sparks: 30 };   // 章名畫面：背景已有細星，多疊閃爍星芒
+const SKY_BLUE_THIN = { ...SKY_BLUE, n: 160, sparks: 18 };
 const SKY_EMBER = { dot: ["#c0503c", "#e08a5a", "#f2c9a0"], spark: ["#e0a080", "#c97a6a"], n: 170, sparks: 10 };   // 終結頁：稀疏的暗紅餘燼
+// 終結頁：從下方緩緩升起、忽明忽暗的火灰餘燼
+function embers(n) {
+  let s = "";
+  for (let i = 0; i < n; i++) {
+    const r = (Math.random() * 2.6 + 1.2).toFixed(1);
+    s += `<i style="left:${(Math.random() * 100).toFixed(1)}%;width:${r}px;height:${r}px;--dx:${((Math.random() * 2 - 1) * 60).toFixed(0)}px;animation-duration:${(7 + Math.random() * 7).toFixed(1)}s,${(0.8 + Math.random() * 1.6).toFixed(1)}s;animation-delay:${(-Math.random() * 14).toFixed(1)}s,${(-Math.random() * 2).toFixed(1)}s"></i>`;
+  }
+  return `<div class="vn_embers" aria-hidden="true">${s}</div>`;
+}
 function starSky(W, H, pal = SKY_BLUE) {
   const R = Math.random;
   let s = `<svg class="sky" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true">`;
@@ -392,7 +403,7 @@ function starScreen(kind, inner, nextOk, onNext, opts = {}) {
   const pal = opts.pal || "";
   const third = opts.third ? seBtn(opts.third.act, opts.third.label, go(opts.third.fn), "main", pal) : seBtn("next", "下一章", go(onNext), nextOk ? "main" : "off", pal);
   const e = el("div#vn_end." + kind, {},
-    el("div.deco", { html: SE_DEFS + starSky(G.L.w, G.L.h, opts.sky) + cardFrameHtml(G.L.w, G.L.h) + (opts.motes ? cardMotes() : "") }),
+    el("div.deco", { html: SE_DEFS + starSky(G.L.w, G.L.h, opts.sky || SKY_BLUE_THIN) + (opts.noFrame ? "" : cardFrameHtml(G.L.w, G.L.h)) + (opts.motes ? cardMotes() : "") + (opts.embers ? embers(26) : "") }),
     el("div.in", {}, ...inner,
       el("div.btns", {},
         seBtn("home", "返回標題", go(() => showHome()), "", pal),
@@ -406,7 +417,7 @@ function showChapterEnd(c, next, toYearEnd) {
   const nextOk = toYearEnd ? true : !!(next && next.ready);
   starScreen("chend", [
     el("div.star", { html: CARD_STAR }),
-    el("div.yr", { text: yearName(c.year) }),
+    el("div.yr.big", { text: yearName(c.year) }),
     el("div.chn", { text: "第" + (NUM_CN[c.n] || c.n) + "章" }),
     el("div.rl", { html: cardRuleHtml(true) }),
     el("div.ttl", { text: c.title }),
@@ -415,6 +426,12 @@ function showChapterEnd(c, next, toYearEnd) {
   ], nextOk, toYearEnd || (() => startChapter(next.id)));
 }
 
+// 「Ｘ年級．第X章」：該年級最後一章
+function yearLast(year) {
+  const ns = story.chapters.filter((x) => x.year === year).map((x) => x.n);
+  const n = ns.length ? Math.max(...ns) : 0;
+  return yearName(year) + (n ? "．第" + (NUM_CN[n] || n) + "章" : "");
+}
 // 年級結算：這個年級的結局 CG、結局標題、結局語句；下一章＝下一個年級的第一章
 function showYearEnd(year, endId, next) {
   const it = story.cgs.ending.find((x) => x.id === endId);
@@ -425,14 +442,14 @@ function showYearEnd(year, endId, next) {
   const mm = it && it.name.match(/^(.+?)：(.+)$/);
   const tag = mm && mm[1] !== "結局" ? mm[1] : "結局", name = mm ? mm[2] : full;
   starScreen("yrend.gold", [
-    el("div.head", { html: CARD_STAR }, el("span", { text: yearName(year) + "　完結" }), el("span.s2", { html: CARD_STAR })),
+    el("div.head", { html: CARD_STAR }, el("span", { text: yearName(year) }), el("span.s2", { html: CARD_STAR })),
     el("div.mid", {}, img,
       el("div.txt", {},
         el("div.etag", { text: tag }),
         el("div.ettl", { text: name }),
         el("div.rl", { html: cardRuleHtml(false) }),
         el("div.eline", { text: (it && it.line) || "" })))
-  ], !!(next && next.ready && next.year === year + 1), () => startChapter(next.id), { pal: "gold", sky: SKY_GOLD, motes: true });
+  ], !!(next && next.ready && next.year === year + 1), () => startChapter(next.id), { pal: "gold", sky: SKY_GOLD_THIN, motes: true });
 }
 
 // 終結結局：暗紅色調；結局的 CG（cg 欄位）、小標「終結」、結局名、語句；按鈕：返回標題、儲思盆、回到上一個選擇
@@ -441,14 +458,14 @@ function showTerminal(c, it, rewind) {
   tryImg(imgId(it), (u) => { img.style.backgroundImage = `url(${u})`; img.style.backgroundPosition = cgPos(imgId(it)); img.textContent = ""; });
   const mm = it.name.match(/^(.+?)：(.+)$/);
   starScreen("yrend.term", [
-    el("div.head", { html: CARD_STAR }, el("span", { text: c ? yearName(c.year) + "．第" + (NUM_CN[c.n] || c.n) + "章" : "" }), el("span.s2", { html: CARD_STAR })),
+    el("div.head", { html: CARD_STAR }, el("span", { text: c ? yearName(c.year) : "" }), el("span.s2", { html: CARD_STAR })),
     el("div.mid", {}, img,
       el("div.txt", {},
         el("div.etag", { text: mm ? mm[1] : "終結" }),
         el("div.ettl", { text: mm ? mm[2] : it.name }),
         el("div.rl", { html: cardRuleHtml(false) }),
         el("div.eline", { text: it.line || "" })))
-  ], false, null, { pal: "term", sky: SKY_EMBER, third: { act: "rewind", label: "回到上一個選擇", fn: rewind } });
+  ], false, null, { pal: "term", sky: SKY_EMBER, noFrame: true, embers: true, third: { act: "rewind", label: "回到上一個選擇", fn: rewind } });
 }
 
 /* =============================================================

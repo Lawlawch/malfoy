@@ -146,7 +146,7 @@ export const db = (() => {
 export const TEXT_SPEED = [60, 35, 15];           // 每個字的毫秒數：慢、普通、快
 export const AUTO_SPEED = [2600, 1300, 700];      // 自動播放：每句停留的基本毫秒數（另加每字 30 毫秒）
 export const FONT_SCALE = [0.9, 1, 1.2];
-const CFG_DEF = { text: 1, auto: 1, font: 1, skipRead: 1, bgm: 80, voice: 100, se: 80 };
+const CFG_DEF = { text: 1, auto: 1, font: 1, skipRead: 1, bgm: 60, voice: 100, se: 75 };   // v0.8.2：背景音樂降低，讓語音與效果音更清楚
 export function cfg() {
   sf.cfg = sf.cfg || {};
   for (const k in CFG_DEF) if (sf.cfg[k] === undefined) sf.cfg[k] = CFG_DEF[k];
