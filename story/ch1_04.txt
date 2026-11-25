@@ -19,6 +19,7 @@
 ; 場景一　布告欄與早餐
 ;==============================================================
 @scene y1c4_breakfast
+@bgm daily
 @bg gryffindor_common
 @wait 400
 
@@ -117,6 +118,7 @@
 ; 場景二　飛行課
 ;==============================================================
 @scene y1c4_flying
+@bgm class
 @bg training_grounds
 @wait 300
 
@@ -318,6 +320,7 @@
 ; 場景三　麥教授的邀請
 ;==============================================================
 @scene y1c4_mcg
+@bgm curious
 @bg entrance_hall_day
 @wait 300
 
@@ -397,6 +400,7 @@
 ; 場景四　走廊上的追問
 ;==============================================================
 @scene y1c4_stairs
+@bgm draconia
 @bg entrance_hall_day
 @wait 300
 
@@ -505,6 +509,7 @@
 ; 場景五　晚餐
 ;==============================================================
 @scene y1c4_dinner
+@bgm daily
 @bg great_hall_night
 @wait 300
 
@@ -658,6 +663,7 @@
 ; 幕間　史萊哲林交誼廳（所有玩家）
 ;==============================================================
 @scene y1c4_interlude
+@bgm curious
 @bg slytherin_common
 @tag 幕間
 @wait 300

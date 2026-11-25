@@ -13,6 +13,7 @@
 ; 場景一　斜角巷
 ;==============================================================
 @scene y1c1_alley
+@bgm wonder
 @bg diagon_alley
 @wait 400
 
@@ -52,6 +53,7 @@
 ; 場景二　摩金夫人長袍店
 ;==============================================================
 @scene y1c1_shop
+@bgm wonder
 @bg malkin_shop
 @wait 300
 
@@ -172,6 +174,7 @@
 ; 場景三　窗外的海格（背景同上）
 ;==============================================================
 @scene y1c1_window
+@bgm daily
 @bg malkin_shop
 @show draconia normal
 @show hagrid happy
@@ -304,6 +307,7 @@
 然後她快步走在前面，淺金色的長髮在陽光下一晃一晃。
 
 @scene y1c1_a_wand
+@bgm daily
 @bg ollivanders
 @show draconia normal
 #
@@ -434,6 +438,7 @@
 ; 路線 A-2　貓頭鷹商店
 ;==============================================================
 @scene y1c1_a_owl
+@bgm daily
 @bg eeylops
 @show draconia normal
 #
@@ -477,6 +482,7 @@
 ; 路線 A-3　回破釜酒吧
 ;==============================================================
 @scene y1c1_a_cauldron
+@bgm warm
 @bg leaky_cauldron
 #
 回到破釜酒吧時，海格坐在角落，面前擺著一個大得離譜的杯子。
@@ -518,6 +524,7 @@
 我抱著袍子站在原地，不知道為什麼，心裡有點悶悶的。
 
 @scene y1c1_b_cauldron
+@bgm warm
 @bg leaky_cauldron
 #
 破釜酒吧裡煙霧瀰漫，海格坐在最角落，面前擺著一個大得離譜的杯子。
@@ -543,6 +550,7 @@
 ; 路線 B-2　魔杖與貓頭鷹
 ;==============================================================
 @scene y1c1_b_wand
+@bgm daily
 @bg ollivanders
 #
 海格在門外等，我獨自走進了魔杖店。
@@ -593,6 +601,7 @@
 ; 場景四　王十字車站
 ;==============================================================
 @scene y1c1_station
+@bgm wonder
 @bg kings_cross
 @wait 400
 
@@ -620,6 +629,7 @@
 ; 場景五　列車車廂
 ;==============================================================
 @scene y1c1_train
+@bgm wonder
 @bg train_compartment
 @wait 300
 
@@ -838,6 +848,7 @@
 ; 場景六　活米村車站
 ;==============================================================
 @scene y1c1_boat
+@bgm wonder
 @bg hogsmeade_station
 @wait 300
 

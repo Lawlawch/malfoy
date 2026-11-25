@@ -21,6 +21,7 @@
 ; 場景一　傍晚的球場
 ;==============================================================
 @scene y1c6_pitch
+@bgm daily
 @bg quidditch_pitch_sunset
 @wait 400
 
@@ -197,6 +198,7 @@
 ; 場景二　符咒學
 ;==============================================================
 @scene y1c6_charms
+@bgm class
 @bg charms_classroom
 @wait 300
 
@@ -299,6 +301,7 @@
 ; 場景三　下午的課後
 ;==============================================================
 @scene y1c6_afternoon
+@bgm draconia
 @bg entrance_hall_day
 @wait 300
 
@@ -469,6 +472,7 @@
 ; 場景四　萬聖節晚宴
 ;==============================================================
 @scene y1c6_feast
+@bgm hogwarts
 @bg great_hall_night
 @wait 300
 
@@ -486,6 +490,7 @@
 @endif
 #
 @se door_slam
+@bgm danger
 就在這時，大廳的門被撞開了。
 @show quirrell panic
 奎若教授衝了進來，頭巾歪了一邊，臉上滿是驚恐。
@@ -522,6 +527,7 @@
 ; 場景五　女生廁所
 ;==============================================================
 @scene y1c6_bathroom
+@bgm danger
 @bg entrance_hall_night
 @wait 300
 
@@ -549,6 +555,7 @@
 「妙麗！」
 @hide ron
 @bg girls_bathroom
+@bgm battle
 #
 我們扭開門鎖，衝了進去。
 @show hermione panic
@@ -586,6 +593,7 @@
 @endif
 @hideall
 ; 【終結 CG】缺席的一年（重傷結局共用；畫面：病房的天花板）
+@bgm terminal
 @showcg cg_end_ward
 #
 我醒來的時候，已經在聖蒙果醫院了。治療師說，我能活下來是個奇蹟。
@@ -665,6 +673,7 @@
 ; 場景六　教授趕到
 ;==============================================================
 @scene y1c6_teachers
+@bgm stop fade=3000
 @bg girls_bathroom
 @wait 300
 
@@ -791,6 +800,7 @@
 ; 場景七　隔天早上
 ;==============================================================
 @scene y1c6_morning
+@bgm warm
 @bg entrance_hall_day
 @wait 300
 

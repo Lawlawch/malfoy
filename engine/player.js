@@ -522,7 +522,7 @@ export async function loadSnap(snap) {
   P.lastChoice = snap.lc ? clone(snap.lc) : null;
   await stage.rebuild(P.state.stage);
   if (token !== P.token) return false;
-  audio.playBgm(P.state.stage.bgm || "", 600);
+  audio.playBgm(P.state.stage.bgm || "");
   enterGame();
   // 停在選項的存檔：把選項前最後一句補回對話框
   const cmd = P.script.cmds[P.pc];

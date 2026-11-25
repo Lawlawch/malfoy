@@ -39,7 +39,7 @@
 | `@outfit 角色 服裝` | 換裝（例：`@outfit draconia slytherin`）。之後的 `@show`／`@face` 都用這套，跨場景、跨章節沿用到下一次 `@outfit`。角色在台上時立刻換圖，保留表情與位置。只有 `story.js` 有 `outfits` 的角色能用 |
 | `@hide 角色 [fade=300]`、`@hideall` | 退場 |
 | `@wait 毫秒` | 停頓 |
-| `@bgm 名稱 [fade=1000]`、`@bgm stop` | 背景音樂（assets/bgm/名稱.mp3） |
+| `@bgm 名稱`、`@bgm stop` | 背景音樂（assets/bgm/名稱.mp3）；換曲、停止預設淡出／淡入 1 秒，可用 `fade=3000` 指定毫秒；同一首不會重播 |
 | `@se 名稱`、`@voice 名稱` | 效果音（assets/sound/）、語音（assets/voice/） |
 | `@bond +3`、`@set c1_open=1` | 改數值（羈絆自動夾在 0～100） |
 | `@jump *標籤` | 跳到標籤 |

@@ -16,6 +16,7 @@
 ; 場景一　開學回來（第八版：由第八章原場景六的回校段落移來）
 ;==============================================================
 @scene y1c9_return
+@bgm daily
 @bg entrance_hall_day
 @wait 300
 #
@@ -97,6 +98,7 @@
 ; 場景二　鎖腿咒
 ;==============================================================
 @scene y1c9_leg
+@bgm curious
 @bg gryffindor_common
 @wait 300
 #
@@ -232,6 +234,7 @@
 ; 場景三　走廊上的質問
 ;==============================================================
 @scene y1c9_ask
+@bgm draconia
 @bg entrance_hall_day
 @wait 300
 #
@@ -336,6 +339,7 @@
 ; 場景四　魁地奇與禁忌森林邊的密談
 ;==============================================================
 @scene y1c9_match
+@bgm quidditch
 @bg quidditch_pitch
 @wait 300
 #
@@ -360,6 +364,7 @@
 
 ; 背景（新增）：forbidden_forest 禁忌森林（第十章共用）
 @bg forbidden_forest
+@bgm mystery
 我停在一棵高大的山毛櫸上，從枝椏的縫隙往下看。
 樹下的空地上，站著兩個人。
 @show snape angry
@@ -417,6 +422,7 @@
 @outfit ron gryffindor
 @outfit hermione gryffindor
 @scene y1c9_egg
+@bgm warm
 @bg hagrid_hut
 @wait 300
 #
@@ -533,6 +539,7 @@
 ;==============================================================
 ; 背景（新增）：astronomy_tower 天文塔頂（夜）
 @scene y1c9_tower
+@bgm night
 @bg entrance_hall_night
 @wait 300
 #
@@ -639,6 +646,7 @@
 隱形斗篷，還留在塔頂。
 @hide hermione
 @bg entrance_hall_night
+@bgm stop
 @show filch normal
 #飛七
 「哎呀呀……」
@@ -704,6 +712,7 @@
 @hideall
 @bg entrance_hall_night
 @if c9_route == 1
+@bgm longing
 #
 一踏出辦公室，她就一句話也沒說，快步走在前頭。
 我想知道，她為什麼會出現在那裡，還跟我們一起被扣了分。

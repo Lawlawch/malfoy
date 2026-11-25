@@ -17,6 +17,7 @@
 ; 場景一　醫院廂房
 ;==============================================================
 @scene y1c12_hospital
+@bgm stop
 @bg hospital_wing
 @wait 300
 
@@ -25,6 +26,7 @@
 我睜開眼睛的時候，眼前是一片模糊的光。
 光慢慢變清楚了。是窗外的陽光，還有一副半月形的眼鏡。
 @show dumbledore normal
+@bgm warm
 #鄧不利多
 「午安，哈利。」
 #哈利
@@ -123,6 +125,7 @@
 ; 場景二　探病
 ;==============================================================
 @scene y1c12_visit
+@bgm draconia
 @bg hospital_wing
 @wait 300
 @if c11_path == 2
@@ -475,6 +478,7 @@
 ; 場景三　學年末宴會
 ;==============================================================
 @scene y1c12_feast
+@bgm hogwarts
 @bg great_hall_night
 @wait 300
 
@@ -792,6 +796,7 @@
 *c12_f3_end
 @hide draconia
 @bg entrance_hall_night
+@bgm draconia
 #
 宴會結束後，我在入口大廳碰到了她。她一個人站在樓梯口，好像在等人，又好像不是。
 @show draconia normal
@@ -858,6 +863,7 @@
 ; 場景四　王十字車站
 ;==============================================================
 @scene y1c12_station
+@bgm ending
 @bg kings_cross
 @wait 300
 @outfit draconia casual

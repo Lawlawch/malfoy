@@ -67,7 +67,7 @@ export const speakers = { "德思禮姨丈": "unknown", "佛地魔": "unknown" }
 // pos：CG 裁切焦點（"水平% 垂直%"，預設 "50% 50%"）。CG 是方圖，橫向會裁上下、直向會裁左右，焦點決定保留哪一塊；由 Claude Code 決定，原則是橫向、直向都盡可能保持人物完整
 export const cgs = {
   normal: [
-    { id: "cg_robeshop", name: "長袍店的初遇", pos: "50% 4%" },
+    { id: "cg_robeshop", name: "長袍店的初遇", pos: "50% 10%" },
     { id: "cg_wandshop", name: "魔杖店．落下的盒子", pos: "50% 36%" },
     { id: "cg_handshake", name: "伸出的手", pos: "50% 25%" },
     { id: "cg_hat",      name: "分類帽下的她", pos: "50% 15%" },
@@ -107,31 +107,7 @@ export const cgs = {
     { id: "cg_album",    name: "爸媽的相簿", pos: "50% 50%" },
     { id: "cg_end_ward",    name: "缺席的一年", pos: "50% 40%" },   // 終結結局（重傷）；畫面：病房的天花板
     { id: "cg_end_glasses", name: "沒有活下來的男孩", pos: "46% 50%" },   // 終結結局（死亡）；畫面：碎裂的眼鏡
-    { id: "cg_end_mirror",  name: "沉淪鏡中", pos: "50% 30%" },   // 終結結局（意若思鏡）
-    // 以下暫定（名稱與圖之後再定）
-    { id: "cg_21",       name: "（待定）" },
-    { id: "cg_22",       name: "（待定）" },
-    { id: "cg_23",       name: "（待定）" },
-    { id: "cg_24",       name: "（待定）" },
-    { id: "cg_25",       name: "（待定）" },
-    { id: "cg_26",       name: "（待定）" },
-    { id: "cg_27",       name: "（待定）" },
-    { id: "cg_28",       name: "（待定）" },
-    { id: "cg_29",       name: "（待定）" },
-    { id: "cg_30",       name: "（待定）" },
-    { id: "cg_31",       name: "（待定）" },
-    { id: "cg_32",       name: "（待定）" },
-    { id: "cg_33",       name: "（待定）" },
-    { id: "cg_34",       name: "（待定）" },
-    { id: "cg_35",       name: "（待定）" },
-    { id: "cg_36",       name: "（待定）" },
-    { id: "cg_37",       name: "（待定）" },
-    { id: "cg_38",       name: "（待定）" },
-    { id: "cg_39",       name: "（待定）" },
-    { id: "cg_40",       name: "（待定）" },
-    { id: "cg_41",       name: "（待定）" },
-    { id: "cg_42",       name: "（待定）" },
-    { id: "cg_43",       name: "（待定）" }
+    { id: "cg_end_mirror",  name: "沉淪鏡中", pos: "50% 30%" }    // 終結結局（意若思鏡）
   ],
   ending: [   // line：年級結算頁的結局語句（可用 \n 換行）
     { id: "y1_A", name: "一年級結局：綠色的學院盃", pos: "45% 8%", line: "那一年的學院盃是綠色的。\n可是那天晚上，我一點也不覺得自己輸了。" },

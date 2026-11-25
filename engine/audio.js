@@ -102,7 +102,8 @@ function fadeTo(a, target, ms, done) {
 const masterBgm = () => (cfg().bgm / 100) * (bgmVol / 100);
 
 // name = "" 代表停止
-export function playBgm(name, fade = 1000, vol = 100) {
+const BGM_FADE = 1000;   // 背景音樂預設淡出、淡入 1 秒；只有劇本明寫 fade= 時才用別的長度
+export function playBgm(name, fade = BGM_FADE, vol = 100) {
   if (name === bgmName && bgm) return;
   const old = bgm;
   if (old) fadeTo(old, 0, fade, () => old.pause());
@@ -115,7 +116,7 @@ export function playBgm(name, fade = 1000, vol = 100) {
   setTimeout(() => fadeTo(a, masterBgm(), fade), 0);
 }
 export function currentBgm() { return bgmName; }
-export function stopAll() { playBgm("", 300); stopVoice(); }
+export function stopAll() { playBgm(""); stopVoice(); }
 
 let voice = null;
 export function stopVoice() { if (voice) { voice.pause(); voice = null; } }
