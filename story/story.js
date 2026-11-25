@@ -94,6 +94,7 @@ export const cgs = {
     { id: "cg_mirror",   name: "意若思鏡", pos: "50% 20%" },
     { id: "cg_cloak",    name: "斗篷下的兩人", pos: "40% 15%" },
     { id: "cg_mirror_her", name: "鏡前的她", pos: "40% 3%" },
+    { id: "cg_snowball", name: "雪仗" },
     { id: "cg_norbert",  name: "破殼的蘿蔔", pos: "50% 73%" },
     { id: "cg_tower",    name: "飛向夜空的蘿蔔", pos: "50% 30%" },
     { id: "cg_sleeve",   name: "禁忌森林裡的手", pos: "62% 19%" },

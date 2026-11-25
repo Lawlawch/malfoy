@@ -162,6 +162,7 @@ bg("gryffindor_common.webp", "GRYFFINDOR COMMON ROOM", (90, 26, 24), (170, 110, 
 bg("potions_classroom.webp", "POTIONS CLASSROOM", (18, 30, 26), (70, 90, 80))
 bg("hagrid_hut.webp", "HAGRID'S HUT", (60, 44, 30), (140, 110, 76))
 bg("training_grounds.webp", "TRAINING GROUNDS", (60, 96, 120), (90, 130, 70))
+bg("grounds_snow.webp", "GROUNDS (SNOW)", (150, 170, 196), (232, 238, 246))
 bg("trophy_room.webp", "TROPHY ROOM", (20, 26, 44), (90, 96, 120))
 bg("quidditch_pitch.webp", "QUIDDITCH PITCH", (200, 110, 60), (70, 110, 60))
 bg("quidditch_pitch_sunset.webp", "QUIDDITCH PITCH (SUNSET)", (230, 120, 60), (90, 60, 70))
