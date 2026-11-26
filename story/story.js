@@ -78,7 +78,7 @@ export const cgs = {
     { id: "cg_remembrall", name: "草地上的記憶球", pos: "50% 8%" },
     { id: "cg_duel",     name: "午夜的月光", pos: "50% 11%" },
     { id: "cg_closet",   name: "櫃子裡", pos: "50% 25%" },
-    { id: "cg_fluffy",   name: "緊抓袍角的手", pos: "45% 45%" },
+    { id: "cg_fluffy",   name: "緊抓袍角的手", pos: "45% 78%" },
     { id: "cg_fluffy_b", name: "身後的同伴", pos: "70% 40%" },
     { id: "cg_broom",    name: "捧著光輪的她", pos: "45% 0%" },
     { id: "cg_pitch_solo", name: "夕陽下的光輪", pos: "45% 17%" },
