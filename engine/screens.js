@@ -315,8 +315,8 @@ function openConfig() {
     seg(main, "文字顯示速度", "text", ["慢", "普通", "快"]);
     seg(main, "自動播放速度", "auto", ["慢", "普通", "快"]);
     const box = el("span.ctl.vn_seg");
-    [["開", 1], ["關", 0]].forEach(([nm, v]) => box.append(tap(el("span" + (c.skipRead === v ? ".on" : ""), { text: nm }), () => {
-      c.skipRead = v; [...box.children].forEach((x) => x.classList.toggle("on", x.textContent === nm)); saveSf();
+    [["開", 1], ["關", 0]].forEach(([nm, v], i) => box.append(tap(el("span" + (c.skipRead === v ? ".on" : ""), { text: nm }), () => {
+      c.skipRead = v; [...box.children].forEach((x, j) => x.classList.toggle("on", j === i)); saveSf();   // 用位置判斷：按鈕裡有裝飾元素時，比對文字會失準
     })));
     main.append(el("div.vn_cfg_row", {}, el("span.lb", { text: "只略過已讀的句子" }), box), el("div.vn_cfg_note", { text: "關閉時，會略過尚未閱讀的句子" }));
     slider(main, "背景音樂", "bgm"); slider(main, "語音", "voice"); slider(main, "效果音", "se");

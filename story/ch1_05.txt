@@ -89,7 +89,7 @@
 我們剛爬出畫像洞口，妙麗就緊跟在後頭，嘴裡還在沒完沒了地數落我們。
 等她說完，轉身想回去的時候——胖女士的畫框裡，已經空了。
 胖女士大概又半夜跑去串門子了。沒有她，誰也進不了葛來分多塔。
-@face hermione sad
+@show hermione sad
 #妙麗
 「……現在怎麼辦？」
 @hide hermione
@@ -340,11 +340,11 @@
 #
 另一頭的門外，是一條長長的走廊，兩旁站滿了一副副騎士盔甲。
 我們放輕腳步，摸著黑往前走。遠處的轉角似乎又傳來飛七的咕噥聲。
-@face ron panic
+@show ron panic
 榮恩一緊張，腳下一絆，整個人撞上了旁邊的一副盔甲。
 @se item_drop
 嘩啦一聲巨響。盔甲倒了一地，聲音在走廊裡來回迴盪，大概整座城堡都聽見了。
-@face draconia angry
+@show draconia angry
 #馬份
 「衛斯理！你這個大笨蛋！」
 @show filch
@@ -426,7 +426,7 @@
 #飛七
 「在那邊！跑不掉的！」
 @hide filch
-@face hermione panic
+@show hermione panic
 #妙麗
 「快跑！大家一起走，別落單！」
 #
@@ -491,8 +491,8 @@
 我們正盯著一隻狗的眼睛。
 一隻大得離譜的巨犬，身軀幾乎塞滿地板到天花板之間的整片空間——而且牠有三顆頭。
 三雙瘋狂轉動的眼睛。三個抽動著的鼻子。三張流著口水的大嘴，露出黃色的尖牙。
-@face draconia panic
-@face ron panic
+@show draconia panic
+@show ron panic
 馬份整個人僵在原地，連叫都叫不出來。
 @se growl
 三顆頭同時低吼了一聲，朝她撲了過來。
@@ -575,9 +575,10 @@
 @bgm night
 #
 我們一路狂奔，一直跑到樓梯口才停下來。三個人都喘得說不出話。
-@face draconia panic
+@show draconia panic
 #馬份
 「……你們，看到了嗎？」
+@show ron panic
 #榮恩
 「看到什麼？三顆頭？我看得很清楚！」
 @face draconia disdain
@@ -591,7 +592,7 @@
 #馬份
 「……今晚的事，誰都不准說。」
 「聽到沒有，衛斯理？」
-@face ron surprised
+@show ron surprised
 #榮恩
 「妳連史萊哲林的人都不說？」
 @face draconia angry

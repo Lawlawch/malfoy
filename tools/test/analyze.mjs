@@ -65,7 +65,7 @@ for (const ch of story.chapters) {
     let next = [pc + 1];
     switch (c.op) {
       case "scene": s.charas = []; s.cg = ""; break;
-      case "bg": s.bg = c.name; break;
+      case "bg": if (c.name !== s.bg) s.charas = []; s.bg = c.name; break;   // 引擎換成不同背景時全員退場
       case "showcg": s.cg = c.id; break;
       case "hidecg": s.cg = ""; break;
       case "show": {

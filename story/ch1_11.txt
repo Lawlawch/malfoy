@@ -293,7 +293,7 @@
 @se growl
 毛毛的六隻眼睛，一起睜開了。
 @if c11_path == 1
-@face draconia panic
+@show draconia panic
 #馬份
 「波特！快！」
 @endif
@@ -318,6 +318,7 @@
 @elif c11_path == 2 or c11_path == 3
 #
 馬份從我手上接過了木笛。
+@show draconia normal
 #馬份
 「……我來吹。你們快下去。」
 #
@@ -391,8 +392,8 @@
 @endif
 @bg key_room
 @bgm quidditch
-@face ron normal
-@face hermione normal
+@show ron normal
+@show hermione normal
 #
 沿著石頭走道往前走，我們聽見一陣沙沙的聲音。
 挑高的房間裡，好幾百隻帶翼鑰匙在半空中盤旋飛舞，閃著金屬微光，宛如一大群鳥。
@@ -407,6 +408,7 @@
 #榮恩
 「哎喲！它啄我耳朵！」
 @if c11_path == 1
+@show draconia angry
 #馬份
 「別亂揮手，衛斯理！你越揮，牠們越興奮！」
 @endif
@@ -472,7 +474,7 @@
 @showcg cg_keys
 #哈利
 「馬份，妳從左邊！我從右邊！」
-@face draconia disdain
+@show draconia disdain
 #馬份
 「別命令我，波特！」
 「還有，別以為只有你會飛。」

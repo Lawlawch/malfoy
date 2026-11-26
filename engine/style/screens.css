@@ -726,3 +726,7 @@
 @keyframes vn_etr_glow { 0% { opacity: 0; } 35% { opacity: 1; } 70% { opacity: 0.7; } 100% { opacity: 1; } }
 @keyframes vn_etr_sweep { from { transform: translateX(-60%); opacity: 0; } 20% { opacity: 1; } 80% { opacity: 1; } to { transform: translateX(60%); opacity: 0; } }
 @keyframes vn_etr_veil { 0% { opacity: 1; } 18% { opacity: 0; } 88% { opacity: 0; } 100% { opacity: 0.35; } }
+
+/* 設定：文字壓在羊皮紙的污漬與燒痕上會撞色，字色加深（不加光暈） */
+.vn_cfg_row .lb, .vn_cfg_row .val { color: #1e0f03; }
+.vn_cfg_note { color: #2e1a08; }

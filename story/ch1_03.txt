@@ -310,7 +310,7 @@
 @hide ron
 
 @bg library
-@face hermione normal
+@show hermione normal
 #
 圖書館大得不像話，高聳的書架一排接一排，深得彷彿看不見盡頭。
 #妙麗
@@ -443,7 +443,7 @@
 @hide hermione
 
 @bg gryffindor_common
-@face ron normal
+@show ron normal
 #
 交誼廳的壁爐燒得正旺。榮恩把棋盤擺在火爐旁的小桌上。
 巫師棋的棋子是活的。它們會自己走，還會對下棋的人指指點點。
