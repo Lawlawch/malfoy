@@ -863,7 +863,7 @@
 ; 場景四　王十字車站
 ;==============================================================
 @scene y1c12_station
-@bgm ending
+@bgm farewell
 @bg kings_cross
 @wait 300
 @outfit draconia casual

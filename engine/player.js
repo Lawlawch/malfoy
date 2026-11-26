@@ -25,7 +25,7 @@ export const P = {
   autoPending: false,    // 略過期間沒寫的自動存檔，略過停下時補寫
   inGame: false
 };
-export const hooks = {};  // 由 screens.js 填入：card(chapter) 過渡畫面、chapterEnd(chapter, next, toYearEnd)、yearEnd(year, endingId, next)、terminal(chapter, ending, rewind)、home()、leaveHome()
+export const hooks = {};  // 由 screens.js 填入：card(chapter) 過渡畫面、chapterEnd(chapter, next, toYearEnd)、yearEnd(year, endingId, next)、endingTransition(year, endingId, done) 結局過渡、terminal(chapter, ending, rewind)、home()、leaveHome()
 
 /* ---------- 劇本載入（同一章只抓一次）---------- */
 const cache = {};
@@ -323,12 +323,12 @@ function enterGame() {
   ui.toolbarOn(true); ui.hitOn(true); ui.setHidden(false);
   syncTools();
 }
-export function leaveGame() {
+export function leaveGame(keepBgm = false) {   // keepBgm：章節結束、終結時不停背景音樂，交給接下來的畫面換曲（同一首就接續）
   stopAutoSkip();                                  // 略過中離開：先補寫自動存檔
   P.token++; P.waiting = null; P.inGame = false; P.atChoice = false;
   ui.hideChoices(); ui.clearLine(); ui.msgVisible(false);
   ui.toolbarOn(false); ui.hitOn(false);
-  audio.stopAll();
+  if (keepBgm) audio.stopVoice(); else audio.stopAll();
   saveSf();
 }
 
@@ -380,7 +380,7 @@ async function terminal(it) {
   delete sf.cont;
   sf.endScr = { k: "term", ch: s.ch, id: it.id };   // 離開後「繼續」重開終結畫面
   saveSf();
-  leaveGame();
+  leaveGame(true);
   openEndScreen(sf.endScr, back);
 }
 
@@ -399,9 +399,18 @@ function endChapter() {
   if (next) { sf.unlocked[next.id] = 1; sf.chStart[next.id] = next.year !== c.year ? yearEntry(s.f, next.year) : clone(s.f); sf.head = next.n; }
   // 「繼續」：重開章節完結畫面（進入年級結算後改為年級結算畫面），直到開始玩下一句為止
   delete sf.cont;
-  sf.endScr = { k: "ch", ch: id, end: s.f["end_y" + c.year] || null };
+  const end = s.f["end_y" + c.year] || null, lastOfYear = !next || next.year !== c.year;
+  // 年級最後一章且有年級結局：最後一句之後直接播結局過渡畫面（6 秒，背景音樂 ending），再進年級結算，不經過章節完結頁
+  if (lastOfYear && end && hooks.endingTransition) {
+    sf.endScr = { k: "yr", ch: id, end };
+    saveSf();
+    leaveGame(true);
+    hooks.endingTransition(c.year, end, () => openEndScreen(sf.endScr));
+    return;
+  }
+  sf.endScr = { k: "ch", ch: id, end };
   saveSf();
-  leaveGame();
+  leaveGame(true);
   openEndScreen(sf.endScr);
 }
 

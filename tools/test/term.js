@@ -100,7 +100,7 @@ const only = process.argv[4];
   await p.locator('.vn_pg_btn').nth(1).click(); await p.waitForTimeout(500);
   names = names.concat(await p.$$eval('.vn_cg_item .nm', (es) => es.map((e) => e.textContent)));
   if (OUT) await p.screenshot({ path: `${OUT}/gallery_end_${MODE}.png` });
-  ok(normalPages === '1 / 10', `一般 CG 頁數 ${normalPages}（story.js 共 ${normalNames} 項，終結圖不重複列出）`);
+  ok(normalPages === '1 / 7', `一般 CG 頁數 ${normalPages}（story.js 共 ${normalNames} 項，終結圖不重複列出）`);
   ok(names.join('|').includes('#905 終結：缺席的一年') && names.join('|').includes('#906 終結：沒有活下來的男孩') && names.join('|').includes('#907 ？？？'), '結局 CG：' + names.filter((x) => x.trim()).join('、'));
   await b.close();
 })();

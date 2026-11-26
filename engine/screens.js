@@ -33,6 +33,7 @@ function leaves(n) {
 }
 export function showHome(panelName) {
   hideHome();
+  audio.playBgm("title");   // 標題、儲思盆、圖鑑、設定都在首頁上開，主題曲持續播；第一次點擊畫面後才有聲音（瀏覽器限制）
   ui.closeOverlays();
   $("#vn_end")?.remove();
   const items = [];
@@ -64,7 +65,21 @@ export function showHome(panelName) {
   }
   preloadChapter(story.chapters[0].id);
   if (sf.cont) preloadChapter(sf.cont);
+  preloadUi();
   if (panelName) openPanel(panelName);
+}
+// 介面圖預先下載：面板羊皮紙、章名／完結／終結畫面背景、羽毛筆、封蠟。
+// 這些圖寫在 CSS 或要等畫面打開才建立，不先下載的話，第一次打開時會先露出底下的舊紋理或空白零點幾秒。
+// 首頁出現後才在背景下載（只做一次），不跟首頁圖搶頻寬；先載目前方向用的，再載另一個方向的。
+let uiPreloaded = false;
+function preloadUi() {
+  if (uiPreloaded) return; uiPreloaded = true;
+  const port = document.documentElement.classList.contains("port") || innerHeight > innerWidth;
+  const scr = ["card", "chend", "yrend", "term"], mine = scr.map((n) => n + (port ? "_p" : "")), other = scr.map((n) => n + (port ? "" : "_p"));
+  const list = ["parchment", ...mine.map((n) => "scr/" + n), "quill.png?v=2", "wax0", "wax1", "wax2", "wax3", ...other.map((n) => "scr/" + n)]
+    .map((n) => "./assets/ui/" + (/\.png/.test(n) ? n : n + ".webp"));
+  const go = () => list.forEach((u, i) => setTimeout(() => { const im = new Image(); im.decoding = "async"; im.src = u; }, i * 120));
+  setTimeout(() => (window.requestIdleCallback || ((f) => f()))(go), 600);
 }
 export function hideHome() {
   homeTimers.forEach(clearTimeout); homeTimers = [];
@@ -387,13 +402,13 @@ const SE_IC = {
 };
 function seBtn(act, label, fn, mode, pal = "") {   // mode：""（深色）、"main"（淺色主按鈕）、"off"（鎖住）；pal："term"＝終結頁的暗紅配色
   const T = pal === "term", Y = pal === "gold";   // Y：年級結算的金色配色
-  const fill = mode === "main" ? (T ? "url(#seRose)" : Y ? "url(#seGold)" : "url(#seIce)") : mode === "off" ? "rgba(20,30,60,.5)" : (T ? "url(#seWine)" : Y ? "url(#seAmber)" : "url(#seNavy)");
-  const stroke = mode === "main" ? (T ? "#fff1ec" : Y ? "#fff6dc" : "#eef5ff") : mode === "off" ? "rgba(170,180,210,.35)" : (T ? "#b07a5a" : "#e6c36a");
+  const fill = mode === "main" ? (T ? "url(#seRose)" : Y ? "url(#seGold)" : "url(#seIce)") : mode === "off" ? (Y ? "rgba(90,58,14,.28)" : "rgba(20,30,60,.5)") : (T ? "url(#seWine)" : Y ? "url(#seAmber)" : "url(#seNavy)");
+  const stroke = mode === "main" ? (T ? "#fff1ec" : Y ? "#fff6dc" : "#eef5ff") : mode === "off" ? (Y ? "rgba(255,238,200,.45)" : "rgba(170,180,210,.35)") : (T ? "#b07a5a" : "#e6c36a");
   const halo = mode === "main" ? `<path d="M16 1H194L209 31 194 61H16L1 31z" fill="none" stroke="${T ? "rgba(255,200,190,.4)" : Y ? "rgba(255,220,140,.5)" : "rgba(170,205,255,.45)"}" stroke-width="7"/>` : "";
   const ic = `<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">${SE_IC[mode === "off" ? "lock" : act]}</svg>`;
   const b = el("div.se_btn" + (mode ? "." + mode : ""), { "data-a": act, html:
     `<svg class="bg" viewBox="0 0 210 62" preserveAspectRatio="none" aria-hidden="true">${halo}<path d="M16 1H194L209 31 194 61H16L1 31z" fill="${fill}" stroke="${stroke}" stroke-width="1.6"/><path d="M20 5H190L203 31 190 57H20L7 31z" fill="none" stroke="${stroke}" stroke-width=".7" opacity=".5"/><path class="hl" d="M16 1H194L209 31 194 61H16L1 31z" fill="#fff"/></svg>` +
-    (act === "next" && mode !== "off" ? `<span>${label}</span>${ic}` : `${ic}<span>${label}</span>`) + (mode === "off" ? `<em class="note">劇本修葺中</em>` : "") });
+    (act === "next" && mode !== "off" ? `<span>${label}</span>${ic}` : `${ic}<span>${label}</span>`) + (mode === "off" ? `<em class="note">敬請期待</em>` : "") });
   if (mode !== "off") tap(b, fn);
   return b;
 }
@@ -415,6 +430,7 @@ function starScreen(kind, inner, nextOk, onNext, opts = {}) {
 
 // 章節完結：年級、章號、章名、完結；下一章沒做好時鎖住。年級最後一章的「下一章」進入年級結算
 function showChapterEnd(c, next, toYearEnd) {
+  audio.playBgm("title");   // 完結頁播主題曲
   const nextOk = toYearEnd ? true : !!(next && next.ready);
   starScreen("chend", [
     el("div.star", { html: CARD_STAR }),
@@ -438,12 +454,13 @@ function showYearEnd(year, endId, next) {
   const it = story.cgs.ending.find((x) => x.id === endId);
   const img = el("div.cg", {}, el("span.ph", { text: "（CG 準備中）" }));
   if (it) tryImg(imgId(it), (u) => { img.style.backgroundImage = `url(${u})`; img.style.backgroundPosition = cgPos(imgId(it)); img.textContent = ""; });
+  if (it) { img.classList.add("replay"); tap(img, () => showEndingTransition(year, endId, null, true)); }   // 點 CG 重看結局過渡
   // 結局名稱「True End：綠色的學院盃」→ 小標「True End」＋大標「綠色的學院盃」；沒有前綴時小標用「結局」
   const full = it ? it.name.replace(/^結局：/, "") : "（待定）";
   const mm = it && it.name.match(/^(.+?)：(.+)$/);
   const tag = mm && mm[1] !== "結局" ? mm[1] : "結局", name = mm ? mm[2] : full;
   starScreen("yrend.gold", [
-    el("div.head", { html: CARD_STAR }, el("span", { text: yearName(year) }), el("span.s2", { html: CARD_STAR })),
+    el("div.head", { html: CARD_STAR }, el("span", { text: yearName(year) + "．完結" }), el("span.s2", { html: CARD_STAR })),
     el("div.mid", {}, img,
       el("div.txt", {},
         el("div.etag", { text: tag }),
@@ -451,15 +468,39 @@ function showYearEnd(year, endId, next) {
         el("div.rl", { html: cardRuleHtml(false) }),
         el("div.eline", { text: (it && it.line) || "" })))
   ], !!(next && next.ready && next.year === year + 1), () => startChapter(next.id), { pal: "gold", sky: SKY_GOLD_THIN, motes: true });
+  audio.playBgm("ending");   // 從結局過渡畫面接續時是同一首，不會重播；從首頁「繼續」重開時從頭播
+}
+
+// 結局過渡：年級最後一句之後，結局 CG 全螢幕、緩慢放大＋光暈與金色光點，播 ending；5 秒後（或點擊略過）轉入年級結算（音樂不中斷）。
+// replay：在年級結算頁點 CG 重看，疊在結算頁上面，結束後淡出回到結算頁；ending 已在播，不會重播。
+const ETR_MS = 5000;
+function showEndingTransition(year, endId, done, replay = false) {
+  $("#vn_etr")?.remove();
+  const it = story.cgs.ending.find((x) => x.id === endId);
+  const cg = el("div.cg");
+  if (it) { const u = `./assets/cg/${imgId(it)}.webp`; cg.style.backgroundImage = `url(${u})`; cg.style.backgroundPosition = cgPos(imgId(it)); }
+  const e = el("div#vn_etr" + (replay ? ".replay" : ""), {}, cg, el("div.glow"), el("div.sweep"), el("div.deco", { html: cardMotes(40) }), el("div.vig"), el("div.veil"));
+  let over = false;
+  const finish = () => {
+    if (over) return; over = true; clearTimeout(timer);
+    if (replay) { e.classList.add("out"); setTimeout(() => e.remove(), 600); }
+    else { done(); setTimeout(() => e.remove(), 700); }
+  };
+  ["pointerdown", "touchstart", "wheel"].forEach((t) => e.addEventListener(t, (ev) => ev.stopPropagation(), true));
+  e.addEventListener("click", (ev) => { ev.stopPropagation(); if (Date.now() - t0 > 300) finish(); }, true);   // 點擊略過（剛出現 0.3 秒內的點擊不算，避免連點誤跳）
+  G.root.append(e);
+  audio.playBgm("ending");
+  const t0 = Date.now(), timer = setTimeout(finish, ETR_MS);
 }
 
 // 終結結局：暗紅色調；結局的 CG（cg 欄位）、小標「終結」、結局名、語句；按鈕：返回標題、儲思盆、回到上一個選擇
 function showTerminal(c, it, rewind) {
+  audio.playBgm("terminal");   // 接續終結劇情的 terminal，不中斷（從首頁「繼續」重開時從頭播）
   const img = el("div.cg", {}, el("span.ph", { text: "（CG 準備中）" }));
   tryImg(imgId(it), (u) => { img.style.backgroundImage = `url(${u})`; img.style.backgroundPosition = cgPos(imgId(it)); img.textContent = ""; });
   const mm = it.name.match(/^(.+?)：(.+)$/);
   starScreen("yrend.term", [
-    el("div.head", { html: CARD_STAR }, el("span", { text: c ? yearName(c.year) : "" }), el("span.s2", { html: CARD_STAR })),
+    el("div.head", { html: CARD_STAR }, el("span", { text: (c ? yearName(c.year) + "．" : "") + "終結" }), el("span.s2", { html: CARD_STAR })),
     el("div.mid", {}, img,
       el("div.txt", {},
         el("div.etag", { text: mm ? mm[1] : "終結" }),
@@ -492,6 +533,7 @@ ui.handlers.tool = async (act) => {
 
 hooks.card = showCard;
 hooks.yearEnd = showYearEnd;
+hooks.endingTransition = showEndingTransition;
 hooks.chapterEnd = showChapterEnd;
 hooks.terminal = showTerminal;
 hooks.home = () => showHome();

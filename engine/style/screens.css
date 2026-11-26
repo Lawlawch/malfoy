@@ -386,7 +386,8 @@
 .se_btn.off { color: rgba(200, 210, 230, 0.38); cursor: default; }
 .se_btn.off > svg.bg .hl { display: none; }
 .se_btn.off .ic { opacity: 0.6; }
-.se_btn .note { position: absolute; left: -20px; right: -20px; top: 100%; margin-top: 8px; font-style: normal; font-size: 17px; letter-spacing: 0.2em; color: rgba(200, 210, 235, 0.6); }
+.se_btn .note { position: absolute; left: -20px; right: -20px; top: 100%; margin-top: 8px; font-style: normal; font-size: 19px; font-weight: 500; letter-spacing: 0.2em; color: #e4ebfa; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9), 0 0 8px rgba(0, 0, 0, 0.6); }
+#vn_end.gold .se_btn .note { color: #4a2c06; text-shadow: 0 0 6px rgba(255, 236, 190, 0.9), 0 0 2px rgba(255, 240, 210, 0.9); }   /* 年級結算的金底：改用深棕字 */
 .port #vn_end .ttl { font-size: 48px; }
 .port #vn_end .yr { font-size: 30px; }
 .port #vn_end .chn { font-size: 28px; }
@@ -409,10 +410,10 @@
 #vn_end .eline { margin-top: 14px; font-size: 20px; line-height: 1.8; letter-spacing: 0.06em; color: #c8d6f0; white-space: pre-line; }
 #vn_end.yrend .btns { margin-top: 40px; }
 .port #vn_end.yrend .in { width: 640px; }
-.port #vn_end .mid { flex-direction: column; gap: 30px; margin-top: 34px; }
-.port #vn_end .cg { width: 600px; height: 338px; }
+.port #vn_end .mid { flex-direction: column; gap: 22px; margin-top: 22px; }
+.port #vn_end .cg { width: 440px; height: 586px; }   /* 直向：結局 CG 用 3:4 直框（原圖是方圖，依 pos 焦點裁切） */
 .port #vn_end .txt { width: 600px; }
-.port #vn_end.yrend .btns { margin-top: 70px; }
+.port #vn_end.yrend .btns { margin-top: 40px; }
 /* 年級結算：金黃色調（上暗下金、金色星點與上升光點、標題流光） */
 #vn_end.gold { background: radial-gradient(ellipse 80% 55% at 50% 108%, rgba(240, 190, 80, 0.38), transparent 70%), linear-gradient(to top, #5a3c0c 0%, #3e2806 28%, #241604 58%, #120a02 88%, #080401 100%); }
 #vn_end.gold .head { color: #f0cf78; }
@@ -422,6 +423,7 @@
 #vn_end.gold .cg { background-color: #2a1c06; background-image: linear-gradient(135deg, #4a3410, #1c1204); color: rgba(240, 210, 140, 0.55); outline-color: rgba(240, 200, 110, 0.9); box-shadow: 0 0 0 1px rgba(240, 200, 110, 0.95), 0 0 34px rgba(255, 200, 90, 0.35); }
 #vn_end.gold .se_btn.main { color: #3a2406; }
 #vn_end.gold .se_btn { color: #fbeccb; }
+#vn_end.gold .se_btn.off { color: rgba(255, 244, 220, 0.5); }   /* 鎖住的「下一章」：跟章節完結頁一樣半透明 */
 @keyframes vn_goldflow { from { background-position: 0% 0; } to { background-position: 250% 0; } }
 /* 終結頁：暗紅色調（上暗下紅、餘燼、暗玫瑰金框），一眼看出不是通關 */
 #vn_end.term { background: radial-gradient(ellipse 80% 50% at 50% 110%, rgba(150, 30, 40, 0.35), transparent 70%), linear-gradient(to top, #4a0f17 0%, #330a10 25%, #1e060a 55%, #0e0305 85%, #050102 100%); }
@@ -691,8 +693,9 @@
 /* 「完結」兩側星星對稱：抵銷最後一個字後面的字距 */
 #vn_end .fin span { margin-right: -0.6em; }
 #vn_end .fin { padding-left: 0; }
-/* 年級完結／終結：只寫年級，字放大一點 */
-#vn_end .head { font-size: 36px; }
+/* 年級完結／終結：標題「一年級．完結」「一年級．終結」，字級與章節完結頁的「一年級」相同 */
+#vn_end .head { font-size: 46px; font-weight: 700; letter-spacing: 0.3em; }
+#vn_end .head span { padding-left: 0.3em; }
 
 /* ---------- v0.9.1：面板標題深棕、內文淺一階的棕色 ---------- */
 .vn_slot .ln, .vn_ch_row .nm, .vn_cfg_row .lb, .vn_cfg_row .val, .vn_pg_no, .vn_log_text, .vn_cg_item .nm, .vn_cfg_note { color: #4e3018; }
@@ -701,3 +704,25 @@
 .vn_cg_item .q { color: rgba(90, 58, 30, 0.8); }
 /* 標題維持深棕：面板標題、年級名、對話紀錄的人名 */
 .vn_sys_title, .vn_year_name, .vn_year_arrow, .vn_log_name { color: #2e170a !important; }
+
+/* ---------- 結局過渡（年級最後一句之後，6 秒，接年級結算） ---------- */
+#vn_etr { position: absolute; inset: 0; z-index: 44; overflow: hidden; background: #000; cursor: pointer; }
+#vn_etr.replay { z-index: 46; animation: vn_fadein 0.5s ease both; transition: opacity 0.6s ease; }
+#vn_etr.out { opacity: 0; pointer-events: none; }
+#vn_end .cg.replay { cursor: pointer; }
+#vn_etr .cg { position: absolute; inset: -1%; background: #0a0806 center / cover no-repeat; transform-origin: 50% 45%;
+  animation: vn_etr_zoom 5.5s cubic-bezier(.25, .1, .3, 1) both, vn_etr_in 1.4s ease both; }
+#vn_etr .glow { position: absolute; inset: 0; mix-blend-mode: screen; pointer-events: none;
+  background: radial-gradient(ellipse 60% 50% at 50% 42%, rgba(255, 226, 160, 0.28), transparent 70%);
+  animation: vn_etr_glow 5s ease-in-out both; }
+#vn_etr .sweep { position: absolute; inset: -20% -60%; mix-blend-mode: screen; pointer-events: none;
+  background: linear-gradient(105deg, transparent 42%, rgba(255, 240, 200, 0.16) 50%, transparent 58%);
+  animation: vn_etr_sweep 4s ease-in-out 0.6s both; }
+#vn_etr .deco { position: absolute; inset: 0; pointer-events: none; opacity: 0.85; }
+#vn_etr .vig { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse 85% 80% at 50% 50%, transparent 55%, rgba(0, 0, 0, 0.55) 100%); }
+#vn_etr .veil { position: absolute; inset: 0; background: #000; pointer-events: none; animation: vn_etr_veil 5s linear both; }
+@keyframes vn_etr_zoom { from { transform: scale(1); } to { transform: scale(1.12); } }
+@keyframes vn_etr_in { from { filter: brightness(0.6) blur(3px); } to { filter: none; } }
+@keyframes vn_etr_glow { 0% { opacity: 0; } 35% { opacity: 1; } 70% { opacity: 0.7; } 100% { opacity: 1; } }
+@keyframes vn_etr_sweep { from { transform: translateX(-60%); opacity: 0; } 20% { opacity: 1; } 80% { opacity: 1; } to { transform: translateX(60%); opacity: 0; } }
+@keyframes vn_etr_veil { 0% { opacity: 1; } 18% { opacity: 0; } 88% { opacity: 0; } 100% { opacity: 0.35; } }
