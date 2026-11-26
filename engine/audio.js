@@ -10,7 +10,7 @@
    ============================================================= */
 import { cfg, DEBUG } from "./core.js";
 
-let bgm = null, bgmName = "", bgmVol = 100, unlocked = false, fadeTimer = null;
+let bgm = null, bgmName = "", bgmVol = 100, unlocked = false;
 const url = (dir, name, ext = "mp3") => `./assets/${dir}/${name}.${ext}`;
 
 /* ---------- Web Audio：效果音 ---------- */
@@ -89,14 +89,16 @@ document.addEventListener("click", (e) => {
   uiSfx("ui_click");
 }, true);
 
+// 每個音軌各自一個計時器：換曲時舊曲淡出、新曲淡入同時進行，互不打斷
+// （v1.2.0 以前共用一個計時器，新曲淡入會把舊曲的淡出取消，舊曲停不下來、跟新曲疊在一起播）
 function fadeTo(a, target, ms, done) {
-  clearInterval(fadeTimer);
+  clearInterval(a._ft);
   if (!ms) { a.volume = target; if (done) done(); return; }
   const start = a.volume, t0 = performance.now();
-  fadeTimer = setInterval(() => {
+  a._ft = setInterval(() => {
     const k = Math.min(1, (performance.now() - t0) / ms);
     a.volume = Math.max(0, Math.min(1, start + (target - start) * k));
-    if (k >= 1) { clearInterval(fadeTimer); if (done) done(); }
+    if (k >= 1) { clearInterval(a._ft); if (done) done(); }
   }, 40);
 }
 const masterBgm = () => (cfg().bgm / 100) * (bgmVol / 100);
@@ -136,4 +138,4 @@ export function playVoice(name, vol = 100) {
   voice.play().catch(() => {});
 }
 // 設定畫面調音量時立即套用
-export function applyVolumes() { if (bgm) { clearInterval(fadeTimer); bgm.volume = masterBgm(); } }
+export function applyVolumes() { if (bgm) { clearInterval(bgm._ft); bgm.volume = masterBgm(); } }
