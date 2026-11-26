@@ -80,7 +80,7 @@ export const cgs = {
     { id: "cg_closet",   name: "櫃子裡", pos: "50% 25%" },
     { id: "cg_fluffy",   name: "緊抓袍角的手", pos: "45% 45%" },
     { id: "cg_fluffy_b", name: "身後的同伴", pos: "70% 40%" },
-    { id: "cg_broom",    name: "捧著光輪的她", pos: "45% 30%" },
+    { id: "cg_broom",    name: "捧著光輪的她", pos: "45% 0%" },
     { id: "cg_pitch_solo", name: "夕陽下的光輪", pos: "45% 17%" },
     { id: "cg_pitch_duo",  name: "並肩的晚霞", pos: "55% 12%" },
     { id: "cg_troll",      name: "山怪背上", pos: "55% 55%" },
@@ -104,7 +104,7 @@ export const cgs = {
     { id: "cg_keys",     name: "並肩追逐", pos: "40% 40%" },
     { id: "cg_quirrell", name: "灼燒", pos: "50% 30%" },
     { id: "cg_blur",     name: "朦朧中的金髮", pos: "50% 20%" },
-    { id: "cg_album",    name: "爸媽的相簿", pos: "50% 50%" },
+    { id: "cg_album",    name: "爸媽的相簿", pos: "50% 65%" },
     { id: "cg_end_ward",    name: "缺席的一年", pos: "50% 40%" },   // 終結結局（重傷）；畫面：病房的天花板
     { id: "cg_end_glasses", name: "沒有活下來的男孩", pos: "46% 50%" },   // 終結結局（死亡）；畫面：碎裂的眼鏡
     { id: "cg_end_mirror",  name: "沉淪鏡中", pos: "50% 30%" }    // 終結結局（意若思鏡）
